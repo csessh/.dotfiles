@@ -1,16 +1,4 @@
--- Tab settings
-vim.cmd('set tabstop=4')
-vim.cmd('set softtabstop=4')
-vim.cmd('set shiftwidth=4')
-vim.cmd('set expandtab')
-vim.cmd('filetype plugin indent on')
-
-vim.wo.number = true
-vim.wo.relativenumber = true
-
--- Global key mappings
-vim.g.mapleader = ' '
-vim.keymap.set('n', '<Tab>', '<C-w>w', {noremap = true, silent = true})
+require('vim')
 
 -- Package manager: Lazy 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -27,4 +15,3 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup('plugins')
-
