@@ -21,12 +21,8 @@ return {
                     'lua', 
                     'sql'
                 },
-                highlight = { 
-                    enable = true
-                },
-                indent = { 
-                    enable = true
-                } 
+                highlight = { enable = true },
+                indent = { enable = true } 
             })
         end
     }
