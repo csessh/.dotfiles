@@ -1,0 +1,39 @@
+
+[user]
+    name = Thang Do
+	email = thang.m.do@sony.com
+[core]
+    editor = nvim
+	longpaths = true
+[alias]
+    adog = log --all --decorate --oneline --graph
+[help]
+    autocorrect = 1
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    navigate = true
+    line-number = true
+    side-by-side = true
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+[interactive]
+    diffFilter = delta --color-only
+[pull]
+	rebase = true
+[merge]
+    conflictstyle = diff3
+[difftool "sourcetree"]
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[rebase]
+	autoStash = true
