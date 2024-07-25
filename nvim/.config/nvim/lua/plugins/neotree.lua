@@ -27,8 +27,9 @@ return {
                         '.ruff_cache',
                         '__pycache__'
                     },
-                    hide_by_patter = {
-                        '*.egg-info'
+                    hide_by_pattern = {
+                        '*.egg-info',
+                        '.*_cache'
                     }
                 }
             },
