@@ -4,16 +4,10 @@ return {
     config = function()
         require('ibl').setup({
             indent = {char = '▏'},
-            scope = {
-                show_start = true,
-                show_end = false,
-                enabled = true,
-                highlight = {'Function', 'Label'},
-                char = '/'
-            },
+            scope = {char = ':'},
             exclude = {
-                filetypes = {'help', 'git', 'markdown', 'snippets', 'gitconfig', 'alpha'},
-                buftypes = {'terminal'}
+                filetypes = {'help', 'git', 'checkhealth', 'markdown', 'snippets', 'gitconfig'},
+                buftypes = {'terminal', 'nofile', 'prompt', 'quickfix'}
             }
         })
     end
