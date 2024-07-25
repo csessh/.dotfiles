@@ -4,14 +4,14 @@ return {
     'nvim-neo-tree/neo-tree.nvim', 
     branch = 'v3.x', 
     dependencies = {        
-        "nvim-lua/plenary.nvim",
+        'nvim-lua/plenary.nvim',
         'nvim-tree/nvim-web-devicons', 
         'MunifTanjim/nui.nvim'
     },
     config = function()
         require('neo-tree').setup({
             close_if_last_window = true,
-            popup_border_style = "rounded",
+            popup_border_style = 'rounded',
             enable_git_status = true,
             enable_diagnostics = true,
             sort_case_insensitive = true,
@@ -36,19 +36,19 @@ return {
                 name = {
                     trailing_slash = false,
                     use_git_status_colors = true,
-                    highlight = "NeoTreeFileName"
+                    highlight = 'NeoTreeFileName'
                 },
                 git_status = {
                     symbols = {
-                        added     = "", -- or "✚"
-                        modified  = "", -- or ""
-                        deleted   = "✖",-- this can only be used in the git_status source
-                        renamed   = "󰁕",-- this can only be used in the git_status source
-                        untracked = "",
-                        ignored   = "",
-                        unstaged  = "󰄱",
-                        staged    = "",
-                        conflict  = ""
+                        added     = '', -- or '✚'
+                        modified  = '', -- or ''
+                        deleted   = '✖',-- this can only be used in the git_status source
+                        renamed   = '󰁕',-- this can only be used in the git_status source
+                        untracked = '',
+                        ignored   = '',
+                        unstaged  = '󰄱',
+                        staged    = '',
+                        conflict  = ''
                     }
                 }
             }

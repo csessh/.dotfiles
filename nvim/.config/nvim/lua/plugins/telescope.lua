@@ -8,6 +8,7 @@ return {
         local telescope = require('telescope.builtin')
         vim.keymap.set('n', '<leader>lg', telescope.live_grep, {})
         vim.keymap.set('n', '<leader>gs', telescope.grep_string, {})
+        vim.keymap.set('n', '<leader>b', telescope.buffers, {})
 
         require('telescope').setup({
             pickers = {
@@ -15,6 +16,9 @@ return {
                     theme = 'dropdown'
                 },
                 grep_string = {
+                    theme = 'dropdown'
+                },
+                buffers = {
                     theme = 'dropdown'
                 }
             },
