@@ -1,11 +1,11 @@
 vim.keymap.set('n', '<leader>t', ':Neotree toggle<CR>', {})
 
 return {
-    'nvim-neo-tree/neo-tree.nvim', 
-    branch = 'v3.x', 
-    dependencies = {        
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
         'nvim-lua/plenary.nvim',
-        'nvim-tree/nvim-web-devicons', 
+        'nvim-tree/nvim-web-devicons',
         'MunifTanjim/nui.nvim'
     },
     config = function()
@@ -21,7 +21,6 @@ return {
                     hide_dotfiles = false,
                     hide_gitignored = false,
                     hide_by_name = {
-                        '.git',
                         '.DS_Store',
                         '.venv',
                         '.ruff_cache',
@@ -29,6 +28,7 @@ return {
                     },
                     hide_by_pattern = {
                         '*.egg-info',
+                        '.git*',
                         '.*_cache'
                     }
                 }

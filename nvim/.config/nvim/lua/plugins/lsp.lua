@@ -46,8 +46,8 @@ return {
 
             -- Global mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-            vim.keymap.set('n', 'd[', vim.diagnostic.goto_prev)
-            vim.keymap.set('n', 'd]', vim.diagnostic.goto_next)
+            vim.keymap.set('n', '[', vim.diagnostic.goto_prev)
+            vim.keymap.set('n', ']', vim.diagnostic.goto_next)
 
             -- Use LspAttach autocommand to only map the following keys
             -- after the language server attaches to the current buffer
