@@ -1,10 +1,10 @@
 
 [user]
     name = Thang Do
-	email = thang.m.do@sony.com
+    email = thang.m.do@sony.com
 [core]
     editor = nvim
-	longpaths = true
+    longpaths = true
 [alias]
     adog = log --all --decorate --oneline --graph
 [help]
@@ -23,17 +23,17 @@
 [interactive]
     diffFilter = delta --color-only
 [pull]
-	rebase = true
+    rebase = true
 [merge]
     conflictstyle = diff3
 [difftool "sourcetree"]
     cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
 [rebase]
-	autoStash = true
+    autoStash = true
