@@ -1,9 +1,9 @@
 return {
-    'nyoom-engineering/oxocarbon.nvim', 
+    "eldritch-theme/eldritch.nvim",
     lazy = false,
-    name = 'oxocarbon', 
+    name = 'eldritch', 
     priority = 1000,
     config = function()
-        vim.cmd.colorscheme 'oxocarbon'
+        vim.cmd.colorscheme 'eldritch'
     end
 }
