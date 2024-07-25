@@ -9,7 +9,7 @@ return {
                 show_end = false,
                 enabled = true,
                 highlight = {'Function', 'Label'},
-                char = '\\'
+                char = '/'
             },
             exclude = {
                 filetypes = {'help', 'git', 'markdown', 'snippets', 'gitconfig', 'alpha'},

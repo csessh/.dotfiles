@@ -7,6 +7,7 @@ return {
             ensure_installed = {
                 'cpp', 
                 'vimdoc', 
+                'regex',
                 'luadoc', 
                 'vim', 
                 'lua', 

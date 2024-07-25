@@ -10,14 +10,14 @@ return {
     },
     config = function()
         require('neo-tree').setup({
-            close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
+            close_if_last_window = true,
             popup_border_style = "rounded",
             enable_git_status = true,
             enable_diagnostics = true,
-            sort_case_insensitive = true, -- used when sorting files and directories in the tree
+            sort_case_insensitive = true,
             filesystem = {
                 filtered_items = {
-                    visible = true, -- when true, they will just be displayed differently than normal items
+                    visible = true,
                     hide_dotfiles = true,
                     hide_gitignored = false
                 }
@@ -30,8 +30,8 @@ return {
                 },
                 git_status = {
                     symbols = {
-                        added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-                        modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+                        added     = "", -- or "✚"
+                        modified  = "", -- or ""
                         deleted   = "✖",-- this can only be used in the git_status source
                         renamed   = "󰁕",-- this can only be used in the git_status source
                         untracked = "",
