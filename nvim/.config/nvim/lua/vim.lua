@@ -12,5 +12,4 @@ vim.cmd('filetype plugin indent on')
 
 -- Global key mappings
 vim.g.mapleader = ' '
-vim.keymap.set('n', '<Tab>', '<C-w>w', {noremap = true, silent = true})
 

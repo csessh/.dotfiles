@@ -9,33 +9,22 @@ return {
             'nvim-lua/plenary.nvim'
         },
         config = function()
-            local telescope = require('telescope.builtin')
-            vim.keymap.set('n', '<leader>lg', telescope.live_grep, {})
-            vim.keymap.set('n', '<leader>gs', telescope.grep_string, {})
-            vim.keymap.set('n', '<leader>b', telescope.buffers, {})
+            local tsbuiltin = require('telescope.builtin')
+            vim.keymap.set({'n', 'v'}, '<leader>lg', tsbuiltin.live_grep, {})
+            vim.keymap.set({'n', 'v'}, '<leader>gs', tsbuiltin.grep_string, {})
+            vim.keymap.set({'n', 'v'}, '<leader>bf', tsbuiltin.buffers, {})
 
-            require('telescope').setup({
-                pickers = {
-                    live_grep =  {
-                        theme = 'dropdown'
-                    },
-                    grep_string = {
-                        theme = 'dropdown'
-                    },
-                    buffers = {
-                        theme = 'dropdown'
-                    }
-                },
+            local telescope = require('telescope')
+            telescope.setup({
                 extensions = {
                     frecency = {
                         default_workspace = 'CWD',
-                        path_displays = {'shorten'},
+                        path_displays = { 'shorten' },
                         show_scores = true
                     }
                 }
             })
-
-            require('telescope').load_extension('ui-select')
+            telescope.load_extension('ui-select')
         end
     }
 }

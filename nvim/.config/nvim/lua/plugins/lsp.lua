@@ -7,27 +7,25 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        config = function()
-            require('mason-lspconfig').setup({
-                ensure_installed = {
-                    'lua_ls',
-                    'clangd',
-                    'bashls',
-                    'dockerls',
-                    'docker_compose_language_service',
-                    --'gopls',
-                    --'graphql',
-                    'jsonls',
-                    --'java_language_server',
-                    'markdown_oxide',
-                    'pyright',
-                    'sqlls',
-                    'taplo',
-                    'yamlls',
-                    'helm_ls'
-                }
-            })
-        end
+        opts = {
+            ensure_installed = {
+                'lua_ls',
+                'clangd',
+                'bashls',
+                'dockerls',
+                'docker_compose_language_service',
+                --'gopls',
+                --'graphql',
+                'jsonls',
+                --'java_language_server',
+                'markdown_oxide',
+                'pyright',
+                'sqlls',
+                'taplo',
+                'yamlls',
+                'helm_ls'
+            }
+        }
     },
     {
         "neovim/nvim-lspconfig",
@@ -61,12 +59,12 @@ return {
 
                     -- Buffer local mappings.
                     -- See `:help vim.lsp.*` for documentation on any of the below functions
-                    local opts = {buffer = ev.buf}
+                    local opts = { buffer = ev.buf }
                     vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
                     vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
                     vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
-                    vim.keymap.set('n', '<leader>r', vim.lsp.buf.references, opts)
-                    vim.keymap.set({'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, opts)
+                    vim.keymap.set('n', '<leader>rf', vim.lsp.buf.references, opts)
+                    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
                     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
                     vim.keymap.set('n', '?', vim.lsp.buf.hover, opts)
 
@@ -77,7 +75,7 @@ return {
                     end, opts)
 
                     vim.keymap.set('n', '<leader>fm', function()
-                        vim.lsp.buf.format({async = true})
+                        vim.lsp.buf.format({ async = true })
                     end, opts)
                 end
             })
