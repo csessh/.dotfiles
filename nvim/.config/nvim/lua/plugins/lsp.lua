@@ -23,7 +23,8 @@ return {
                     'pyright',
                     'sqlls',
                     'taplo',
-                    'yamlls'
+                    'yamlls',
+                    'helm_ls'
                 }
             })
         end
@@ -43,6 +44,7 @@ return {
             lspconfig.sqlls.setup({})
             lspconfig.taplo.setup({})
             lspconfig.yamlls.setup({})
+            lspconfig.helm_ls.setup({})
 
             -- Global mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -60,12 +62,12 @@ return {
                     -- Buffer local mappings.
                     -- See `:help vim.lsp.*` for documentation on any of the below functions
                     local opts = {buffer = ev.buf}
-                    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-                    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-                    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-                    vim.keymap.set('n', 'r', vim.lsp.buf.references, opts)
-                    vim.keymap.set({'n', 'v'}, 'ca', vim.lsp.buf.code_action, opts)
-                    vim.keymap.set('n', 'rn', vim.lsp.buf.rename, opts)
+                    vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
+                    vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
+                    vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
+                    vim.keymap.set('n', '<leader>r', vim.lsp.buf.references, opts)
+                    vim.keymap.set({'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, opts)
+                    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
                     vim.keymap.set('n', '?', vim.lsp.buf.hover, opts)
 
                     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
@@ -74,7 +76,7 @@ return {
                         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
                     end, opts)
 
-                    vim.keymap.set('n', 'fm', function()
+                    vim.keymap.set('n', '<leader>fm', function()
                         vim.lsp.buf.format({async = true})
                     end, opts)
                 end
