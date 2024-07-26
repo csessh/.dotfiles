@@ -15,8 +15,8 @@ return {
 		},
 		sections = {
 			lualine_a = { "mode" },
-			lualine_b = { "branch", "diff", "filename" },
-			lualine_c = { "diagnostics" },
+			lualine_b = { "branch", "diff", "diagnostics" },
+			lualine_c = { "filename" },
 			lualine_x = { "filesize", "encoding", "filetype" },
 			lualine_y = { 'os.date("!%d-%m %H:%M")' }, -- UTC
 			lualine_z = { 'os.date("%d-%m %H:%M")' }, -- Local time
