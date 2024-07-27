@@ -7,12 +7,9 @@
 * treesitter
 * lualine 
 
-The current font: `JetBrainsMono Nerd Font Mono`
+Current font: `JetBrainsMono Nerd Font Mono`
 
 ## Linters and Formatters 
 
 See [nonels](lua/plugins/nonels.lua) for a complete list of required linters and formatters. 
 
-## Packages 
-
-N/A 

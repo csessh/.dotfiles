@@ -4,11 +4,11 @@ return {
 	opts = {
 		indent = { char = "▏" },
 		scope = {
-			char = ":",
+			char = "\\",
 			show_end = false,
 		},
 		exclude = {
-			filetypes = { "help", "git", "checkhealth", "markdown", "snippets", "gitconfig" },
+			filetypes = { "help", "git", "dashboard", "checkhealth", "markdown", "snippets", "gitconfig" },
 			buftypes = { "terminal", "nofile", "prompt", "quickfix" },
 		},
 	},
