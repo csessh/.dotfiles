@@ -10,20 +10,12 @@ return {
         opts = {
             ensure_installed = {
                 "lua_ls",
-                "clangd",
                 "bashls",
-                "dockerls",
-                "docker_compose_language_service",
-                --'gopls',
-                --'graphql',
                 "jsonls",
-                --'java_language_server',
                 "markdown_oxide",
                 "pyright",
-                "sqlls",
                 "taplo",
                 "yamlls",
-                "helm_ls",
             },
         },
     },
@@ -32,17 +24,12 @@ return {
         config = function()
             local lspconfig = require("lspconfig")
             lspconfig.lua_ls.setup({})
-            lspconfig.clangd.setup({})
             lspconfig.bashls.setup({})
-            lspconfig.dockerls.setup({})
-            lspconfig.docker_compose_language_service.setup({})
             lspconfig.jsonls.setup({})
             lspconfig.markdown_oxide.setup({})
             lspconfig.pyright.setup({})
-            lspconfig.sqlls.setup({})
             lspconfig.taplo.setup({})
             lspconfig.yamlls.setup({})
-            lspconfig.helm_ls.setup({})
 
             -- Global mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions

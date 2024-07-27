@@ -20,9 +20,6 @@ return {
                 -- Bash
                 require("none-ls-shellcheck.diagnostics"),
                 require("none-ls-shellcheck.code_actions"),
-
-                -- Docker
-                null_ls.builtins.diagnostics.hadolint,
             },
         })
     end,
