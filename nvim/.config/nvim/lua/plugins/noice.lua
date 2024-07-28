@@ -7,7 +7,7 @@ return {
 	},
 	opts = {
 		cmdline = {
-			view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+			view = "cmdline", -- Change to `cmdline_popup` to get popup cmdline 
 		},
 		presets = {
 			bottom_search = true,

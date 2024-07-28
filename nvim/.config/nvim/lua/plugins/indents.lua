@@ -8,7 +8,7 @@ return {
 			show_end = false,
 		},
 		exclude = {
-			filetypes = { "help", "git", "dashboard", "checkhealth", "markdown", "snippets", "gitconfig" },
+			filetypes = { "help", "git", "dashboard", "checkhealth", "snippets" },
 			buftypes = { "terminal", "nofile", "prompt", "quickfix" },
 		},
 	},
