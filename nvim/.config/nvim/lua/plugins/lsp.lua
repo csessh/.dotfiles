@@ -21,20 +21,23 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
+        lazy = false,
         config = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.lua_ls.setup({})
-            lspconfig.bashls.setup({})
-            lspconfig.jsonls.setup({})
-            lspconfig.markdown_oxide.setup({})
-            lspconfig.pyright.setup({})
-            lspconfig.taplo.setup({})
-            lspconfig.yamlls.setup({})
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            local lspconfig = require "lspconfig"
+
+            lspconfig.lua_ls.setup { capabilities = capabilities }
+            lspconfig.bashls.setup { capabilities = capabilities }
+            lspconfig.jsonls.setup { capabilities = capabilities }
+            lspconfig.pyright.setup { capabilities = capabilities }
+            lspconfig.taplo.setup { capabilities = capabilities }
+            lspconfig.yamlls.setup { capabilities = capabilities }
+            lspconfig.markdown_oxide.setup { capabilities = capabilities }
 
             -- Global mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-            vim.keymap.set("n", "[", vim.diagnostic.goto_prev)
-            vim.keymap.set("n", "]", vim.diagnostic.goto_next)
+            vim.keymap.set("n", "<C-[>", vim.diagnostic.goto_prev)
+            vim.keymap.set("n", "<C-]>", vim.diagnostic.goto_next)
 
             -- Use LspAttach autocommand to only map the following keys
             -- after the language server attaches to the current buffer
@@ -62,7 +65,7 @@ return {
                     end, opts)
 
                     vim.keymap.set("n", "<leader>fm", function()
-                        vim.lsp.buf.format({ async = true })
+                        vim.lsp.buf.format { async = true }
                     end, opts)
                 end,
             })
