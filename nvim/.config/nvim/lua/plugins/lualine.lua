@@ -5,7 +5,7 @@ return {
     },
     opts = {
         options = {
-            theme = "powerline_dark",
+            theme = "dracula-nvim",
             globalstatus = false,
             always_divide_middle = true,
             disabled_filetypes = {
