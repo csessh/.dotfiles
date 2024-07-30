@@ -18,8 +18,8 @@ return {
             lualine_b = { "branch", "diff", "diagnostics" },
             lualine_c = { "filename" },
             lualine_x = { "filesize", "encoding", "filetype" },
-            lualine_y = { 'os.date("!%d-%m %H:%M")' }, -- UTC
-            lualine_z = { 'os.date("%d-%m %H:%M")' },  -- Local time
+            lualine_y = { "grapple" },
+            lualine_z = { 'os.date("!%d-%m %H:%M")' }, -- UTC
         },
     },
 }

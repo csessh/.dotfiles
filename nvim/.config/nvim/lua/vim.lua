@@ -15,4 +15,4 @@ vim.cmd "set clipboard=unnamedplus"
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>o", "o<Esc>", {})
 vim.keymap.set("n", "<leader>O", "O<Esc>", {})
-vim.keymap.set("n", "<leader><Tab>", "<C-w>", {})
+vim.keymap.set({ "n", "v" }, "<Tab>", "<C-w>", {})
