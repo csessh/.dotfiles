@@ -10,6 +10,7 @@ vim.wo.relativenumber = true
 vim.g.have_nerd_font = true
 vim.cmd "filetype plugin indent on"
 vim.cmd "set clipboard=unnamedplus"
+vim.cmd "set signcolumn=number"
 
 -- Global key mappings
 vim.g.mapleader = " "
