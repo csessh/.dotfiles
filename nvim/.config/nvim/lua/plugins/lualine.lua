@@ -5,7 +5,7 @@ return {
     },
     opts = {
         options = {
-            theme = "dracula-nvim",
+            theme = "dracula",
             globalstatus = false,
             always_divide_middle = true,
             disabled_filetypes = {
