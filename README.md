@@ -99,3 +99,11 @@ Configuration file is stowed under `~/.dotfiles` directory along with the others
 ```
 stow i3wm
 ```
+
+## Install nitrogen 
+
+Nitrogen is used to set wallpaper. No configuration is required.
+
+```
+sudo dnf install nitrogen
+```
