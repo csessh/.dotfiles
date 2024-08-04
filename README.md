@@ -81,3 +81,21 @@ Once `Homebrew` is installed, run the following command to install packages list
 ```
 brew bundle install 
 ```
+
+# Optional: i3 tiling window manager 
+
+## Install i3wm
+
+```
+sudo dnf install i3
+```
+
+This requires a system restarts and `i3` has to be selected as default at the login screen.
+
+## Configuration 
+
+Configuration file is stowed under `~/.dotfiles` directory along with the others.
+
+```
+stow i3wm
+```
