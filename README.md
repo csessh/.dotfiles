@@ -133,3 +133,12 @@ xrandr --output <<output source (HDMI | DP-[0-9] |)>> --mode <<screen resolution
 # Turn off laptop screen
 xrandr --output eDP-1 --off 
 ```
+
+## Compositor 
+
+There are screen tearing issues with i3wm. Picom is an X11 compositor that addresses these graphical issues. 
+
+```
+sudo dnf install picom
+```
+
