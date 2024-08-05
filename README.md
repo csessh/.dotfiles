@@ -107,3 +107,23 @@ Nitrogen is used to set wallpaper. No configuration is required.
 ```
 sudo dnf install nitrogen
 ```
+
+## Multiple displays
+
+Yep. that's another thing to get "right".
+
+If `xrandr` isn't already present:
+
+```
+sudo dnf install xrandr
+```
+
+This bit can be a little fiddly. Depending on the external monitor resolution, the config value may differ:
+
+```
+# Mirror display
+xrandr --output <<output source (HDMI | DP-[0-9] |)>> --mode <<screen resolution>>
+
+# Turn off laptop screen
+xrandr --output eDP-1 --off 
+```
