@@ -31,15 +31,17 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Nitrogen to restore wallpaper each time 
-exec --no-startup-id nitrogen --restore
-
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Dual monitor set up
+exec --no-startup-id xrandr --output eDP-1 --mode 2256x1504 
+exec --no-startup-id xrandr | rg -o "(^DP-[0-9]) connected" | rg -o "^DP-[0-9]" | xargs -n 1 -- bash -xc 'xrandr --output $0 --mode 3200x1800 --above eDP-1' 
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpaper/Calvin.jpg
 
 # start a terminal
 bindsym $mod+Return exec kitty

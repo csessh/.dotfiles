@@ -100,12 +100,18 @@ Configuration file is stowed under `~/.dotfiles` directory along with the others
 stow i3wm
 ```
 
-## Install nitrogen 
+## Wallpaper 
 
-Nitrogen is used to set wallpaper. No configuration is required.
+`feh` is used to set wallpaper. 
 
 ```
-sudo dnf install nitrogen
+sudo dnf install feh
+```
+
+The following line is required in i3 config: 
+
+```
+exec --no-startup-id feh --bg-fill <</path/to/wallpaper/image/file>>
 ```
 
 ## Multiple displays
