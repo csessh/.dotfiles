@@ -6,7 +6,7 @@ export EDITOR='nvim'
 
 ZSH_THEME="bira"
 HIST_STAMPS="mm/dd/yyyy"
-plugins=(vi-mode git)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
