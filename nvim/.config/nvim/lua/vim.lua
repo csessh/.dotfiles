@@ -17,3 +17,9 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>o", "o<Esc>", {})
 vim.keymap.set("n", "<leader>O", "O<Esc>", {})
 vim.keymap.set({ "n", "v" }, "<Tab>", "<C-w>", {})
+
+
+-- TODO: Figure out how to convert this command to lua 
+-- This command enables kitty reload on buffer write event, specific to kitty.conf file.
+-- https://www.reddit.com/r/KittyTerminal/comments/rzpjed/easier_ways_to_reload_kitty/
+-- autocmd bufwritepost ~/.config/kitty/kitty.conf :silent !kill -SIGUSR1 $(pgrep kitty)
