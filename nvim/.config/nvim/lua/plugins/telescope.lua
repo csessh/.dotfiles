@@ -10,7 +10,6 @@ return {
         },
         config = function()
             local tsbuiltin = require "telescope.builtin"
-            vim.keymap.set({ "n", "v" }, "<leader>gss", tsbuiltin.git_status, {})
             vim.keymap.set({ "n", "v" }, "<leader>lg", tsbuiltin.live_grep, {})
             vim.keymap.set({ "n", "v" }, "<leader>gs", tsbuiltin.grep_string, {})
             vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers, {})
