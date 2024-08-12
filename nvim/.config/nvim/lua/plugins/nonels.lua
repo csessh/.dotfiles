@@ -16,13 +16,13 @@ return {
                 null_ls.builtins.formatting.isort,
                 null_ls.builtins.diagnostics.mypy,
 
-                -- Bash
-                require "none-ls-shellcheck.diagnostics",
-                require "none-ls-shellcheck.code_actions",
-
                 -- CPP
                 null_ls.builtins.formatting.clang_format,
                 null_ls.builtins.diagnostics.cpplint,
+
+                -- Bash
+                require "none-ls-shellcheck.diagnostics",
+                require "none-ls-shellcheck.code_actions",
             },
         }
     end,
