@@ -6,7 +6,7 @@ export EDITOR='nvim'
 
 ZSH_THEME="bira"
 HIST_STAMPS="mm/dd/yyyy"
-plugins=(git)
+plugins=(git tldr sudo)
 
 source $ZSH/oh-my-zsh.sh
 
