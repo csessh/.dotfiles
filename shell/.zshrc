@@ -13,6 +13,7 @@ source $ZSH/oh-my-zsh.sh
 alias cat='bat'
 alias tree='tree -Cap'
 alias vim='nvim'
+alias sniper='ps aux | fzf --height 40% --layout=reverse --prompt="Select a process to kill > " | awk "{print $2}" | xargs -r sudo kill'
 
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
