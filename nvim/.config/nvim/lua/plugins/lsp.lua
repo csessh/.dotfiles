@@ -26,15 +26,21 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require "lspconfig"
+            local servers = {
+                lspconfig.lua_ls,
+                lspconfig.clangd,
+                lspconfig.bashls,
+                lspconfig.jsonls,
+                lspconfig.pyright,
+                lspconfig.taplo,
+                lspconfig.yamlls,
+                lspconfig.markdown_oxide,
+                lspconfig.grammarly,
+            }
 
-            lspconfig.lua_ls.setup { capabilities = capabilities }
-            lspconfig.clangd.setup { capabilities = capabilities }
-            lspconfig.bashls.setup { capabilities = capabilities }
-            lspconfig.jsonls.setup { capabilities = capabilities }
-            lspconfig.pyright.setup { capabilities = capabilities }
-            lspconfig.taplo.setup { capabilities = capabilities }
-            lspconfig.yamlls.setup { capabilities = capabilities }
-            lspconfig.markdown_oxide.setup { capabilities = capabilities }
+            for i, server in ipairs(servers) do
+                server.setup { capabilities = capabilities }
+            end
 
             -- Use LspAttach autocommand to only map the following keys
             -- after the language server attaches to the current buffer

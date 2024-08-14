@@ -18,7 +18,11 @@ return {
 
                 -- CPP
                 null_ls.builtins.formatting.clang_format,
-                null_ls.builtins.diagnostics.cpplint,
+                -- null_ls.builtins.diagnostics.cpplint,
+
+                -- Markdown 
+                null_ls.builtins.formatting.markdownlint,
+                null_ls.builtins.diagnostics.markdownlint,
 
                 -- Bash
                 require "none-ls-shellcheck.diagnostics",
