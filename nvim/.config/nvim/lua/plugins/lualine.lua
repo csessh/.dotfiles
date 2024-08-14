@@ -5,7 +5,7 @@ return {
     },
     opts = {
         options = {
-            theme = "dracula",
+            theme = "powerline_dark",
             globalstatus = false,
             always_divide_middle = true,
             disabled_filetypes = {
