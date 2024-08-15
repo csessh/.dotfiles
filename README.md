@@ -1,12 +1,12 @@
-# Dotfiles 
+# Dotfiles
 
 This repo contains my own dev configuration files, a.k.a dotfiles.
 
 Depending on the OS, required package manager(s) may be different. This instruction was drafted with: `dnf` and `Homebrew`.
 
-# Instructions 
+# Instructions
 
-## 0 - Fonts 
+## 0 - Fonts
 
 It can be any [Nerd Fonts](https://www.nerdfonts.com/). The current favourite is JetBrains Mono.
 
@@ -27,7 +27,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 Choose the default option and skip `.zshrc` creation step.
 
-## 2 - Stow 
+## 2 - Stow
 
 Before install `stow`, clone `.dotfiles` repo from github:
 
@@ -47,18 +47,17 @@ stow shell
 ... so on ... 
 ```
 
-Stow creates symlinks for each dotfile and places them appropriately under `~` directory. 
+Stow creates symlinks for each dotfile and places them appropriately under `~` directory.
 
-Nothing more is required. Changes made to configuration files under `~/.dotfiles` will be detected. Some application may require `source`. 
+Nothing more is required. Changes made to configuration files under `~/.dotfiles` will be detected. Some application may require `source`.
 
 ```bash
 source ~/.zshrc
 ```
 
-## 3 - NeoVim 
+## 3 - NeoVim
 
-
-Open `nvim` and let `Lazy` install all required plugins. 
+Open `nvim` and let `Lazy` install all required plugins.
 
 Open `Mason` and install requied linters and formatters:
 
@@ -68,7 +67,7 @@ Open `Mason` and install requied linters and formatters:
 
 The list of linters and formatters can be found in [nonels](/nvim/.config/nvim/lua/plugins/nonels.lua).
 
-Additionally, in order to properly enable nvim-treesitter `auto_install` option, install its cli: 
+Additionally, in order to properly enable nvim-treesitter `auto_install` option, install its cli:
 
 ```bash
 npm install tree-sitter-cli
@@ -88,7 +87,7 @@ Once `Homebrew` is installed, run the following command to install packages list
 brew bundle install 
 ```
 
-# Optional: i3 tiling window manager 
+# Optional: i3 tiling window manager
 
 ## Install i3wm
 
@@ -98,7 +97,7 @@ sudo dnf install i3
 
 This requires a system restarts and `i3` has to be selected as default at the login screen.
 
-## Configuration 
+## Configuration
 
 Configuration file is stowed under `~/.dotfiles` directory along with the others.
 
@@ -106,15 +105,15 @@ Configuration file is stowed under `~/.dotfiles` directory along with the others
 stow i3wm
 ```
 
-## Wallpaper 
+## Wallpaper
 
-`feh` is used to set wallpaper. 
+`feh` is used to set wallpaper.
 
 ```bash
 sudo dnf install feh
 ```
 
-The following line is required in i3 config: 
+The following line is required in i3 config:
 
 ```bash
 exec --no-startup-id feh --bg-fill <</path/to/wallpaper/image/file>>
@@ -140,11 +139,10 @@ xrandr --output <<output source (HDMI | DP-[0-9] |)>> --mode <<screen resolution
 xrandr --output eDP-1 --off 
 ```
 
-## Compositor 
+## Compositor
 
-There are screen tearing issues with i3wm. Picom is an X11 compositor that addresses these graphical issues. 
+There are screen tearing issues with i3wm. Picom is an X11 compositor that addresses these graphical issues.
 
 ```bash
 sudo dnf install picom
 ```
-
