@@ -11,7 +11,7 @@ plugins=(git tldr sudo)
 source $ZSH/oh-my-zsh.sh
 
 alias cat='bat'
-alias tree='tree -Cap'
+alias tree='tree -Cap -I ".git"'
 alias vim='nvim'
 
 sniper() {
