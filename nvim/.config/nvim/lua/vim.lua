@@ -14,10 +14,9 @@ vim.cmd "set signcolumn=auto"
 
 -- Global key mappings
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>o", "o<Esc>", {noremap=true})
-vim.keymap.set("n", "<leader>O", "O<Esc>", {noremap=true})
-vim.keymap.set({ "n", "v" }, "<Tab>", "<C-w>", {noremap=true})
-
+vim.keymap.set("n", "<leader>o", "o<Esc>", { noremap = true })
+vim.keymap.set("n", "<leader>O", "O<Esc>", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<Tab>", "<C-w>", { noremap = true })
 
 -- This command enables kitty reload on buffer write event, specific to kitty.conf file.
 -- https://www.reddit.com/r/KittyTerminal/comments/rzpjed/easier_ways_to_reload_kitty/

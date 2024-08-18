@@ -1,4 +1,4 @@
 return {
-    'r-cha/encourage.nvim',
-    config = true
+    "r-cha/encourage.nvim",
+    config = true,
 }
