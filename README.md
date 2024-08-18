@@ -2,13 +2,15 @@
 
 This repo contains my own dev configuration files, a.k.a dotfiles.
 
-Depending on the OS, required package manager(s) may be different. This instruction was drafted with: `dnf` and `Homebrew`.
+Depending on the OS, required package manager(s) may be different.
+This instruction was drafted with: `dnf` and `Homebrew`.
 
-# Instructions
+## Instructions
 
-## 0 - Fonts
+### 0 - Fonts
 
-It can be any [Nerd Fonts](https://www.nerdfonts.com/). The current favourite is JetBrains Mono.
+It can be any [Nerd Fonts](https://www.nerdfonts.com/).
+The current favourite is JetBrains Mono Nerd Font.
 
 ```bash
 wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
@@ -18,7 +20,7 @@ wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/do
 && fc-cache -fv
 ```
 
-## 1 - Install zsh and oh-my-zsh
+### 1 - Install zsh and oh-my-zsh
 
 ```bash
 sudo dnf install zsh
@@ -27,7 +29,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 Choose the default option and skip `.zshrc` creation step.
 
-## 2 - Stow
+### 2 - Stow
 
 Before install `stow`, clone `.dotfiles` repo from github:
 
@@ -49,13 +51,15 @@ stow shell
 
 Stow creates symlinks for each dotfile and places them appropriately under `~` directory.
 
-Nothing more is required. Changes made to configuration files under `~/.dotfiles` will be detected. Some application may require `source`.
+Nothing more is required.
+Changes made to configuration files under `~/.dotfiles` will be detected.
+Some application may require `source`.
 
 ```bash
 source ~/.zshrc
 ```
 
-## 3 - NeoVim
+### 3 - NeoVim
 
 Open `nvim` and let `Lazy` install all required plugins.
 
@@ -67,13 +71,13 @@ Open `Mason` and install requied linters and formatters:
 
 The list of linters and formatters can be found in [nonels](/nvim/.config/nvim/lua/plugins/nonels.lua).
 
-Additionally, in order to properly enable nvim-treesitter `auto_install` option, install its cli:
+Additionally, in order to properly enable nvim-treesitter `auto_install` option:
 
 ```bash
 npm install tree-sitter-cli
 ```
 
-## 4 - Homebrew
+### 4 - Homebrew
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -81,23 +85,45 @@ npm install tree-sitter-cli
 
 ```
 
-Once `Homebrew` is installed, run the following command to install packages listed in `~/Brewfile`:
+Once `Homebrew` is installed, run the following command:
 
 ```bash
 brew bundle install 
 ```
 
-# Optional: i3 tiling window manager
+### 1Password
 
-## Install i3wm
+This section outlines the steps required to enable 1Password CLI by
+following this official [guide](https://developer.1password.com/docs/cli/get-started/).
+
+```bash
+stow 1password
+```
+
+Simple enough.
+
+### Tools with secrets
+
+Tools that require secret injection are not managed with stow.
+
+#### todoist
+
+```bash
+cd ~/.dotfiles/todoist
+op inject -i template.json -o ~/.config/todoist/config.json
+```
+
+## Optional: i3 tiling window manager
+
+### Install i3wm
 
 ```bash
 sudo dnf install i3
 ```
 
-This requires a system restarts and `i3` has to be selected as default at the login screen.
+Restart and select `i3` as default at the login screen.
 
-## Configuration
+#### Configuration
 
 Configuration file is stowed under `~/.dotfiles` directory along with the others.
 
@@ -105,7 +131,7 @@ Configuration file is stowed under `~/.dotfiles` directory along with the others
 stow i3wm
 ```
 
-## Wallpaper
+#### Wallpaper
 
 `feh` is used to set wallpaper.
 
@@ -119,7 +145,7 @@ The following line is required in i3 config:
 exec --no-startup-id feh --bg-fill <</path/to/wallpaper/image/file>>
 ```
 
-## Multiple displays
+#### Multiple displays
 
 Yep. that's another thing to get "right".
 
@@ -129,7 +155,8 @@ If `xrandr` isn't already present:
 sudo dnf install xrandr
 ```
 
-This bit can be a little fiddly. Depending on the external monitor resolution, the config value may differ:
+This bit can be a little fiddly.
+Depending on the external monitor resolution, the config value may differ:
 
 ```bash
 # Mirror display
@@ -139,9 +166,10 @@ xrandr --output <<output source (HDMI | DP-[0-9] |)>> --mode <<screen resolution
 xrandr --output eDP-1 --off 
 ```
 
-## Compositor
+#### Compositor
 
-There are screen tearing issues with i3wm. Picom is an X11 compositor that addresses these graphical issues.
+There are screen tearing issues with i3wm.
+Picom is an X11 compositor that addresses these graphical issues.
 
 ```bash
 sudo dnf install picom

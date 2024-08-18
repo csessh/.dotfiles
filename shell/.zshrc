@@ -13,6 +13,7 @@ source $ZSH/oh-my-zsh.sh
 alias cat='bat'
 alias tree='tree -Cap -I ".git"'
 alias vim='nvim'
+alias claer='clear'
 
 sniper() {
     ps aux | fzf --height=40% --layout=reverse --prompt="Which process are we killing? > " | awk '{print $2}' | xargs -r sudo kill
