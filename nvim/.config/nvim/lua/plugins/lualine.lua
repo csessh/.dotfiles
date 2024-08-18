@@ -17,9 +17,9 @@ return {
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff", "diagnostics" },
             lualine_c = { "filename" },
-            lualine_x = { "filesize", "encoding", "filetype" },
+            lualine_x = { "filesize", 'vim.fn.getfperm(vim.fn.expand("%:p"))', "encoding" },
             lualine_y = { "grapple" },
-            lualine_z = { 'os.date("!%d-%m %H:%M")' }, -- UTC
+            lualine_z = { "filetype" },
         },
     },
 }
