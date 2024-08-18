@@ -16,10 +16,10 @@ return {
         sections = {
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff", "diagnostics" },
-            lualine_c = { "filename" },
-            lualine_x = { "filesize", 'vim.fn.getfperm(vim.fn.expand("%:p"))', "encoding" },
-            lualine_y = { "grapple" },
-            lualine_z = { "filetype" },
+            lualine_c = { "grapple" },
+            lualine_x = { 'vim.fn.getfperm(vim.fn.expand("%:p"))', "filesize", "encoding" },
+            lualine_y = { "filetype" },
+            lualine_z = { "filename" },
         },
     },
 }
