@@ -35,10 +35,9 @@ return {
                 lspconfig.taplo,
                 lspconfig.yamlls,
                 lspconfig.markdown_oxide,
-                lspconfig.grammarly,
             }
 
-            for i, server in ipairs(servers) do
+            for _, server in ipairs(servers) do
                 server.setup { capabilities = capabilities }
             end
 

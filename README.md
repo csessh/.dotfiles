@@ -5,12 +5,12 @@ This repo contains my own dev configuration files, a.k.a dotfiles.
 Depending on the OS, required package manager(s) may be different.
 This instruction was drafted with: `dnf` and `Homebrew`.
 
-## Instructions
+Linux distro of choice: Fedora 40.
 
-### 0 - Fonts
+## Fonts
 
 It can be any [Nerd Fonts](https://www.nerdfonts.com/).
-The current favourite is JetBrains Mono Nerd Font.
+The current favourite is [JetBrains Mono Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip).
 
 ```bash
 wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
@@ -20,95 +20,42 @@ wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/do
 && fc-cache -fv
 ```
 
-### 1 - Install zsh and oh-my-zsh
+*NOTE*: It's fairly important to note that some [Neovim](./nvim/README.md)'s plugins require nerd font glyphs to display filetype icons.
 
-```bash
-sudo dnf install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
+## GNU Stow
 
-Choose the default option and skip `.zshrc` creation step.
-
-### 2 - Stow
-
-Before install `stow`, clone `.dotfiles` repo from github:
-
-```bash
-cd ~
-git clone git@github.com:csessh/.dotfiles.git
-```
-
-Note: if haven't already, ensure `~/.ssh/config` exists and the private key are present.
-
-Once the repo is cloned, install `stow`:
+[Stow](https://www.gnu.org/software/stow/) is widely available on most package manager.
 
 ```bash
 sudo dnf install stow
-stow nvim
-stow shell
-... so on ... 
 ```
 
-Stow creates symlinks for each dotfile and places them appropriately under `~` directory.
+[Stow](https://www.gnu.org/software/stow/) creates symlinks for each dotfile and places them appropriately under `~` directory.
+
+> GNU Stow is a symlink farm manager which takes distinct packages of software and/or data located in separate directories on the filesystem, and makes them appear to be installed in the same place. For example, /usr/local/bin could contain symlinks to files within /usr/local/stow/emacs/bin, /usr/local/stow/perl/bin etc., and likewise recursively for any other subdirectories such as .../share, .../man, and so on.
+
+> This is particularly useful for keeping track of system-wide and per-user installations of software built from source, but can also facilitate a more controlled approach to management of configuration files in the user's home directory, especially when coupled with version control systems.
 
 Nothing more is required.
-Changes made to configuration files under `~/.dotfiles` will be detected.
-Some application may require `source`.
+Changes made to configuration files under `~/.dotfiles` will be automatically detected by services/applications.
+Some application may require `source` to reload.
 
-```bash
-source ~/.zshrc
-```
+## dotfiles
 
-### 3 - NeoVim
+It's best to setup and configure the environment in the following order:
 
-Open `nvim` and let `Lazy` install all required plugins.
+1- [kitty terminal](./kitty/README.md)
+2- [ZSH](./shell/README.md)
+3- [brew](./brew/README.md)
+4- [bat](./bat/README.md)
+5- [git](./git/README.md)
+6- [Neovim](./nvim/README.md)
+7- [1Password](./1password/README.md)
 
-Open `Mason` and install requied linters and formatters:
+## configs containing secrets
 
-```vim
-:Mason
-```
+Some configs may contain secrets such as username/password or API access token.
 
-The list of linters and formatters can be found in [nonels](/nvim/.config/nvim/lua/plugins/nonels.lua).
+Secret injection can be done with 1Password CLI. See [1Password](./1password/README.md) for more information.
 
-Additionally, in order to properly enable nvim-treesitter `auto_install` option:
-
-```bash
-npm install tree-sitter-cli
-```
-
-### 4 - Homebrew
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-... follow brew installation instruction ... 
-
-```
-
-Once `Homebrew` is installed, run the following command:
-
-```bash
-brew bundle install 
-```
-
-### 1Password
-
-This section outlines the steps required to enable 1Password CLI by
-following this official [guide](https://developer.1password.com/docs/cli/get-started/).
-
-```bash
-stow 1password
-```
-
-Simple enough.
-
-### Tools with secrets
-
-Tools that require secret injection are not managed with stow.
-
-#### todoist
-
-```bash
-cd ~/.dotfiles/todoist
-op inject -i template.json -o ~/.config/todoist/config.json
-```
+* [todoist](./todoist/README.md)

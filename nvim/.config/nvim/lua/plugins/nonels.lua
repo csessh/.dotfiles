@@ -22,7 +22,7 @@ return {
 
                 -- Markdown 
                 null_ls.builtins.formatting.markdownlint,
-                null_ls.builtins.diagnostics.markdownlint,
+                -- null_ls.builtins.diagnostics.markdownlint,
 
                 -- Bash
                 require "none-ls-shellcheck.diagnostics",
