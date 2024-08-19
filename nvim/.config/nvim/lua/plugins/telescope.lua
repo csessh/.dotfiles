@@ -23,6 +23,18 @@ return {
                         show_scores = true,
                     },
                 },
+                pickers = {
+                    live_grep = {
+                        additional_args = function()
+                            return { "--hidden" }
+                        end,
+                    },
+                    grep_string = {
+                        additional_args = function()
+                            return { "--hidden" }
+                        end,
+                    },
+                },
             }
             telescope.load_extension "ui-select"
         end,
