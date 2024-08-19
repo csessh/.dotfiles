@@ -44,13 +44,13 @@ Some application may require `source` to reload.
 
 It's best to setup and configure the environment in the following order:
 
-1- [kitty terminal](./kitty/README.md)
-2- [ZSH](./shell/README.md)
-3- [brew](./brew/README.md)
-4- [bat](./bat/README.md)
-5- [git](./git/README.md)
-6- [Neovim](./nvim/README.md)
-7- [1Password](./1password/README.md)
+1. [kitty terminal](./kitty/README.md)
+2. [ZSH](./shell/README.md)
+3. [brew](./brew/README.md)
+4. [bat](./bat/README.md)
+5. [git](./git/README.md)
+6. [Neovim](./nvim/README.md)
+7. [1Password](./1password/README.md)
 
 ## configs containing secrets
 
