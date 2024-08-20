@@ -20,7 +20,7 @@ wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/do
 && fc-cache -fv
 ```
 
-*NOTE*: It's fairly important to note that some [Neovim](./nvim/README.md)'s plugins require nerd font glyphs to display filetype icons.
+*NOTE*: It's fairly important to note that some [Neovim](./nvim)'s plugins require nerd font glyphs to display filetype icons.
 
 ## GNU Stow
 
@@ -44,18 +44,18 @@ Some application may require `source` to reload.
 
 It's best to setup and configure the environment in the following order:
 
-1. [kitty terminal](./kitty/README.md)
-2. [ZSH](./shell/README.md)
-3. [brew](./brew/README.md)
-4. [bat](./bat/README.md)
-5. [git](./git/README.md)
-6. [Neovim](./nvim/README.md)
-7. [1Password](./1password/README.md)
+1. [kitty terminal](./kitty)
+2. [ZSH](./shell)
+3. [brew](./brew)
+4. [bat](./bat)
+5. [git](./git)
+6. [Neovim](./nvim)
+7. [1Password](./1password)
 
 ## configs containing secrets
 
 Some configs may contain secrets such as username/password or API access token.
 
-Secret injection can be done with 1Password CLI. See [1Password](./1password/README.md) for more information.
+Secret injection can be done with 1Password CLI. See [1Password](./1password) for more information.
 
-* [todoist](./todoist/README.md)
+* [todoist](./todoist)
