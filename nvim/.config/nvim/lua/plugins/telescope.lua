@@ -14,6 +14,12 @@ return {
             vim.keymap.set({ "n", "v" }, "<leader>gs", tsbuiltin.grep_string, {})
             vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers, {})
 
+            local args = {
+                additional_args = function()
+                    return { "--hidden" }
+                end,
+            }
+
             local telescope = require "telescope"
             telescope.setup {
                 extensions = {
@@ -24,16 +30,11 @@ return {
                     },
                 },
                 pickers = {
-                    live_grep = {
-                        additional_args = function()
-                            return { "--hidden" }
-                        end,
-                    },
-                    grep_string = {
-                        additional_args = function()
-                            return { "--hidden" }
-                        end,
-                    },
+                    live_grep = args,
+                    grep_string = args,
+                },
+                defaults = {
+                    file_ignore_patterns = { ".git", "node_modules" },
                 },
             }
             telescope.load_extension "ui-select"
