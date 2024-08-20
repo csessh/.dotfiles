@@ -1,0 +1,5 @@
+# Kitty terminal
+
+## Configuration
+
+## Keybindings

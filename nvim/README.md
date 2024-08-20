@@ -35,6 +35,15 @@ Find and install necessary linters and formatters via Mason:
 :Mason
 ```
 
+## Notable dependencies
+
+There are a number of important integrations worth mentioning: 
+
+* [fzf](https://github.com/junegunn/fzf)
+* [ripgrep](https://github.com/BurntSushi/ripgrep)
+* [fd](https://github.com/sharkdp/fd) 
+* [xclip](https://github.com/astrand/xclip) or any other compatible clipboard manager
+
 ## Keybindings 
 
 TODO: Update this section
