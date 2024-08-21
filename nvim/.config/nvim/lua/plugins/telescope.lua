@@ -3,6 +3,24 @@ return {
         "nvim-telescope/telescope-ui-select.nvim",
     },
     {
+        "nvim-telescope/telescope-frecency.nvim",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+            "nvim-telescope/telescope.nvim",
+        },
+        config = function()
+            require("frecency.config").setup {
+                auto_validate = true,
+                db_safe_mode = false,
+                show_scores = true,
+            }
+
+            vim.keymap.set({ "n", "v" }, "<Leader>ff", function()
+                require("telescope").extensions.frecency.frecency {}
+            end)
+        end,
+    },
+    {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.8",
         dependencies = {
@@ -14,30 +32,32 @@ return {
             vim.keymap.set({ "n", "v" }, "<leader>gs", tsbuiltin.grep_string, {})
             vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers, {})
 
-            local args = {
-                additional_args = function()
-                    return { "--hidden" }
-                end,
-            }
-
             local telescope = require "telescope"
             telescope.setup {
-                extensions = {
-                    frecency = {
-                        default_workspace = "CWD",
-                        path_displays = { "shorten" },
-                        show_scores = true,
-                    },
+                defaults = {
+                    path_display = { "smart" },
+                    file_ignore_patterns = { ".git", "node_modules" },
+                    layout_strategy = "vertical",
                 },
                 pickers = {
-                    live_grep = args,
-                    grep_string = args,
-                },
-                defaults = {
-                    file_ignore_patterns = { ".git", "node_modules" },
+                    find_files = {
+                        hidden = true,
+                    },
+                    live_grep = {
+                        additional_args = function()
+                            return { "--hidden" }
+                        end,
+                    },
+                    grep_string = {
+                        additional_args = function()
+                            return { "--hidden" }
+                        end,
+                    },
                 },
             }
+
             telescope.load_extension "ui-select"
+            telescope.load_extension "frecency"
         end,
     },
 }
