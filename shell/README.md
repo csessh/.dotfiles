@@ -12,6 +12,7 @@ Choose the default option and skip `.zshrc` creation step.
 ## .zshrc
 
 ```bash
+cd ~/.dotfiles
 stow shell
 ```
 
