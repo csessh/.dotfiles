@@ -9,12 +9,6 @@ return {
             "nvim-telescope/telescope.nvim",
         },
         config = function()
-            require("frecency.config").setup {
-                auto_validate = true,
-                db_safe_mode = false,
-                show_scores = true,
-            }
-
             vim.keymap.set({ "n", "v" }, "<Leader>ff", function()
                 require("telescope").extensions.frecency.frecency {}
             end)
@@ -38,6 +32,13 @@ return {
                     path_display = { "smart" },
                     file_ignore_patterns = { ".git", "node_modules" },
                     layout_strategy = "vertical",
+                },
+                extensions = {
+                    frecency = {
+                        auto_validate = true,
+                        db_safe_mode = false,
+                        show_scores = true,
+                    },
                 },
                 pickers = {
                     find_files = {
