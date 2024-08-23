@@ -32,6 +32,7 @@ return {
                 defaults = {
                     path_display = { "smart" },
                     layout_strategy = "vertical",
+                    file_ignore_patterns = { "^.git/*" },
                 },
                 extensions = {
                     frecency = {
