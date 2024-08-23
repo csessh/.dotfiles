@@ -22,19 +22,20 @@ return {
         },
         config = function()
             local tsbuiltin = require "telescope.builtin"
-            vim.keymap.set({ "n", "v" }, "<leader>lg", tsbuiltin.live_grep, {})
-            vim.keymap.set({ "n", "v" }, "<leader>gs", tsbuiltin.grep_string, {})
-            vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers, {})
+
+            vim.keymap.set({ "n", "v" }, "<leader>lg", tsbuiltin.live_grep)
+            vim.keymap.set({ "n", "v" }, "<leader>gs", tsbuiltin.grep_string)
+            vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers)
 
             local telescope = require "telescope"
             telescope.setup {
                 defaults = {
                     path_display = { "smart" },
-                    file_ignore_patterns = { ".git", "node_modules" },
                     layout_strategy = "vertical",
                 },
                 extensions = {
                     frecency = {
+                        default_workspace = "CWD",
                         auto_validate = true,
                         db_safe_mode = false,
                         show_scores = true,

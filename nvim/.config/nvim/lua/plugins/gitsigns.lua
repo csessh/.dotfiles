@@ -6,18 +6,17 @@ return {
             linehl = false,
             signcolumn = true,
             current_line_blame = true,
-            current_line_blame_formatter = "<author>: <summary> (<author_time:%R>)",
+            current_line_blame_formatter = "<author> (<author_time:%R>): <summary>",
 
             on_attach = function(bufnr)
                 local gitsigns = require "gitsigns"
-
                 local function map(mode, l, r, opts)
                     opts = opts or {}
                     opts.buffer = bufnr
                     vim.keymap.set(mode, l, r, opts)
                 end
 
-                map("n", "]c", function()
+                map("n", ",h", function()
                     if vim.wo.diff then
                         vim.cmd.normal { "]c", bang = true }
                     else
@@ -25,7 +24,7 @@ return {
                     end
                 end)
 
-                map("n", "]c", function()
+                map("n", ",H", function()
                     if vim.wo.diff then
                         vim.cmd.normal { "[c", bang = true }
                     else
@@ -34,18 +33,18 @@ return {
                 end)
 
                 -- Actions
-                map("n", "<leader>sh", gitsigns.stage_hunk)
-                map("v", "<leader>sh", function()
+                map("n", ",s", gitsigns.stage_hunk)
+                map("v", ",s", function()
                     gitsigns.stage_hunk { vim.fn.line ".", vim.fn.line "v" }
                 end)
+                map("n", ",S", gitsigns.undo_stage_hunk)
 
-                map("n", "<leader>rh", gitsigns.reset_hunk)
-                map("v", "<leader>rh", function()
+                map("n", ",r", gitsigns.reset_hunk)
+                map("v", ",r", function()
                     gitsigns.reset_hunk { vim.fn.line ".", vim.fn.line "v" }
                 end)
 
-                map("n", "<leader>uh", gitsigns.undo_stage_hunk)
-                map("n", "<leader>ph", gitsigns.preview_hunk)
+                map("n", ",p", gitsigns.preview_hunk)
             end,
         }
     end,
