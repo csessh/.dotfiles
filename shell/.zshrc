@@ -6,7 +6,7 @@ export EDITOR='nvim'
 
 ZSH_THEME="bira"
 HIST_STAMPS="mm/dd/yyyy"
-plugins=(git tldr sudo)
+plugins=(git tldr sudo vi-mode dnf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -17,6 +17,14 @@ alias claer='clear'
 
 sniper() {
     ps aux | fzf --height=40% --layout=reverse --prompt="Which process are we killing? > " | awk '{print $2}' | xargs -r sudo kill
+}
+
+nah() {
+    git reset --hard
+
+    if [[ $1 == "-f" ]]; then
+        git clean -df
+    fi
 }
 
 eval "$(zoxide init --cmd cd zsh)"
