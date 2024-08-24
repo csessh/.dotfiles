@@ -4,6 +4,7 @@
 [core]
     editor = nvim
     longpaths = true
+    excludesfile = ~/.gitignore_global
 [alias]
     adog = log --all --decorate --oneline --graph
 [help]
@@ -26,8 +27,6 @@
     rebase = true
 [merge]
     conflictstyle = diff3
-[difftool "sourcetree"]
-    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 [init]
     defaultBranch = main
 [filter "lfs"]
