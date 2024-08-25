@@ -6,7 +6,5 @@ return {
         vim.keymap.set({ "n", "x", "o" }, "<leader>x", "<Plug>(leap-forward-till)")
         vim.keymap.set({ "n", "x", "o" }, "<leader>X", "<Plug>(leap-backward-till)")
         vim.keymap.set({ "n", "x", "o" }, "<leader>gs", "<Plug>(leap-from-window)")
-
-        require("leap").opts.safe_labels = {} -- Do not jump to the first occurence automatically
     end,
 }
