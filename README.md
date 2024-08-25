@@ -10,13 +10,13 @@ Linux distro of choice: Fedora 40.
 ## Fonts
 
 It can be any [Nerd Fonts](https://www.nerdfonts.com/).
-The current favourite is [JetBrains Mono Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip).
+The current favourite is [CommitMono](https://commitmono.com/).
 
 ```bash
-wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+wget -P ~/.local/share/fonts https://github.com/eigilnikolajsen/commit-mono/releases/download/v1.143/CommitMono-1.143.zip \
 && cd ~/.local/share/fonts \
-&& unzip JetBrainsMono.zip \
-&& rm JetBrainsMono.zip \
+&& unzip CommitMono.zip \
+&& rm CommitMoni.zip \
 && fc-cache -fv
 ```
 
