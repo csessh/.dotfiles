@@ -8,6 +8,9 @@ vim.cmd "set expandtab"
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.g.have_nerd_font = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
 vim.cmd "filetype plugin indent on"
 vim.cmd "set clipboard=unnamedplus"
 vim.cmd "set signcolumn=auto"
