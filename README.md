@@ -16,7 +16,7 @@ The current favourite is [CommitMono](https://commitmono.com/).
 wget -P ~/.local/share/fonts https://github.com/eigilnikolajsen/commit-mono/releases/download/v1.143/CommitMono-1.143.zip \
 && cd ~/.local/share/fonts \
 && unzip CommitMono.zip \
-&& rm CommitMoni.zip \
+&& rm CommitMono.zip \
 && fc-cache -fv
 ```
 
