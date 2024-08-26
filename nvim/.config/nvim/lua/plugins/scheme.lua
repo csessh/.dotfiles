@@ -3,39 +3,51 @@ return {
         "zaldih/themery.nvim",
         opts = {
             livePreview = true,
-            themes = { "eldritch", "everforest", "dracula", "nordic", "cyberdream" },
+            themes = {
+                "bamboo",
+                "eldritch",
+                "everforest",
+                "dracula",
+                "nordic",
+                "cyberdream",
+                "tokyodark",
+                "kanagawa"
+            },
         },
     },
     {
         "eldritch-theme/eldritch.nvim",
         lazy = false,
-        name = "eldritch",
+        priority = 1000,
     },
     {
         "Mofiqul/dracula.nvim",
         lazy = false,
-        name = "dracula",
-        priority = 1000, -- make sure to load this before all the other start plugins
+        priority = 1000,
     },
     {
         "AlexvZyl/nordic.nvim",
         lazy = false,
-        name = "nordic",
-        priority = 1000, -- make sure to load this before all the other start plugins
+        priority = 1000,
     },
     {
         "scottmckendry/cyberdream.nvim",
         lazy = false,
-        name = "cyberdrem",
-        priority = 1000, -- make sure to load this before all the other start plugins
+        priority = 1000,
     },
     {
         "neanias/everforest-nvim",
-        version = false,
         lazy = false,
-        priority = 1000, -- make sure to load this before all the other start plugins
-        config = function()
-            require("everforest").load()
-        end,
+        priority = 1000,
+    },
+    {
+        "ribru17/bamboo.nvim",
+        lazy = false,
+        priority = 1000,
+    },
+    {
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
     },
 }
