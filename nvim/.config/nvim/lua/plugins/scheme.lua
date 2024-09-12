@@ -10,7 +10,6 @@ return {
                 "dracula",
                 "nordic",
                 "cyberdream",
-                "tokyodark",
                 "kanagawa"
             },
         },
