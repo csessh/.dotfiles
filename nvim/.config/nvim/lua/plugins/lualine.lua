@@ -8,10 +8,6 @@ return {
             theme = "powerline_dark",
             globalstatus = true,
             always_divide_middle = true,
-            disabled_filetypes = {
-                statusline = { "neo-tree" },
-                winbar = { "neo-tree" },
-            },
         },
         sections = {
             lualine_a = { "mode" },
