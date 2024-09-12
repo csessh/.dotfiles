@@ -10,6 +10,8 @@ vim.wo.relativenumber = true
 vim.g.have_nerd_font = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.autoread = true -- sync buffers automatically
+vim.opt.swapfile = false -- disable neovim generating a swapfile and showing the error
 
 vim.cmd "filetype plugin indent on"
 vim.cmd "set clipboard=unnamedplus"
