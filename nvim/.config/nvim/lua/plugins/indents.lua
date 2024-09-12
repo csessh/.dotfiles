@@ -5,7 +5,8 @@ return {
         require("hlchunk").setup {
             chunk = {
                 enable = true,
-                style = "#806d9c",
+                style = "#0fe9ee",
+                use_treesitter = true,
             },
             indent = {
                 enable = true,
@@ -18,8 +19,8 @@ return {
             },
             line_num = {
                 enable = true,
-                style = "#806d9c",
-                use_treesitter = false,
+                style = "#0fe9ee",
+                use_treesitter = true,
             },
         }
     end,
