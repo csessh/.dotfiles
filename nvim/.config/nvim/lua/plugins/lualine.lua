@@ -6,7 +6,7 @@ return {
     opts = {
         options = {
             theme = "powerline_dark",
-            globalstatus = false,
+            globalstatus = true,
             always_divide_middle = true,
             disabled_filetypes = {
                 statusline = { "neo-tree" },
