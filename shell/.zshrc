@@ -9,14 +9,16 @@ HIST_STAMPS="dd/mm/yyyy"
 plugins=(git tldr sudo vi-mode dnf)
 
 source $ZSH/oh-my-zsh.sh
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+####################################################################
+# CUSTOM ALIAS
+####################################################################
 alias cat="bat"
 alias tree='tree -Cap -I ".git"'
 alias vim="nvim"
 alias claer="clear"
-
-eval "$(zoxide init --cmd cd zsh)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 ####################################################################
 # CUSTOM FUNCTIONS 
