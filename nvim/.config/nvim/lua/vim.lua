@@ -8,6 +8,7 @@ vim.cmd "set expandtab"
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.g.have_nerd_font = true
+
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.autoread = true -- sync buffers automatically
