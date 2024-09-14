@@ -6,20 +6,24 @@ export EDITOR="nvim"
 
 ZSH_THEME="afowler"
 HIST_STAMPS="dd/mm/yyyy"
-plugins=(git tldr sudo vi-mode dnf)
+plugins=(
+    colored-man-pages
+    git
+    sudo
+)
 
 source $ZSH/oh-my-zsh.sh
+
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-
 ####################################################################
-# CUSTOM KEYBINDING
+#  KEYBINDING
 ####################################################################
 bindkey -s "^Z" "fg^M"
 
 ####################################################################
-# CUSTOM ALIAS
+#  ALIAS
 ####################################################################
 alias cat="bat"
 alias tree='tree -Cap -I ".git"'
@@ -27,7 +31,7 @@ alias vim="nvim"
 alias claer="clear"
 
 ####################################################################
-# CUSTOM FUNCTIONS 
+#  FUNCTIONS 
 ####################################################################
 sniper() {
     ps aux | fzf --height=40% --layout=reverse --prompt="Which process are we killing? > " | awk '{print $2}' | xargs -r sudo kill
