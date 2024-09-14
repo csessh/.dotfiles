@@ -18,9 +18,9 @@ activate() {
     if [ -z "$1" ]; then
         echo "virtualenv name is required."
         echo "Select one of the following to source:"
-        ls ~/Documents/pyenvs 
+        ls ~/pyenvs 
     else
-        source ~/Documents/pyenvs/$1/bin/activate
+        source ~/pyenvs/$1/bin/activate
     fi
 }
 
