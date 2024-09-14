@@ -1,8 +1,8 @@
 ####################################################################
-#  FUNCTIONS 
+#  HELPER SCRIPTS 
 ####################################################################
 
-sniper() {
+snipe() {
     ps aux | fzf --height=40% --layout=reverse --prompt="Which process are we killing? > " | awk '{print $2}' | xargs -r sudo kill
 }
 
@@ -16,8 +16,7 @@ nah() {
 
 activate() {
     if [ -z "$1" ]; then
-        echo "virtualenv name is required."
-        echo "Select one of the following to source:"
+        echo "virtualenv name is required. Select one to source:"
         ls ~/pyenvs 
     else
         source ~/pyenvs/$1/bin/activate
