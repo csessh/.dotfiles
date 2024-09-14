@@ -9,7 +9,7 @@ return {
             "nvim-telescope/telescope.nvim",
         },
         config = function()
-            vim.keymap.set({ "n", "v" }, "<Leader>ff", function()
+            vim.keymap.set({ "n", "v" }, "<leader>ff", function()
                 require("telescope").extensions.frecency.frecency {}
             end)
         end,
