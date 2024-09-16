@@ -52,12 +52,8 @@ return {
                     -- Buffer local mappings.
                     -- See `:help vim.lsp.*` for documentation on any of the below functions
                     local opts = { buffer = ev.buf }
-                    vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, opts)
-                    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
-                    vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, opts)
-                    vim.keymap.set("n", "<leader>rf", vim.lsp.buf.references, opts)
                     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-                    vim.keymap.set("n", "<leader>?", vim.lsp.buf.hover, opts)
+                    vim.keymap.set("n", "g?", vim.lsp.buf.hover, opts)
 
                     vim.keymap.set("n", "<leader>fm", function()
                         vim.lsp.buf.format { async = true }

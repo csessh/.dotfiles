@@ -19,10 +19,5 @@ return {
             style = "#0fe9ee",
             use_treesitter = true,
         },
-        exclude_filetypes = {
-            dashboard = true,
-            themery = true,
-            quickfix = true,
-        },
     },
 }
