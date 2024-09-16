@@ -22,7 +22,10 @@ vim.cmd "set signcolumn=auto"
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>o", "o<Esc>", { noremap = true })
 vim.keymap.set("n", "<leader>O", "O<Esc>", { noremap = true })
-vim.keymap.set({ "n", "v" }, "<Tab>", "<C-w>", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-h>", "<C-w>h", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-j>", "<C-w>j", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-k>", "<C-w>k", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-l>", "<C-w>l", { noremap = true })
 
 -- This command enables kitty reload on buffer write event, specific to kitty.conf file.
 -- https://www.reddit.com/r/KittyTerminal/comments/rzpjed/easier_ways_to_reload_kitty/
