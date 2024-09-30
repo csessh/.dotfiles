@@ -49,8 +49,9 @@ It's best to setup and configure the environment in the following order:
 3. [brew](./brew/README.md)
 4. [bat](./bat/README.md)
 5. [git](./git/README.md)
-6. [Neovim](./nvim/README.md)
-7. [1Password](./1password/README.md)
+6. [lazygit](./lazygit/README.md)
+7. [Neovim](./nvim/README.md)
+8. [1Password](./1password/README.md)
 
 ## configs containing secrets
 
