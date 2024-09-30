@@ -1,2 +1,13 @@
 git:
   branchLogCmd: git log --all --decorate --oneline --graph --stat --color=always --abbrev-commit
+
+gui:
+  nerdFontsVersion: "3"
+  branchColors:
+    "main": "green"
+    "master": "green"
+
+keybinding:
+  stash:
+    popStash: p
+    renameStash: r
