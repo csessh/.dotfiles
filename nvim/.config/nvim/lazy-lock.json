@@ -7,6 +7,7 @@
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
   "cyberdream.nvim": { "branch": "main", "commit": "57fc3af9a8adcf1655fa4e70164bddd2ed898f60" },
   "dracula.nvim": { "branch": "main", "commit": "fdf503e52ec1c8aae07353604d891fe5a3ed5201" },
+  "drop.nvim": { "branch": "main", "commit": "d2376ac1635eb71af699eda603f3dfe87c29a70d" },
   "eldritch.nvim": { "branch": "master", "commit": "48788ef2f7be7e86b0a57ef87f1a96bc18e24b8b" },
   "encourage.nvim": { "branch": "main", "commit": "e4fa0e322ddb0b937845fe819450c295a4395ddd" },
   "everforest-nvim": { "branch": "main", "commit": "308c024bc1fcb7e179eb9551ba5f69dae1737d2b" },
