@@ -1,6 +1,21 @@
+
 [[Snippets]]
   Description = "Snipe/Terminate an existing process"
   Filename = "/home/csessh/.config/pet/snippet.toml"
   Output = ""
   Tag = ["fzf"]
   command = "ps aux | fzf --height=40% --layout=reverse --prompt=\"Which process are we killing? > \" | awk '{print $2}' | xargs -r sudo kill"
+
+[[Snippets]]
+  Description = "Prune git repo"
+  Filename = "/home/csessh/.config/pet/snippet.toml"
+  Output = ""
+  Tag = ["git"]
+  command = "git fetch --all --prune"
+
+[[Snippets]]
+  Description = "Remove, locally, all feature branches"
+  Filename = "/home/csessh/.config/pet/snippet.toml"
+  Output = ""
+  Tag = ["git"]
+  command = "git branch | grep -Ev \"main|master\" | xargs git branch -d"

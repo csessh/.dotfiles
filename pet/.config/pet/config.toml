@@ -4,7 +4,7 @@ Cmd = []
 Color = true
 Column = 50
 Editor = "nvim"
-Format = "$description | $tags: $command"
+Format = "[$tags] $description: $command"
 SelectCmd = "fzf --ansi --layout=reverse --border --height=90% --pointer=* --cycle --prompt=Snippets:"
 SnippetDirs = []
 SnippetFile = "~/.config/pet/snippet.toml"
