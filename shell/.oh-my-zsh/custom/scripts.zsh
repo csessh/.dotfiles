@@ -24,7 +24,7 @@ prev() {
 }
 
 pet-search() {
-  BUFFER=$(pet search --query "$LBUFFER")
+  BUFFER=$(pet search --color --query "$LBUFFER")
   CURSOR=$#BUFFER
   zle redisplay
 }
