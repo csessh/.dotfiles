@@ -52,7 +52,6 @@ It's best to setup and configure the environment in the following order:
 6. [lazygit](./lazygit/README.md)
 7. [Neovim](./nvim/README.md)
 8. [1Password](./1password/README.md)
-9. [pet](./pet/README.md)
 
 ## configs containing secrets
 
@@ -60,7 +59,7 @@ Some configs may contain secrets such as username/password or API access token.
 
 Secret injection can be done with 1Password CLI. See [1Password](./1password) for more information.
 
-* N/A 
+* [pet](./pet/README.md)
 
-**NOTE**: Configuration files created with 1Password secret injection must be updated manually as they aren't managed by Stow.
+**NOTE**: Configuration files created with 1Password secret injection must be updated manually.
 

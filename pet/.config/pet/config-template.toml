@@ -9,3 +9,10 @@ SelectCmd = "fzf --ansi --highlight-line --layout=reverse --border --height=90% 
 SnippetDirs = []
 SnippetFile = "~/.config/pet/snippet.toml"
 SortBy = "recency"
+
+[Gist]
+file_name = "pet.toml"
+access_token = "op://uqphul5mggpu5cpyaljyu76nvy/GitHub Gist PAT/token"
+gist_id = "307fa561001fb7f5d235ca1ab4839191"
+public = true
+auto_sync = false
