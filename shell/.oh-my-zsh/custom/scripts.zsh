@@ -1,11 +1,6 @@
 ####################################################################
 #  HELPER SCRIPTS 
 ####################################################################
-
-snipe() {
-    ps aux | fzf --height=40% --layout=reverse --prompt="Which process are we killing? > " | awk '{print $2}' | xargs -r sudo kill
-}
-
 nah() {
     git reset --hard
 
@@ -23,3 +18,16 @@ activate() {
     fi
 }
 
+prev() {
+  PREV=$(fc -lrn | head -n 1)
+  sh -c "pet new `printf %q "$PREV"`"
+}
+
+pet-search() {
+  BUFFER=$(pet search --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-search
+stty -ixon
+bindkey '^s' pet-search
