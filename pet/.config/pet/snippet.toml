@@ -13,7 +13,6 @@
   Tag = ["git"]
   command = "git fetch --all --prune"
 
-
 [[Snippets]]
   Description = "Remove, remotely, all feature branches"
   Filename = "/home/csessh/.config/pet/snippet.toml"
