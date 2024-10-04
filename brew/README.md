@@ -11,6 +11,7 @@
 Once `Homebrew` is installed, run the following commands:
 
 ```bash
+cd ~/.dotfiles
 stow brew
 brew bundle install 
 ```

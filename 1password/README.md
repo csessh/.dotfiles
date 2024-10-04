@@ -14,6 +14,7 @@ There is an [official guide](https://developer.1password.com/docs/cli/get-starte
 ### agent.toml 
 
 ```bash
+cd ~/.dotfiles
 stow 1password
 ```
 

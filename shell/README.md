@@ -16,4 +16,4 @@ cd ~/.dotfiles
 stow shell
 ```
 
-ba da bing, ba da boom!! I can't be any easier.
+ba da bing, ba da boom!! It can't be any easier.

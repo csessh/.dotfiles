@@ -1,5 +1,7 @@
 # .gitconfig
 
+## Configuration 
+
 ```bash
 cd ~/.dotfiles
 stow git
