@@ -30,4 +30,3 @@ pet-search() {
 }
 zle -N pet-search
 stty -ixon
-bindkey '^s' pet-search
