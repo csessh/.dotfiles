@@ -61,3 +61,6 @@ Some configs may contain secrets such as username/password or API access token.
 Secret injection can be done with 1Password CLI. See [1Password](./1password) for more information.
 
 * [todoist](./todoist)
+
+**NOTE**: Configuration files created with 1Password secret injection must be updated manually as they aren't managed by Stow.
+
