@@ -20,6 +20,6 @@ return {
         interval = 100,
         filetypes = { "dashboard", "alpha", "ministarter" },
         winblend = 100,
-        screensaver = 1000 * 60 * 5,
+        screensaver = 1000 * 60 * 15,
     },
 }
