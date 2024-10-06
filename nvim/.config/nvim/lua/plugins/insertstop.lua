@@ -1,7 +1,6 @@
 return {
-    dir = "/home/csessh/Documents/nvim-plugins/stopinsert.nvim",
-    dev = true,
+    "csessh/stopinsert.nvim",
     opts = {
-        idle_time_ms = 2000,
+        idle_time_ms = 4000,
     },
 }
