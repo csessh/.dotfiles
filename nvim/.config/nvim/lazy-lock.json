@@ -40,5 +40,6 @@
   "stopinsert.nvim": { "branch": "main", "commit": "c2469fb050c394ff94fcc666234b3c6f20f03b0b" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
-  "themery.nvim": { "branch": "main", "commit": "15c29229e9a25655587462c8c64a62d9aadf0a92" }
+  "themery.nvim": { "branch": "main", "commit": "15c29229e9a25655587462c8c64a62d9aadf0a92" },
+  "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "1a83e7ce5c9d0ae4d89fc5c812b55ff8ed1d39e7" }
 }

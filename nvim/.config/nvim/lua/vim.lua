@@ -13,6 +13,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.autoread = true -- sync buffers automatically
 vim.opt.swapfile = false -- disable neovim generating a swapfile and showing the error
+vim.diagnostic.config({ virtual_text = false })
 
 vim.cmd "filetype plugin indent on"
 vim.cmd "set clipboard=unnamedplus"
