@@ -26,7 +26,4 @@ vim.keymap.set({ "n", "v" }, "<C-h>", "<C-w>h", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<C-j>", "<C-w>j", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<C-k>", "<C-w>k", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<C-l>", "<C-w>l", { noremap = true })
-
--- This command enables kitty reload on buffer write event, specific to kitty.conf file.
--- https://www.reddit.com/r/KittyTerminal/comments/rzpjed/easier_ways_to_reload_kitty/
--- autocmd bufwritepost ~/.config/kitty/kitty.conf :silent !kill -SIGUSR1 $(pgrep kitty)
+vim.keymap.set({ "n", "v" }, "<leader><leader>x", ":source %<CR>", { noremap = true })
