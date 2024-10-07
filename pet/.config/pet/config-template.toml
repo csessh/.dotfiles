@@ -7,7 +7,7 @@ Editor = "nvim"
 Format = "[$description] >> $command"
 SelectCmd = "fzf --ansi --highlight-line --layout=reverse --border --height=90% --pointer=* --cycle --prompt=Snippets:"
 SnippetDirs = []
-SnippetFile = "/tmp/pet/snippet.toml"
+SnippetFile = "/var/tmp/pet/snippet.toml"
 SortBy = "recency"
 
 [Gist]
