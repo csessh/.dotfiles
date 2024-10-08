@@ -10,7 +10,6 @@ return {
             sources = {
                 -- Lua
                 null_ls.builtins.formatting.stylua,
-                null_ls.builtins.diagnostics.luacheck,
 
                 -- Python
                 null_ls.builtins.formatting.black,
@@ -18,10 +17,10 @@ return {
 
                 -- CPP
                 null_ls.builtins.formatting.clang_format,
+                require "none-ls.diagnostics.cpplint",
 
                 -- Markdown
                 null_ls.builtins.formatting.markdownlint,
-                -- null_ls.builtins.diagnostics.markdownlint,
 
                 -- Bash
                 require "none-ls-shellcheck.diagnostics",

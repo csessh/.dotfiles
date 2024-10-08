@@ -9,11 +9,12 @@ return {
         "williamboman/mason-lspconfig.nvim",
         opts = {
             ensure_installed = {
+                "ast_grep",
                 "lua_ls",
                 "bashls",
                 "jsonls",
                 "markdown_oxide",
-                "pyright",
+                "ruff",
                 "taplo",
                 "yamlls",
                 "clangd",
@@ -27,11 +28,12 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require "lspconfig"
             local servers = {
+                lspconfig.ast_grep,
                 lspconfig.lua_ls,
                 lspconfig.clangd,
                 lspconfig.bashls,
                 lspconfig.jsonls,
-                lspconfig.pyright,
+                lspconfig.ruff,
                 lspconfig.taplo,
                 lspconfig.yamlls,
                 lspconfig.markdown_oxide,
