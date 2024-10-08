@@ -54,7 +54,8 @@ return {
                     vim.keymap.set("n", "g?", vim.lsp.buf.hover, opts)
 
                     vim.keymap.set("n", "<leader>fm", function()
-                        vim.lsp.buf.format { async = true }
+                        vim.lsp.buf.format { async = false }
+                        vim.cmd "write"
                     end, opts)
                 end,
             })
