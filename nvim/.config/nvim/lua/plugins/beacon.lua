@@ -1,5 +1,5 @@
 return {
-    "danilamihailov/beacon.nvim",
+    "csessh/beacon.nvim",
     opts = {
         enabled = true,
         speed = 2,
@@ -7,7 +7,7 @@ return {
         winblend = 70,
         fps = 60,
         min_jump = 20,
-        cursor_events = { "CursorMoved" },
+        cursor_events = {},
         window_events = { "WinEnter", "FocusGained" },
         highlight = { bg = "white", ctermbg = 15 },
     },
