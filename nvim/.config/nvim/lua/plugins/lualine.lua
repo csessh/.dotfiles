@@ -6,15 +6,18 @@ return {
     opts = {
         options = {
             theme = "powerline_dark",
-            globalstatus = true,
+            globalstatus = false,
             always_divide_middle = true,
+            disabled_filetypes = {
+                statusline = { "neo-tree" },
+            },
         },
         sections = {
             lualine_a = { "mode" },
-            lualine_b = { "branch", "diff", "diagnostics" },
-            lualine_c = { "grapple" },
-            lualine_x = { 'vim.fn.getfperm(vim.fn.expand("%:p"))', "filesize", "encoding" },
-            lualine_y = { "filetype" },
+            lualine_b = { "branch", "diff" },
+            lualine_c = { "diagnostics" },
+            lualine_x = { "grapple" },
+            lualine_y = { 'vim.fn.getfperm(vim.fn.expand("%:p"))', "encoding" },
             lualine_z = { "filename" },
         },
     },

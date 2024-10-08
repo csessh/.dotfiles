@@ -1,6 +1,5 @@
 return {
     "chentoast/marks.nvim",
-    dependencies = {},
     opts = {
         default_mappings = true,
         builtin_marks = { ".", "<", ">", "^" },

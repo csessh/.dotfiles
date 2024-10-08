@@ -11,6 +11,17 @@ return {
         build = "make install_jsregexp",
     },
     {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "luvit-meta/library", words = { "vim%.uv" } },
+                "lazy.nvim",
+            },
+        },
+    },
+    { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+    {
         "hrsh7th/nvim-cmp",
         config = function()
             local cmp = require "cmp"

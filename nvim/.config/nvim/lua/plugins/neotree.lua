@@ -40,10 +40,10 @@ return {
             },
             git_status = {
                 symbols = {
-                    added = "", -- or '✚'
-                    modified = "", -- or ''
-                    deleted = "✖", -- this can only be used in the git_status source
-                    renamed = "󰁕", -- this can only be used in the git_status source
+                    added = "✚",
+                    modified = "",
+                    deleted = "✖",
+                    renamed = "󰁕",
                     untracked = "",
                     ignored = "",
                     unstaged = "󰄱",

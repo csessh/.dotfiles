@@ -10,11 +10,11 @@ return {
         opts = {
             ensure_installed = {
                 "ast_grep",
+                "pyright",
                 "lua_ls",
                 "bashls",
                 "jsonls",
                 "markdown_oxide",
-                "ruff",
                 "taplo",
                 "yamlls",
                 "clangd",
@@ -33,7 +33,7 @@ return {
                 lspconfig.clangd,
                 lspconfig.bashls,
                 lspconfig.jsonls,
-                lspconfig.ruff,
+                lspconfig.pyright,
                 lspconfig.taplo,
                 lspconfig.yamlls,
                 lspconfig.markdown_oxide,
