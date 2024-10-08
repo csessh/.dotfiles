@@ -1,9 +1,7 @@
 return {
     {
         "williamboman/mason.nvim",
-        config = function()
-            require("mason").setup()
-        end,
+        opts = {},
     },
     {
         "williamboman/mason-lspconfig.nvim",
@@ -51,8 +49,6 @@ return {
                     -- Enable completion triggered by <c-x><c-o>
                     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-                    -- Buffer local mappings.
-                    -- See `:help vim.lsp.*` for documentation on any of the below functions
                     local opts = { buffer = ev.buf }
                     vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                     vim.keymap.set("n", "g?", vim.lsp.buf.hover, opts)
