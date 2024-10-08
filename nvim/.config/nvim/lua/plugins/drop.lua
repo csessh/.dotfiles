@@ -16,9 +16,9 @@ return {
 
             { theme = "matrix", from = { month = 1, day = 1 }, to = { month = 12, day = 31 } },
         },
-        max = 50,
+        max = 75,
         interval = 100,
-        filetypes = { "dashboard", "alpha", "ministarter" },
+        filetypes = {},
         winblend = 100,
         screensaver = 1000 * 60 * 15,
     },
