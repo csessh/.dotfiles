@@ -10,7 +10,7 @@ alias cat='bat'
 
 This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
 
-## Configuration 
+## Configuration
 
 ```bash
 cd ~/.dotfiles

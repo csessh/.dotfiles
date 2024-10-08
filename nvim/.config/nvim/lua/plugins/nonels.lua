@@ -10,6 +10,7 @@ return {
             sources = {
                 -- Lua
                 null_ls.builtins.formatting.stylua,
+                null_ls.builtins.diagnostics.luacheck,
 
                 -- Python
                 null_ls.builtins.formatting.black,
@@ -17,9 +18,8 @@ return {
 
                 -- CPP
                 null_ls.builtins.formatting.clang_format,
-                -- null_ls.builtins.diagnostics.cpplint,
 
-                -- Markdown 
+                -- Markdown
                 null_ls.builtins.formatting.markdownlint,
                 -- null_ls.builtins.diagnostics.markdownlint,
 
