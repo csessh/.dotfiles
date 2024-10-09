@@ -8,6 +8,7 @@ return {
         opts = {
             ensure_installed = {
                 "ast_grep",
+                "gopls",
                 "pyright",
                 "lua_ls",
                 "bashls",
@@ -27,6 +28,7 @@ return {
             local lspconfig = require "lspconfig"
             local servers = {
                 lspconfig.ast_grep,
+                lspconfig.gopls,
                 lspconfig.lua_ls,
                 lspconfig.clangd,
                 lspconfig.bashls,
