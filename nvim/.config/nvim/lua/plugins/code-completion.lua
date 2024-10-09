@@ -1,6 +1,18 @@
 return {
+    { "hrsh7th/cmp-nvim-lsp" },
+    { "Bilal2453/luvit-meta", lazy = true },
     {
-        "hrsh7th/cmp-nvim-lsp",
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                {
+                    path = "luvit-meta/library",
+                    words = { "vim%.uv" },
+                },
+                "lazy.nvim",
+            },
+        },
     },
     {
         "L3MON4D3/LuaSnip",
@@ -9,18 +21,22 @@ return {
             "rafamadriz/friendly-snippets",
         },
         build = "make install_jsregexp",
+        config = function()
+            local ls = require "luasnip"
+
+            ls.setup {
+                update_events = { "TextChanged", "TextChangedI" },
+            }
+
+            vim.keymap.set({ "i", "s" }, "<C-l>", function()
+                ls.jump(1)
+            end, { silent = true })
+
+            vim.keymap.set({ "i", "s" }, "<C-h>", function()
+                ls.jump(-1)
+            end, { silent = true })
+        end,
     },
-    {
-        "folke/lazydev.nvim",
-        ft = "lua",
-        opts = {
-            library = {
-                { path = "luvit-meta/library", words = { "vim%.uv" } },
-                "lazy.nvim",
-            },
-        },
-    },
-    { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
     {
         "hrsh7th/nvim-cmp",
         config = function()
@@ -44,12 +60,12 @@ return {
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm { select = true },
                 },
-                sources = cmp.config.sources({
+                sources = cmp.config.sources {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
-                }, {
                     { name = "buffer" },
-                }),
+                    { name = "path" },
+                },
             }
         end,
     },
