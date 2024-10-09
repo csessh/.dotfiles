@@ -9,6 +9,6 @@ return {
         min_jump = 20,
         cursor_events = {},
         window_events = { "WinEnter", "FocusGained" },
-        highlight = { bg = "white", ctermbg = 15 },
+        highlight = { bg = "green", ctermbg = 15 },
     },
 }
