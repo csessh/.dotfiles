@@ -1,17 +1,10 @@
 return {
     { "hrsh7th/cmp-nvim-lsp" },
-    { "Bilal2453/luvit-meta", lazy = true },
     {
         "folke/lazydev.nvim",
         ft = "lua",
         opts = {
-            library = {
-                {
-                    path = "luvit-meta/library",
-                    words = { "vim%.uv" },
-                },
-                "lazy.nvim",
-            },
+            library = { "lazy.nvim" },
         },
     },
     {
@@ -23,26 +16,34 @@ return {
         build = "make install_jsregexp",
         config = function()
             local ls = require "luasnip"
-
             ls.setup {
                 update_events = { "TextChanged", "TextChangedI" },
             }
 
-            vim.keymap.set({ "i", "s" }, "<C-l>", function()
-                ls.jump(1)
-            end, { silent = true, noremap = true })
+            local files = vim.api.nvim_get_runtime_file("lua/snippets/*.lua", true)
+            for _, ft_path in ipairs(files) do
+                loadfile(ft_path)()
+            end
 
             vim.keymap.set({ "i", "s" }, "<C-h>", function()
-                ls.jump(-1)
+                if ls.jumpable(-1) then
+                    ls.jump(-1)
+                end
+            end, { silent = true, noremap = true })
+
+            vim.keymap.set({ "i", "s" }, "<C-l>", function()
+                if ls.expand_or_jumpable() then
+                    ls.expand_or_jump()
+                end
             end, { silent = true, noremap = true })
         end,
     },
     {
         "hrsh7th/nvim-cmp",
         config = function()
-            local cmp = require "cmp"
             require("luasnip.loaders.from_vscode").lazy_load()
 
+            local cmp = require "cmp"
             cmp.setup {
                 snippet = {
                     expand = function(args)
@@ -56,14 +57,12 @@ return {
                 mapping = cmp.mapping.preset.insert {
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm { select = true },
+                    ["<Tab>"] = cmp.mapping.confirm { select = true },
                 },
                 sources = cmp.config.sources {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
-                    { name = "lazydev" },
+                    { name = "lazydev", group_index = 0 },
                     { name = "buffer" },
                     { name = "path" },
                 },
