@@ -5,8 +5,6 @@ vim.keymap.set("n", "gi", ":Glance implementations<CR>", { noremap = true })
 return {
     "dnlhc/glance.nvim",
     opts = {
-        list = {
-            position = "left",
-        },
+        list = { position = "left" },
     },
 }

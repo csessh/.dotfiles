@@ -1,5 +1,8 @@
-local random_faces = function()
-    local funny_faces = {
+---Generate a random emoticons from a pre-defined list.
+---Used to populate tabname when a tab doesn't have a name.
+---@return string
+local get_random_tabname = function()
+    local emoticons = {
         "(⌐⊙_⊙)",
         "(҂◡_◡)",
         "(❍ᴥ❍ʋ)",
@@ -7,8 +10,8 @@ local random_faces = function()
         "ヽ( •_)ᕗ",
         "x⸑x",
     }
-    local idx = math.random(0, #funny_faces - 1)
-    return funny_faces[idx]
+    local idx = math.random(0, #emoticons - 1)
+    return emoticons[idx]
 end
 
 return {
@@ -20,7 +23,7 @@ return {
         show_modify = true,
         show_icon = true,
         modify_indicator = "[+]",
-        no_name = random_faces(),
+        no_name = get_random_tabname(),
         brackets = { "", "" },
         inactive_tab_max_length = 0,
     },

@@ -3,13 +3,26 @@
 -- For example:
 --   Telescope keymaps can be found in lua/plugins/telescope.lua.
 --
--- Use :Telescope keymaps to search for keymaps across NeoVim setup.
-
+-- Use `:Telescope keymaps` to search for keymaps across NeoVim setup.
 vim.g.mapleader = " "
+
+-- Add blank line below/above current line
 vim.keymap.set("n", "<leader>j", "o<Esc>", { noremap = true })
 vim.keymap.set("n", "<leader>k", "O<Esc>", { noremap = true })
+
+-- Clear search highlights
 vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { noremap = true })
+
+-- <C-w> is one too many key stroke.
+-- Remap it to <Tab> for windows operation
 vim.keymap.set("n", "<Tab>", "<C-w>", { noremap = true })
+
+-- Paste without losing what's in the "" register
+-- Use <leader>p to paste after vi[wWp..]
+-- Think "Select and replace" operation -> <leader>p
+vim.keymap.set("x", "<leader>p", '"_dP', { noremap = true })
+
+-- Misc
 vim.keymap.set({ "n", "v" }, "<leader><leader>x", ":source %<CR>", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<leader><leader>l", ":Lazy<CR>", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<leader><leader>m", ":Mason<CR>", { noremap = true })

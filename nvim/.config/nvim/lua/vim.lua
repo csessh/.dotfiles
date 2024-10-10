@@ -23,4 +23,3 @@ vim.opt.showtabline = 1
 vim.opt.clipboard = "unnamedplus"
 
 vim.cmd "filetype plugin indent on"
-vim.diagnostic.config { virtual_text = false }

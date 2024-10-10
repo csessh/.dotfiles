@@ -1,5 +1,6 @@
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { noremap = true })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { noremap = true })
+vim.diagnostic.config { virtual_text = false }
 
 return {
     "rachartier/tiny-inline-diagnostic.nvim",

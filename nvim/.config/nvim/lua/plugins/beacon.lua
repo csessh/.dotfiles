@@ -3,7 +3,7 @@ return {
     opts = {
         enabled = true,
         speed = 2,
-        width = 40,
+        width = 50,
         winblend = 70,
         fps = 60,
         min_jump = 20,
