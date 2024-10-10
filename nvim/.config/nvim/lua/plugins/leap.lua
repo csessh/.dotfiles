@@ -9,5 +9,7 @@ return {
     "ggandor/leap.nvim",
     opts = {
         safe_labels = {},
+        case_sensitive = false,
+        equivalence_classes = { " \t\r\n", "([{", ")]}", "'\"`" },
     },
 }
