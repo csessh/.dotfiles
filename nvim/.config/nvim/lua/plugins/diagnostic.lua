@@ -1,3 +1,6 @@
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { noremap = true })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { noremap = true })
+
 return {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "LspAttach",
@@ -7,10 +10,10 @@ return {
             show_source = true,
             multiple_diag_under_cursor = true,
         },
-		severity = {
-			vim.diagnostic.severity.ERROR,
-			vim.diagnostic.severity.WARN,
-			vim.diagnostic.severity.INFO,
-		},
+        severity = {
+            vim.diagnostic.severity.ERROR,
+            vim.diagnostic.severity.WARN,
+            vim.diagnostic.severity.INFO,
+        },
     },
 }

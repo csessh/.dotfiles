@@ -1,7 +1,6 @@
-vim.keymap.set("n", "gd", ":Glance definitions<CR>")
-vim.keymap.set("n", "gr", ":Glance references<CR>")
-vim.keymap.set("n", "gt", ":Glance type_definitions<CR>")
-vim.keymap.set("n", "gi", ":Glance implementations<CR>")
+vim.keymap.set("n", "gd", ":Glance definitions<CR>", { noremap = true })
+vim.keymap.set("n", "gr", ":Glance references<CR>", { noremap = true })
+vim.keymap.set("n", "gi", ":Glance implementations<CR>", { noremap = true })
 
 return {
     "dnlhc/glance.nvim",
