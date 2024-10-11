@@ -9,6 +9,7 @@ return {
             ensure_installed = {
                 "ast_grep",
                 "gopls",
+                "ruff",
                 "pyright",
                 "lua_ls",
                 "bashls",
@@ -33,6 +34,7 @@ return {
                 lspconfig.clangd,
                 lspconfig.bashls,
                 lspconfig.jsonls,
+                lspconfig.ruff,
                 lspconfig.pyright,
                 lspconfig.taplo,
                 lspconfig.yamlls,

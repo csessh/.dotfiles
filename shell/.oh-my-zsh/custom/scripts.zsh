@@ -10,12 +10,11 @@ nah() {
 }
 
 activate() {
-    if [ -z "$1" ]; then
-        echo "virtualenv name is required. Select one to source:"
-        ls ~/pyenvs 
-    else
-        source ~/pyenvs/$1/bin/activate
-    fi
+    source .venv/bin/activate
+}
+
+zeload() {
+    source ~/.zshrc
 }
 
 prev() {

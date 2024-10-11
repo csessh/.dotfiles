@@ -12,7 +12,6 @@ return {
                 null_ls.builtins.formatting.stylua,
 
                 -- Python
-                null_ls.builtins.formatting.black,
                 null_ls.builtins.formatting.isort,
 
                 -- CPP
@@ -21,6 +20,7 @@ return {
 
                 -- Markdown
                 null_ls.builtins.formatting.markdownlint,
+                null_ls.builtins.diagnostics.markdownlint,
 
                 -- Bash
                 require "none-ls-shellcheck.diagnostics",
