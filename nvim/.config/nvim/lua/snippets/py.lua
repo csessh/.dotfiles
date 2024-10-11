@@ -5,4 +5,6 @@ local s = ls.snippet
 local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
 
-ls.add_snippets("python", {})
+ls.add_snippets("python", {
+    s("fprint", fmt('print(f"{}{{{}}}")', { i(1), i(0) })),
+})
