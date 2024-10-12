@@ -14,6 +14,5 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-eval "$(zoxide init --cmd cd zsh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
+eval "$(zoxide init --cmd cd zsh)"
