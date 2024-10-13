@@ -31,6 +31,10 @@ return {
                     ".*_cache",
                 },
             },
+            follow_current_file = {
+                enabled = true,
+                leave_dirs_open = false,
+            },
         },
         default_component_configs = {
             name = {
@@ -50,6 +54,12 @@ return {
                     staged = "",
                     conflict = "",
                 },
+            },
+        },
+        buffers = {
+            follow_current_file = {
+                enabled = true,
+                leave_dirs_open = false,
             },
         },
     },
