@@ -22,6 +22,20 @@ return {
         },
     },
     {
+        "rachartier/tiny-code-action.nvim",
+        dependencies = {
+            { "nvim-lua/plenary.nvim" },
+            { "nvim-telescope/telescope.nvim" },
+        },
+        event = "LspAttach",
+        config = function()
+            require("tiny-code-action").setup()
+            vim.keymap.set({ "n", "v" }, "<leader>ca", function()
+                require("tiny-code-action").code_action()
+            end, { noremap = true, silent = true })
+        end,
+    },
+    {
         "neovim/nvim-lspconfig",
         lazy = false,
         config = function()
@@ -52,7 +66,6 @@ return {
                     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
                     local opts = { buffer = ev.buf, noremap = true }
-                    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                     vim.keymap.set("n", "g?", vim.lsp.buf.hover, opts)
                     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
                     vim.keymap.set("n", "<leader>fm", function()
