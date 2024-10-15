@@ -3,7 +3,7 @@ return {
     event = "VeryLazy",
     opts = {
         startVisible = true,
-        showBlankVirtLine = true,
+        showBlankVirtLine = false,
         highlightColor = { link = "Comment" },
         hints = {
             Caret = { text = "^", prio = 2 },
