@@ -27,7 +27,7 @@ Find and install necessary LSPs via Mason:
 
 ## Linters and Formatters 
 
-See [nonels.lua](./.config/nvim/lua/plugins/nonels.lua) for a complete list of required linters and formatters. 
+See [diagnostics.lua](./.config/nvim/lua/plugins/diagnostics.lua) for a complete list of required linters and formatters. 
 
 Find and install necessary linters and formatters via Mason: 
 
