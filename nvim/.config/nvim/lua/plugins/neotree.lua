@@ -56,6 +56,10 @@ return {
                 },
             },
         },
+        window = {
+            position = "left",
+            width = 30,
+        },
         buffers = {
             follow_current_file = {
                 enabled = true,

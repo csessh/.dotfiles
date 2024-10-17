@@ -3,6 +3,7 @@
 ---@return string
 local get_random_tabname = function()
     local emoticons = {
+        "¯\\_(ツ)_/¯",
         "(⌐⊙_⊙)",
         "(҂◡_◡)",
         "(❍ᴥ❍ʋ)",
@@ -10,8 +11,8 @@ local get_random_tabname = function()
         "ヽ( •_)ᕗ",
         "x⸑x",
     }
-    local idx = math.random(0, #emoticons - 1)
-    return emoticons[idx]
+
+    return emoticons[math.random(#emoticons)]
 end
 
 return {

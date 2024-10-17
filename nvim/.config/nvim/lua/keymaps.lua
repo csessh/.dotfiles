@@ -22,6 +22,10 @@ vim.keymap.set("n", "<Tab>", "<C-w>", { noremap = true })
 -- Think "Select and replace" operation -> <leader>p
 vim.keymap.set("x", "<leader>p", '"_dP', { noremap = true })
 
+-- Terminal
+vim.keymap.set("n", "<C-`>", ":tabnew<CR>:terminal<CR>", { noremap = true })
+vim.keymap.set("t", "<C-`>", "<C-\\><C-n>", { noremap = true })
+
 -- Misc
 vim.keymap.set({ "n", "v" }, "<leader><leader>x", ":source %<CR>", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<leader><leader>l", ":Lazy<CR>", { noremap = true })
