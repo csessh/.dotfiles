@@ -1,9 +1,9 @@
-vim.keymap.set("n", "s", "<Plug>(leap)", { noremap = true })
-vim.keymap.set("n", "S", "<Plug>(leap-from-window)", { noremap = true })
-vim.keymap.set({ "x", "o" }, "x", "<Plug>(leap-forward-till)", { noremap = true })
-vim.keymap.set({ "x", "o" }, "X", "<Plug>(leap-backward-till)", { noremap = true })
-vim.keymap.set({ "x", "o" }, "s", "<Plug>(leap-forward)", { noremap = true })
-vim.keymap.set({ "x", "o" }, "S", "<Plug>(leap-backward)", { noremap = true })
+vim.keymap.set("n", "s", "<Plug>(leap)", { desc = "Bi-directional leap" })
+vim.keymap.set("n", "S", "<Plug>(leap-from-window)", { desc = "Leap from one window to another" })
+vim.keymap.set({ "x", "o" }, "x", "<Plug>(leap-forward-till)", { desc = "Leap forward till" })
+vim.keymap.set({ "x", "o" }, "X", "<Plug>(leap-backward-till)", { desc = "Leap backward till" })
+vim.keymap.set({ "x", "o" }, "s", "<Plug>(leap-forward)", { desc = "Leap forward" })
+vim.keymap.set({ "x", "o" }, "S", "<Plug>(leap-backward)", { desc = "Leap backward" })
 
 return {
     "ggandor/leap.nvim",

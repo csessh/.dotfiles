@@ -6,7 +6,6 @@ return {
             themes = {
                 "eldritch",
                 "cyberdream",
-                "nightfox",
             },
         },
     },
@@ -14,6 +13,10 @@ return {
         "eldritch-theme/eldritch.nvim",
         lazy = true,
         priority = 1000,
+        config = function()
+            -- https://github.com/ggandor/leap.nvim/issues/250
+            vim.cmd "hi def link LeapLabel IncSearch"
+        end,
     },
     {
         "scottmckendry/cyberdream.nvim",
@@ -24,10 +27,5 @@ return {
             borderless_telescope = false,
             cache = true,
         },
-    },
-    {
-        "EdenEast/nightfox.nvim",
-        lazy = true,
-        priority = 1000,
     },
 }

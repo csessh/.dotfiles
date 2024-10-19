@@ -7,14 +7,15 @@ return {
         config = function()
             local tsbuiltin = require "telescope.builtin"
 
-            vim.keymap.set({ "n", "v" }, "<leader>ff", tsbuiltin.find_files, { noremap = true })
-            vim.keymap.set({ "n", "v" }, "<leader>lg", tsbuiltin.live_grep, { noremap = true })
-            vim.keymap.set({ "n", "v" }, "<leader>gw", tsbuiltin.grep_string, { noremap = true })
-            vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers, { noremap = true })
-
-            vim.keymap.set({ "n", "v" }, "<leader>fp", function()
-                tsbuiltin.find_files { cwd = require("lazy.core.config").options.root }
-            end, { noremap = true })
+            vim.keymap.set({ "n", "v" }, "<leader>ff", tsbuiltin.find_files, { desc = "Telescope find files" })
+            vim.keymap.set({ "n", "v" }, "<leader>lg", tsbuiltin.live_grep, { desc = "Telescope live grep" })
+            vim.keymap.set(
+                { "n", "v" },
+                "<leader>gw",
+                tsbuiltin.grep_string,
+                { desc = "Telescope grep string under cursor" }
+            )
+            vim.keymap.set({ "n", "v" }, "<leader>bf", tsbuiltin.buffers, { desc = "Telescope show available buffers" })
 
             local telescope = require "telescope"
             telescope.setup {

@@ -6,27 +6,21 @@
 -- Use `:Telescope keymaps` to search for keymaps across NeoVim setup.
 vim.g.mapleader = " "
 
--- Add blank line below/above current line
-vim.keymap.set("n", "<leader>j", "o<Esc>", { noremap = true })
-vim.keymap.set("n", "<leader>k", "O<Esc>", { noremap = true })
+vim.keymap.set("n", "<leader>j", "o<Esc>", { desc = "Add a blank line below current line. Stay in Normal mode" })
+vim.keymap.set("n", "<leader>k", "O<Esc>", { desc = "Add a blank line above current line. Stay in Normal mode" })
+vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { desc = "Clear search highlights" })
+vim.keymap.set("n", "<Tab>", "<C-w>", { noremap = true, desc = "Shorthand for <C-w>" })
 
--- Clear search highlights
-vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { noremap = true })
-
--- <C-w> is one too many key stroke.
--- Remap it to <Tab> for windows operation
-vim.keymap.set("n", "<Tab>", "<C-w>", { noremap = true })
-
--- Paste without losing what's in the "" register
 -- Use <leader>p to paste after vi[wWp..]
 -- Think "Select and replace" operation -> <leader>p
-vim.keymap.set("x", "<leader>p", '"_dP', { noremap = true })
+vim.keymap.set("x", "<leader>p", '"_dP', { desc = 'Paste without losing "" register value' })
 
--- Terminal
-vim.keymap.set("n", "<C-`>", ":tabnew<CR>:terminal<CR>", { noremap = true })
-vim.keymap.set("t", "<C-`>", "<C-\\><C-n>", { noremap = true })
+vim.keymap.set("n", "<C-`>", ":tabnew<CR>:terminal<CR>", { desc = "Open Terminal in new tab" })
+vim.keymap.set("t", "<C-`>", "<C-\\><C-n>", { desc = "Exit Insert mode and return to Terminal mode" })
 
--- Misc
-vim.keymap.set({ "n", "v" }, "<leader><leader>x", ":source %<CR>", { noremap = true })
-vim.keymap.set({ "n", "v" }, "<leader><leader>l", ":Lazy<CR>", { noremap = true })
-vim.keymap.set({ "n", "v" }, "<leader><leader>m", ":Mason<CR>", { noremap = true })
+vim.keymap.set("n", "<leader><leader>x", ":source %<CR>", { desc = "Source current file" })
+vim.keymap.set("n", "<leader><leader>l", ":Lazy<CR>", { desc = "Open LazyVim" })
+vim.keymap.set("n", "<leader><leader>m", ":Mason<CR>", { desc = "Open Mason" })
+
+vim.keymap.set("n", "Q", "<nop>", { desc = "Disabled" })
+vim.keymap.set("n", "<Tab><Tab>", "<nop>", { desc = "Disabled" })

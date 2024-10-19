@@ -18,7 +18,6 @@ end
 return {
     "crispgm/nvim-tabline",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = true,
     opts = {
         show_index = true,
         show_modify = true,

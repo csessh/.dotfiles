@@ -1,4 +1,4 @@
-vim.keymap.set("n", "<leader>tr", ":Neotree toggle<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>tr", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })
 
 return {
     "nvim-neo-tree/neo-tree.nvim",
