@@ -6,5 +6,25 @@ return {
         timer_len = 60,
         gen_reports = true,
         top_n = 5,
+        report_excludes = {
+            filetype = {
+                "neo-*",
+                "TelescopePrompt",
+                "qf",
+            },
+            branch = {
+                "unknow-branch",
+            },
+            directory = {},
+            project = {
+                "unknown_project",
+            },
+            file = {
+                "filesystem",
+            },
+        },
+        report_section_excludes = {
+            "branch",
+        },
     },
 }
