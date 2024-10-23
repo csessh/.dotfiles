@@ -18,6 +18,8 @@ return {
                 "taplo",
                 "yamlls",
                 "clangd",
+                "dockerls",
+                "docker_compose_language_service",
             },
         },
     },
@@ -53,6 +55,8 @@ return {
                 lspconfig.taplo,
                 lspconfig.yamlls,
                 lspconfig.markdown_oxide,
+                lspconfig.dockerls,
+                lspconfig.docker_compose_language_service,
             }
 
             for _, server in ipairs(servers) do
