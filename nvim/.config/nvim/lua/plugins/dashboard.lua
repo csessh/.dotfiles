@@ -18,11 +18,14 @@ return {
                 config = {
                     header = header,
                     center = {
-                        { action = "", desc = "", icon = "", key = "n" },
+                        {
+                            action = "",
+                            desc = "",
+                            icon = "",
+                            key = "n"
+                        },
                     },
-                    footer = function()
-                        return {}
-                    end,
+                    footer = {},
                 },
             }
         end,

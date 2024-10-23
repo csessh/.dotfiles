@@ -11,6 +11,7 @@ return {
                 "neo-*",
                 "TelescopePrompt",
                 "qf",
+                "dashboard",
             },
             branch = {
                 "unknow-branch",
