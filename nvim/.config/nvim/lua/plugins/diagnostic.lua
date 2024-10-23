@@ -10,7 +10,7 @@ return {
             hi = { background = "None" },
             options = {
                 show_source = true,
-                multiple_diag_under_cursor = true,
+                multiple_diag_under_cursor = false,
             },
             severity = {
                 vim.diagnostic.severity.ERROR,
@@ -28,6 +28,9 @@ return {
             local null_ls = require "null-ls"
             null_ls.setup {
                 sources = {
+                    -- Docker
+                    null_ls.builtins.formatting.hadolint,
+
                     -- Lua
                     null_ls.builtins.formatting.stylua,
 
