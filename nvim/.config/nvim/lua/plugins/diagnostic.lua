@@ -1,5 +1,3 @@
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 vim.diagnostic.config { virtual_text = false }
 
 return {
@@ -10,10 +8,12 @@ return {
             hi = { background = "None" },
             options = {
                 show_source = true,
-                multiple_diag_under_cursor = false,
+                multiple_diag_under_cursor = true,
             },
             severity = {
                 vim.diagnostic.severity.ERROR,
+                vim.diagnostic.severity.HINT,
+                vim.diagnostic.severity.WARN,
                 vim.diagnostic.severity.INFO,
             },
         },
