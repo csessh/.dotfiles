@@ -12,6 +12,7 @@ vim.opt.expandtab = true
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.conceallevel = 2
 
 -- Sync buffers automatically
 -- Disable neovim generating a swapfile and showing the error
