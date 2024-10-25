@@ -11,6 +11,7 @@
   "eldritch.nvim": { "branch": "master", "commit": "48788ef2f7be7e86b0a57ef87f1a96bc18e24b8b" },
   "encourage.nvim": { "branch": "main", "commit": "e4fa0e322ddb0b937845fe819450c295a4395ddd" },
   "friendly-snippets": { "branch": "main", "commit": "de8fce94985873666bd9712ea3e49ee17aadb1ed" },
+  "git-dashboard-nvim": { "branch": "main", "commit": "1967ba506ff866a62b403fd1488ee7c7227feae2" },
   "gitsigns.nvim": { "branch": "main", "commit": "ee7634ab4f0a6606438fe13e16cbf2065589a5ed" },
   "glance.nvim": { "branch": "master", "commit": "cdf1ec8136cfbdf73edbe1163097223c763a84b7" },
   "grapple.nvim": { "branch": "main", "commit": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7" },

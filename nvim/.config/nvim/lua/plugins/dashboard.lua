@@ -1,8 +1,7 @@
 ---@diagnostic disable: missing-fields
 return {
     {
-        dir = "~/Documents/nvim-plugins/git-dashboard-nvim",
-        dev = true,
+        "csessh/git-dashboard-nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
     },
     {
