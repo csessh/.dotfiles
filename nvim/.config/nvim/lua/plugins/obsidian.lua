@@ -22,8 +22,7 @@ return {
                 date_format = "%Y-%m-%d",
             },
             completion = {
-                nvim_cmp = true,
-                min_chars = 2,
+                nvim_cmp = false,
             },
             templates = {
                 folder = "Templates",
