@@ -18,7 +18,7 @@ return {
             daily_notes = {
                 folder = "Daily",
                 default_tags = { "daily" },
-                template = "Daily.md",
+                template = "Daily template.md",
                 date_format = "%Y-%m-%d",
             },
             completion = {
@@ -63,19 +63,6 @@ return {
                     ["x"] = { char = "✔", hl_group = "ObsidianDone" },
                 },
             },
-            follow_img_func = function(img)
-                vim.fn.jobstart({ "xdg-open", img })
-            end,
-            follow_url_func = function(url)
-                vim.ui.open(url)
-            end,
-            note_id_func = function(title)
-                local suffix = ""
-                for _ = 1, 4 do
-                    suffix = suffix .. string.char(math.random(65, 90))
-                end
-                return tostring(os.time()) .. "-" .. suffix
-            end,
         }
 
         -- Create new notes
