@@ -14,9 +14,10 @@ vim.keymap.set("n", "<Tab>", "<C-w>", { noremap = true, desc = "Shorthand for <C
 -- Use <leader>p to paste after vi[wWp..]
 -- Think "Select and replace" operation -> <leader>p
 vim.keymap.set("x", "<leader>p", '"_dP', { desc = 'Paste without losing "" register value' })
-
-vim.keymap.set("n", "<C-`>", ":tabnew<CR>:terminal<CR>", { desc = "Open Terminal in new tab" })
+vim.keymap.set("x", "/", "<Esc>/\\%V", { noremap = true, desc = "Search forward within visually selected texts" })
+vim.keymap.set("x", "?", "<Esc>?\\%V", { noremap = true, desc = "Search backward within visually selected texts" })
 vim.keymap.set("t", "<C-`>", "<C-\\><C-n>", { desc = "Exit Insert mode and return to Terminal mode" })
+vim.keymap.set("n", "<C-`>", ":tabnew<CR>:terminal<CR>", { desc = "Open Terminal in new tab" })
 
 vim.keymap.set("n", "<leader><leader>x", ":source %<CR>", { desc = "Source current file" })
 vim.keymap.set("n", "<leader><leader>l", ":Lazy<CR>", { desc = "Open LazyVim" })

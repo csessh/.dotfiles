@@ -8,8 +8,8 @@ local get_random_tabname = function()
         "(҂◡_◡)",
         "(❍ᴥ❍ʋ)",
         "ᕕ(⌐■_■)ᕗ ♪♬",
-        "ヽ( •_)ᕗ",
         "x⸑x",
+        "ヽ( •_)ᕗ",
     }
 
     return emoticons[math.random(#emoticons)]
