@@ -27,9 +27,6 @@ return {
             local null_ls = require "null-ls"
             null_ls.setup {
                 sources = {
-                    -- Docker
-                    null_ls.builtins.formatting.hadolint,
-
                     -- Lua
                     null_ls.builtins.formatting.stylua,
 
