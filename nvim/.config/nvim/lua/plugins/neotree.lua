@@ -57,7 +57,7 @@ return {
             },
         },
         window = {
-            position = "left",
+            position = "float",
             width = 30,
         },
         buffers = {
