@@ -1,5 +1,6 @@
 return {
     "m-demare/hlargs.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
         color = "#f2e422",
         excluded_argnames = {
