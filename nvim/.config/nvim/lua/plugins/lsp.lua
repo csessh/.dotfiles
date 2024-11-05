@@ -7,7 +7,6 @@ return {
         "williamboman/mason-lspconfig.nvim",
         opts = {
             ensure_installed = {
-                "ast_grep",
                 "gopls",
                 "ruff",
                 "pyright",
@@ -44,7 +43,6 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require "lspconfig"
             local servers = {
-                lspconfig.ast_grep,
                 lspconfig.gopls,
                 lspconfig.lua_ls,
                 lspconfig.clangd,

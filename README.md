@@ -15,8 +15,8 @@ The current favourite is [CommitMono](https://commitmono.com/).
 ```bash
 wget -P ~/.local/share/fonts https://github.com/eigilnikolajsen/commit-mono/releases/download/v1.143/CommitMono-1.143.zip \
 && cd ~/.local/share/fonts \
-&& unzip CommitMono.zip \
-&& rm CommitMono.zip \
+&& unzip CommitMono-1.143.zip \
+&& rm CommitMono-1.143.zip \
 && fc-cache -fv
 ```
 
@@ -61,4 +61,3 @@ Secret injection can be done with 1Password CLI. See [1Password](./1password) fo
 * [pet](./pet/README.md)
 
 **NOTE**: Configuration files created with 1Password secret injection must be updated manually.
-
