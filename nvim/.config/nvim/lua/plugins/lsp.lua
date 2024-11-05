@@ -16,7 +16,6 @@ return {
                 "markdown_oxide",
                 "taplo",
                 "yamlls",
-                "clangd",
                 "dockerls",
                 "docker_compose_language_service",
             },
@@ -45,7 +44,6 @@ return {
             local servers = {
                 lspconfig.gopls,
                 lspconfig.lua_ls,
-                lspconfig.clangd,
                 lspconfig.bashls,
                 lspconfig.jsonls,
                 lspconfig.ruff,

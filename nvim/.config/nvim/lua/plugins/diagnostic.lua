@@ -34,8 +34,8 @@ return {
                     null_ls.builtins.formatting.isort,
 
                     -- CPP
-                    null_ls.builtins.formatting.clang_format,
-                    require "none-ls.diagnostics.cpplint",
+                    -- null_ls.builtins.formatting.clang_format,
+                    -- require "none-ls.diagnostics.cpplint",
 
                     -- Markdown
                     null_ls.builtins.formatting.markdownlint,
