@@ -1,5 +1,4 @@
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
-export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
 export ZSH=$HOME/.oh-my-zsh
 export UPDATE_ZSH_DAYS=14
 export LANG=en_US.UTF-8
@@ -14,18 +13,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-source <(fzf --zsh)
+source $HOME/.cargo/bin
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init --cmd cd zsh)"
-
-# bun completions
-[ -s "$HOME/.local/share/reflex/bun/_bun" ] && source "$HOME/.local/share/reflex/bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.local/share/reflex/bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Kitty terminal ssh fix
-# https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
-[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh" 

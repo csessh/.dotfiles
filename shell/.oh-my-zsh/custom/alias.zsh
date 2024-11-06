@@ -2,7 +2,7 @@
 #  ALIAS
 ####################################################################
 
-alias cat="bat"
+alias cat="batcat"
 alias tree='tree -Cap -I ".git"'
 alias vim="nvim"
 alias v="nvim"

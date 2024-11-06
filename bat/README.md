@@ -5,7 +5,7 @@
 It's absolutely incredible, except typing cat has already become permanent muscle memory.
 
 ```bash
-alias cat='bat'
+alias cat='batcat'
 ```
 
 This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
