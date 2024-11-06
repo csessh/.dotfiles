@@ -1,4 +1,4 @@
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+export PATH=$HOME/bin:/usr/bin/:/usr/local/bin:$HOME/.local/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
 export UPDATE_ZSH_DAYS=14
 export LANG=en_US.UTF-8

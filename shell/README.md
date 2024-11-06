@@ -3,7 +3,7 @@
 ## zsh and oh-my-zsh
 
 ```bash
-sudo dnf install zsh
+sudo apt install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 

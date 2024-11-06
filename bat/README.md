@@ -4,11 +4,13 @@
 
 It's absolutely incredible, except typing cat has already become permanent muscle memory.
 
+## Installation
+
 ```bash
-alias cat='batcat'
+sudo apt install bat
 ```
 
-This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
+**NOTE**: This installs `bat` executable as `batcat`. This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
 
 ## Configuration
 

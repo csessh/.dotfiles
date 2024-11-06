@@ -1,5 +1,26 @@
 # Neovim 
 
+## Installation
+
+`Neovim` in `apt` is too behind current releases for any plugins to function.
+It means `Neovim` must be built from source.
+
+```bash
+cd ~
+git clone https://github.com/neovim/neovim
+cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo 
+cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+```
+
+To get the latest version:
+
+```bash
+cd ~/neovim
+git pull origin master
+```
+
+and repeat the steps above.
+
 ## dotfiles 
 
 ```bash

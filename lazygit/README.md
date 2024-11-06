@@ -1,5 +1,7 @@
 # LazyGit 
 
+## Installation
+
 ## Configuration
 
 ```bash
