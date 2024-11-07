@@ -24,7 +24,7 @@ wget -P ~/.local/share/fonts https://github.com/eigilnikolajsen/commit-mono/rele
 
 ## GNU Stow
 
-[Stow](https://www.gnu.org/software/stow/) is widely available on most package manager.
+[Stow](https://www.gnu.org/software/stow/) is widely available on most package managers.
 
 ```bash
 sudo dnf install stow
@@ -44,8 +44,8 @@ Some application may require `source` to reload.
 It's best to setup and configure the environment in the following order:
 
 1. [kitty terminal](./kitty/README.md)
-2. [ZSH](./shell/README.md)
-3. [brew](./brew/README.md)
+2. [brew](./brew/README.md)
+3. [ZSH](./shell/README.md)
 4. [bat](./bat/README.md)
 5. [git](./git/README.md)
 6. [lazygit](./lazygit/README.md)
