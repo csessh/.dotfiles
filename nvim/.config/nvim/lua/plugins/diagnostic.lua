@@ -37,10 +37,6 @@ return {
                     null_ls.builtins.formatting.clang_format,
                     require "none-ls.diagnostics.cpplint",
 
-                    -- Markdown
-                    null_ls.builtins.formatting.markdownlint,
-                    -- null_ls.builtins.diagnostics.markdownlint,
-
                     -- Bash
                     require "none-ls-shellcheck.diagnostics",
                     require "none-ls-shellcheck.code_actions",
