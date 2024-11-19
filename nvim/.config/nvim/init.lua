@@ -1,4 +1,4 @@
-require "vim"
+require "options"
 require "keymaps"
 
 -- Package manager: Lazy.nvim
