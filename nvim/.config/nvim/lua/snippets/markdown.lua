@@ -6,6 +6,6 @@ local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 ls.add_snippets("markdown", {
-    s("checkbox", fmt("- [ ]  {}", { i(1) })),
+    s("checkbox", fmt("- [ ] {}", { i(1) })),
     s("ref", fmt("[[{}]] ", { i(1) })),
 })
