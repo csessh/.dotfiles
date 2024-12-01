@@ -30,6 +30,9 @@ return {
                     -- Lua
                     null_ls.builtins.formatting.stylua,
 
+                    -- Go
+                    null_ls.builtins.diagnostics.golangci_lint,
+
                     -- Python
                     null_ls.builtins.formatting.isort,
 
