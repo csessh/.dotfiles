@@ -19,13 +19,6 @@ source <(fzf --zsh)
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init --cmd cd zsh)"
 
-# bun completions
-[ -s "$HOME/.local/share/reflex/bun/_bun" ] && source "$HOME/.local/share/reflex/bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.local/share/reflex/bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # xterm-kitty ssh woe
 # https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
 [[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh" 
