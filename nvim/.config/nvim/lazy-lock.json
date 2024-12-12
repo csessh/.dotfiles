@@ -1,6 +1,6 @@
 {
   "LuaSnip": { "branch": "master", "commit": "33b06d72d220aa56a7ce80a0dd6f06c70cd82b9d" },
-  "aoc.nvim": { "branch": "main", "commit": "0e0f6e0406535dcfab734cec1bb5ed4e4f6d6999" },
+  "aoc.nvim": { "branch": "main", "commit": "20ab68557178f18be1a2959e3e95b01902e7071b" },
   "beacon.nvim": { "branch": "master", "commit": "bb5da75e6dea719794172d7ac163e41fa5073489" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "99290b3ec1322070bcfb9e846450a46f6efa50f0" },
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },

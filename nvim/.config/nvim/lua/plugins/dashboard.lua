@@ -1,6 +1,6 @@
 ---@diagnostic disable: missing-fields
 return {
-    { 
+    {
         "juansalvatore/git-dashboard-nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
     },
@@ -21,7 +21,7 @@ return {
                             action = "",
                             desc = "",
                             icon = "",
-                            key = "n"
+                            key = "n",
                         },
                     },
                     footer = {},
