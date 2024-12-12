@@ -7,5 +7,5 @@ local fmt = require("luasnip.extras.fmt").fmt
 
 ls.add_snippets("go", {
     s("printf", fmt('fmt.Printf("{} %d\\n", {})', { i(1), i(2) })),
-    s("!err", fmt("if err != nil\n{{\n\t{}\n}}\n\n{}", { i(1), i(2) })),
+    s("!err", fmt("if err != nil{{\n\t{}\n}}\n\n{}", { i(1), i(2) })),
 })
