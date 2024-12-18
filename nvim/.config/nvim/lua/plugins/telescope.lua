@@ -21,11 +21,13 @@ return {
             telescope.setup {
                 defaults = {
                     path_display = { "smart" },
-                    layout_strategy = "vertical",
+                    layout_strategy = "bottom_pane",
                     file_ignore_patterns = { "^.git/*" },
                 },
                 pickers = {
-                    find_files = { hidden = true },
+                    find_files = {
+                        hidden = true,
+                    },
                     live_grep = {
                         additional_args = { "--hidden" },
                     },
