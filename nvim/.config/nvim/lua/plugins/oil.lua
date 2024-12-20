@@ -4,8 +4,6 @@ return {
     opts = {
         columns = {
             "icon",
-            "permissions",
-            "size",
         },
         skip_confirm_for_simple_edits = true,
         watch_for_changes = true,
