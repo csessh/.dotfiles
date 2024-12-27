@@ -1,6 +1,9 @@
 return {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    keys = {
+        { "<leader>tr", ":Oil<CR>", desc = "Open Oil at current buffer's directory" },
+    },
     opts = {
         columns = {
             "icon",

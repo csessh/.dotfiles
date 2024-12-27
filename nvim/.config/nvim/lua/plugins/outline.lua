@@ -1,7 +1,8 @@
-vim.keymap.set("n", ",s", "<cmd>Outline<CR>", { desc = "Toggle Outline", silent = true })
-
 return {
     "hedyhli/outline.nvim",
+    keys = {
+        { ",s", "<cmd>Outline<CR>", { desc = "Toggle Outline", silent = true } },
+    },
     opts = {
         providers = {
             priority = { "lsp", "coc", "markdown", "norg" },

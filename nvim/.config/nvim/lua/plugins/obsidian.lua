@@ -4,7 +4,18 @@ return {
     dependencies = {
         "nvim-lua/plenary.nvim",
     },
-    cond = vim.fn.getcwd() == vim.fn.expand("~/Documents/Obsidian/Personal"),
+    cond = vim.fn.getcwd() == vim.fn.expand "~/Documents/Obsidian/Personal",
+    keys = {
+        { "<leader>ob", ":ObsidianOpen<CR>", { desc = "Open Obsidian app" } },
+        { "<leader>obn", ":ObsidianNew<CR>", { desc = "Create new Obsidian note" } },
+        { "<leader>obN", ":ObsidianNewFromTemplate<CR>", { desc = "Create new Obsidian note from template" } },
+        { "<leader>obT", ":ObsidianTemplate<CR>", { desc = "Insert a template to a note" } },
+        { "<leader>obt", ":ObsidianTags<CR>", { desc = "Lookup tags" } },
+        { "<leader>obd", ":ObsidianToday<CR>", { desc = "Open today's daily note" } },
+        { "<leader>obs", ":ObsidianSearch<CR>", { desc = "Search Obsidian notes" } },
+        { "<leader>obl", ":ObsidianTOC<CR>", { desc = "Show current notes' TOC" } },
+        { "<leader>obrn", ":ObsidianRename<CR>", { desc = "Rename current file across vault" } },
+    },
     config = function()
         require("obsidian").setup {
             workspaces = {
@@ -63,17 +74,5 @@ return {
                 },
             },
         }
-
-        -- Create new notes
-        vim.keymap.set("n", "<leader>ob", ":ObsidianOpen<CR>", { desc = "Open Obsidian app" })
-        vim.keymap.set("n", "<leader>obn", ":ObsidianNew<CR>", { desc = "Create new Obsidian note" })
-        vim.keymap.set("n", "<leader>obN", ":ObsidianNewFromTemplate<CR>",
-            { desc = "Create new Obsidian note from template" })
-        vim.keymap.set("n", "<leader>obT", ":ObsidianTemplate<CR>", { desc = "Insert a template to a note" })
-        vim.keymap.set("n", "<leader>obt", ":ObsidianTags<CR>", { desc = "Lookup tags" })
-        vim.keymap.set("n", "<leader>obd", ":ObsidianToday<CR>", { desc = "Open today's daily note" })
-        vim.keymap.set("n", "<leader>obs", ":ObsidianSearch<CR>", { desc = "Search Obsidian notes" })
-        vim.keymap.set("n", "<leader>obl", ":ObsidianTOC<CR>", { desc = "Show current notes' TOC" })
-        vim.keymap.set("n", "<leader>obrn", ":ObsidianRename<CR>", { desc = "Rename current file across vault" })
-    end
+    end,
 }
