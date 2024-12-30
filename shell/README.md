@@ -11,13 +11,7 @@ Choose the default option and skip `.zshrc` creation step.
 
 ## Plugins
 
-`zsh-autosuggestions` plugin requires additonal step to install.
-
-``` bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-
-Other plugins work out of the box.
+Most plugins work out of the box. Some may require additional steps to install. They will be listed here.
 
 ## .zshrc
 

@@ -11,7 +11,6 @@ plugins=(
     colored-man-pages
     git
     sudo
-    zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
