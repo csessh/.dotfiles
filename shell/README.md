@@ -9,6 +9,16 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 Choose the default option and skip `.zshrc` creation step.
 
+## Plugins
+
+`zsh-autosuggestions` plugin requires additonal step to install.
+
+``` bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+Other plugins work out of the box.
+
 ## .zshrc
 
 ```bash
