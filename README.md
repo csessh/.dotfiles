@@ -33,6 +33,7 @@ sudo dnf install stow
 [Stow](https://www.gnu.org/software/stow/) creates symlinks for each dotfile and places them appropriately under `~` directory.
 
 > GNU Stow is a symlink farm manager which takes distinct packages of software and/or data located in separate directories on the filesystem, and makes them appear to be installed in the same place. For example, /usr/local/bin could contain symlinks to files within /usr/local/stow/emacs/bin, /usr/local/stow/perl/bin etc., and likewise recursively for any other subdirectories such as .../share, .../man, and so on.
+
 > This is particularly useful for keeping track of system-wide and per-user installations of software built from source, but can also facilitate a more controlled approach to management of configuration files in the user's home directory, especially when coupled with version control systems.
 
 Nothing more is required.
@@ -45,12 +46,13 @@ It's best to setup and configure the environment in the following order:
 
 1. [kitty terminal](./kitty/README.md)
 2. [brew](./brew/README.md)
-3. [ZSH](./shell/README.md)
-4. [bat](./bat/README.md)
-5. [git](./git/README.md)
-6. [lazygit](./lazygit/README.md)
-7. [Neovim](./nvim/README.md)
-8. [1Password](./1password/README.md)
+3. [zsh](./shell/README.md)
+4. [tmux](./tmux/README.md)
+5. [bat](./bat/README.md)
+6. [git](./git/README.md)
+7. [lazygit](./lazygit/README.md)
+8. [Neovim](./nvim/README.md)
+9. [1Password](./1password/README.md)
 
 ## configs containing secrets
 

@@ -1,6 +1,7 @@
 git:
   branchLogCmd: git log --all --decorate --oneline --graph --stat --color=always --abbrev-commit
 
+notARepository: skip
 gui:
   nerdFontsVersion: "3"
 
