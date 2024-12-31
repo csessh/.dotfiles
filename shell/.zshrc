@@ -28,6 +28,7 @@ zinit cdreplay -q
 
 source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh)
+source <(docker completion zsh)
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
