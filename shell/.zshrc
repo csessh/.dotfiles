@@ -30,6 +30,7 @@ source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh)
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init --cmd cd zsh)"
+eval "$(uv generate-shell-completion zsh)"
 
 # xterm-kitty ssh woe
 # https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
