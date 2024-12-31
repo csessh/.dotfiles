@@ -18,6 +18,10 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
+
 # Load auto completion
 autoload -U compinit && compinit
 zinit cdreplay -q
