@@ -22,10 +22,3 @@ prev() {
   sh -c "pet new -t `printf %q "$PREV"`"
 }
 
-pet-search() {
-  BUFFER=$(pet search --color --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle redisplay
-}
-zle -N pet-search
-stty -ixon

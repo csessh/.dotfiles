@@ -3,4 +3,4 @@
 ####################################################################
 
 bindkey -s "^Z" "fg^M"
-bindkey '^s' pet-search
+bindkey -s '^s' "pet exec^M"
