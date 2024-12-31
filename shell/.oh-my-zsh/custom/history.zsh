@@ -7,6 +7,7 @@ HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
+HISTIGNORE="clear:claer:vim:history"
 
 setopt appendhistory
 setopt sharehistory
