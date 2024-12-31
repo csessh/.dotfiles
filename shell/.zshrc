@@ -7,6 +7,7 @@ export EDITOR="nvim"
 
 ZSH_THEME="afowler"
 HIST_STAMPS="%d/%m/%y %T"
+
 plugins=(
     colored-man-pages
     git
