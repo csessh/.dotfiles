@@ -5,15 +5,14 @@ export UPDATE_ZSH_DAYS=14
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 
-ZSH_THEME="afowler"
+ZSH_THEME="afowler_modified"
 
-# Plugin manager
+# Plugins and snippets
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
@@ -22,10 +21,13 @@ zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::command-not-found
 
-# Load auto completion
 autoload -U compinit && compinit
 zinit cdreplay -q
+
+# Source custom configuration
 source $ZSH/oh-my-zsh.sh
+
+# Shell integrations
 source <(fzf --zsh)
 source <(docker completion zsh)
 source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
