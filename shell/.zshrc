@@ -25,10 +25,10 @@ zinit snippet OMZP::command-not-found
 # Load auto completion
 autoload -U compinit && compinit
 zinit cdreplay -q
-
 source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh)
 source <(docker completion zsh)
+source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
