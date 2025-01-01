@@ -26,6 +26,8 @@ zinit snippet OMZP::command-not-found
 autoload -U compinit && compinit
 zinit cdreplay -q
 
+plugins=(web-search command-not-found colored-man-pages)
+
 # Source custom configuration
 source $ZSH/oh-my-zsh.sh
 
