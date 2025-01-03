@@ -5,22 +5,7 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        opts = {
-            ensure_installed = {
-                "gopls",
-                "ruff",
-                "pyright",
-                "lua_ls",
-                "bashls",
-                "jsonls",
-                "markdown_oxide",
-                "taplo",
-                "yamlls",
-                "clangd",
-                "dockerls",
-                "docker_compose_language_service",
-            },
-        },
+        opts = {},
     },
     {
         "rachartier/tiny-code-action.nvim",
@@ -32,7 +17,7 @@ return {
         config = function()
             require("tiny-code-action").setup()
             vim.keymap.set({ "n", "v" }, "<leader>ca", function()
-                require("tiny-code-action").code_action()
+                require("tiny-code-action").code_action {}
             end, { noremap = true, silent = true })
         end,
     },
@@ -72,7 +57,6 @@ return {
                     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
                     vim.keymap.set("n", "<leader>fm", function()
                         vim.lsp.buf.format { async = false }
-                        vim.cmd "write"
                     end, opts)
                 end,
             })
