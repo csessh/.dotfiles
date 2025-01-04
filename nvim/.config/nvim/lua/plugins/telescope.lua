@@ -1,6 +1,10 @@
 return {
     { "nvim-telescope/telescope-ui-select.nvim" },
     {
+        "nvim-telescope/telescope-frecency.nvim",
+        version = "*", -- install the latest stable version
+    },
+    {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.8",
         dependencies = { "nvim-lua/plenary.nvim" },
@@ -8,8 +12,11 @@ return {
             {
                 "<leader>ff",
                 mode = { "n", "v" },
-                require("telescope.builtin").find_files,
-                { desc = "Telescope find files" },
+                ':Telescope frecency workspace=CWD path_display={"smart"} <CR>',
+                {
+                    desc = "Telescope find files using frecency",
+                    silent = true,
+                },
             },
             {
                 "<leader>lg",
@@ -36,12 +43,17 @@ return {
                 defaults = {
                     path_display = { "smart" },
                     layout_strategy = "bottom_pane",
-                    file_ignore_patterns = { "^.git/*" },
+                    file_ignore_patterns = {
+                        "^.git/*",
+                        ".DS_Store",
+                        ".venv",
+                        ".ruff_cache",
+                        "__pycache__",
+                    },
                 },
                 pickers = {
-                    find_files = {
-                        hidden = true,
-                    },
+                    find_files = { hidden = true },
+                    frecency = { hidden = true },
                     live_grep = {
                         additional_args = { "--hidden" },
                     },
@@ -52,6 +64,7 @@ return {
             }
 
             telescope.load_extension "ui-select"
+            telescope.load_extension "frecency"
         end,
     },
 }

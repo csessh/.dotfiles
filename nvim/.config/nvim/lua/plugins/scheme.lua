@@ -26,6 +26,7 @@ return {
             italic_comments = true,
             borderless_telescope = false,
             cache = true,
+            terminal_colors = true,
         },
     },
 }
