@@ -14,7 +14,7 @@ return {
             lualine_b = { "branch", "diff" },
             lualine_c = { "diagnostics" },
             lualine_x = { "grapple" },
-            lualine_y = { 'vim.fn.getfperm(vim.fn.expand("%:p"))', "encoding", "filetype" },
+            lualine_y = { 'vim.fn.getfperm(vim.fn.expand("%:p"))', "encoding", "location" },
             lualine_z = { "filename" },
         },
     },

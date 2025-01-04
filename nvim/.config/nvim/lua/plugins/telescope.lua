@@ -2,7 +2,7 @@ return {
     { "nvim-telescope/telescope-ui-select.nvim" },
     {
         "nvim-telescope/telescope-frecency.nvim",
-        version = "*", -- install the latest stable version
+        version = "*",
     },
     {
         "nvim-telescope/telescope.nvim",
@@ -12,7 +12,7 @@ return {
             {
                 "<leader>ff",
                 mode = { "n", "v" },
-                ':Telescope frecency workspace=CWD path_display={"smart"} <CR>',
+                ':Telescope frecency workspace=CWD path_display={"shorten"} <CR>',
                 {
                     desc = "Telescope find files using frecency",
                     silent = true,
@@ -41,8 +41,9 @@ return {
             local telescope = require "telescope"
             telescope.setup {
                 defaults = {
-                    path_display = { "smart" },
+                    path_display = { "shorten" },
                     layout_strategy = "bottom_pane",
+                    initial_mode = "normal",
                     file_ignore_patterns = {
                         "^.git/*",
                         ".DS_Store",
@@ -59,6 +60,10 @@ return {
                     },
                     grep_string = {
                         additional_args = { "--hidden" },
+                    },
+                    buffers = {
+                        cwd_only = true,
+                        sort_lastused = true,
                     },
                 },
             }

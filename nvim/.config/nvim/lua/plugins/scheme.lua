@@ -24,7 +24,7 @@ return {
         priority = 1000,
         opts = {
             italic_comments = true,
-            borderless_telescope = false,
+            borderless_telescope = true,
             cache = true,
             terminal_colors = true,
         },
