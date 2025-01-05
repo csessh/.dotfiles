@@ -29,7 +29,6 @@ return {
             local lspconfig = require "lspconfig"
             local servers = {
                 lspconfig.gopls,
-                lspconfig.lua_ls,
                 lspconfig.clangd,
                 lspconfig.bashls,
                 lspconfig.jsonls,
@@ -44,6 +43,30 @@ return {
             for _, server in ipairs(servers) do
                 server.setup { capabilities = capabilities }
             end
+
+            -- Specific configuration for lua_ls LSP
+            lspconfig.lua_ls.setup {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = "LuaJIT",
+                        },
+                        workspace = {
+                            checkThirdParty = false,
+                            library = {
+                                vim.env.VIMRUNTIME,
+                            },
+                        },
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                },
+                capabilities = capabilities,
+            }
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
