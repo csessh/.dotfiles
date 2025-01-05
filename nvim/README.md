@@ -17,7 +17,7 @@ npm install tree-sitter-cli
 
 ## LSPs and auto-completion
 
-See [code-completion.lua](./.config/nvim/lua/plugins/code-completion.lua) for a complete list of required LSPs. 
+See [lsp.lua](./.config/nvim/lua/plugins/lsp.lua) for a complete list of required LSPs. 
 
 Find and install necessary LSPs via Mason:
 
@@ -27,7 +27,7 @@ Find and install necessary LSPs via Mason:
 
 ## Linters and Formatters 
 
-See [diagnostics.lua](./.config/nvim/lua/plugins/diagnostics.lua) for a complete list of required linters and formatters. 
+See [formatter.lua](./.config/nvim/lua/plugins/formatter.lua) for a complete list of required linters and formatters. 
 
 Find and install necessary linters and formatters via Mason: 
 
@@ -44,6 +44,3 @@ There are a number of important integrations worth mentioning:
 * [fd](https://github.com/sharkdp/fd) 
 * [xclip](https://github.com/astrand/xclip) or any other compatible clipboard manager
 
-## Keybindings 
-
-TODO: Update this section
