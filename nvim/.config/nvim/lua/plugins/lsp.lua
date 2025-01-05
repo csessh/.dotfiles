@@ -29,7 +29,7 @@ return {
             local lspconfig = require "lspconfig"
             local servers = {
                 lspconfig.gopls,
-                lspconfig.lua_ls,
+                lspconfig.ast_grep,
                 lspconfig.clangd,
                 lspconfig.bashls,
                 lspconfig.jsonls,
