@@ -43,7 +43,7 @@ return {
                 defaults = {
                     path_display = { "shorten" },
                     layout_strategy = "bottom_pane",
-                    initial_mode = "normal",
+                    initial_mode = "insert",
                     file_ignore_patterns = {
                         "^.git/*",
                         ".DS_Store",
