@@ -6,6 +6,7 @@ return {
             cpp = { "cpplint" },
             go = { "golangcilint" },
             lua = { "luacheck" },
+            bash = { "shellcheck" },
         }
     end,
 }
