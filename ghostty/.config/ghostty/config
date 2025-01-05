@@ -1,4 +1,4 @@
-theme                          = Bright Lights
+theme                          = cyberdream
 font-family                    = CommitMono Regular
 font-feature                   = -liga
 font-feature                   = -calt
@@ -10,8 +10,7 @@ fullscreen                     = true
 link-url                       = true
 mouse-hide-while-typing        = true
 window-vsync                   = true
-window-padding-balance         = false
-window-save-state              = always
+window-padding-balance         = true
 clipboard-read                 = allow
 clipboard-paste-protection     = true
 clipboard-trim-trailing-spaces = true
