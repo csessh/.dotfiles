@@ -15,7 +15,9 @@
     navigate = true
     line-number = true
     side-by-side = false
-    theme = ansi
+    theme = cyberdream
+[delta "decorations"]
+    syntax-theme = cyberdream
 [pager]
     diff = delta
     log = delta
