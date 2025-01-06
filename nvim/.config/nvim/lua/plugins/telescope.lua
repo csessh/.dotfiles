@@ -11,8 +11,8 @@ return {
         keys = {
             {
                 "<leader>ff",
-                mode = { "n", "v" },
-                ':Telescope frecency workspace=CWD path_display={"shorten"} <CR>',
+                mode = { "n" },
+                ':Telescope frecency workspace=CWD path_display={"smart"} <CR>',
                 {
                     desc = "Telescope find files using frecency",
                     silent = true,
@@ -20,7 +20,7 @@ return {
             },
             {
                 "<leader>lg",
-                mode = { "n", "v" },
+                mode = { "n" },
                 require("telescope.builtin").live_grep,
                 { desc = "Telescope live grep" },
             },
@@ -32,7 +32,7 @@ return {
             },
             {
                 "<leader>bf",
-                mode = { "n", "v" },
+                mode = { "n" },
                 require("telescope.builtin").buffers,
                 { desc = "Telescope show available buffers" },
             },
@@ -41,7 +41,7 @@ return {
             local telescope = require "telescope"
             telescope.setup {
                 defaults = {
-                    path_display = { "shorten" },
+                    path_display = { "smart" },
                     layout_strategy = "bottom_pane",
                     initial_mode = "insert",
                     file_ignore_patterns = {
