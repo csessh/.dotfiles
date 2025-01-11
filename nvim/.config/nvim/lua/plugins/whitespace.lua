@@ -1,5 +1,6 @@
 return {
     "mcauley-penney/visual-whitespace.nvim",
+    event = "VeryLazy",
     opts = {
         highlight = { link = "Visual" },
         space_char = "·",
