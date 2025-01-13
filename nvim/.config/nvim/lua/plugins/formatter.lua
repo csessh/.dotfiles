@@ -4,7 +4,7 @@ return {
         formatters_by_ft = {
             lua = { "stylua" },
             python = { "isort", "ruff_format" },
-            go = { "gofmt" },
+            go = { "gofmt", "goimports" },
             bash = { "shellcheck" },
             cpp = { "clang_format" },
         },
