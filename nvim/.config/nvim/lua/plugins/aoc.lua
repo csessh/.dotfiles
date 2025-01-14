@@ -1,7 +1,6 @@
 return {
-    -- "csessh/aoc.nvim",
-    dir = "~/Documents/nvim-plugins/aoc.nvim/",
-    dev = true,
+    "csessh/aoc.nvim",
+    cond = vim.fn.getcwd() == vim.fn.expand "~/Documents/AoC/",
     opts = {
         session_filepath = "/var/tmp/aoc/session.txt",
         puzzle_input = {

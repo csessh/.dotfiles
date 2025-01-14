@@ -16,3 +16,18 @@ This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
 cd ~/.dotfiles
 stow bat
 ```
+
+## Themes
+
+``` bash
+bat cache --build
+```
+
+If there are any custom themes placed in `~/.config/bat/`, `bat` will write them to cache.
+
+To get a list of available themes:
+``` bash
+bat --list-themes
+```
+
+The current theme is: `Cyberdream`.
