@@ -44,15 +44,15 @@ Some application may require `source` to reload.
 
 It's best to setup and configure the environment in the following order:
 
-1. [kitty terminal](./kitty/README.md)
-2. [brew](./brew/README.md)
-3. [zsh](./shell/README.md)
-4. [tmux](./tmux/README.md)
-5. [bat](./bat/README.md)
-6. [git](./git/README.md)
-7. [lazygit](./lazygit/README.md)
-8. [Neovim](./nvim/README.md)
-9. [1Password](./1password/README.md)
+1. [1Password](./1password/README.md)
+2. [kitty terminal](./kitty/README.md)
+3. [brew](./brew/README.md)
+4. [zsh](./shell/README.md)
+5. [tmux](./tmux/README.md)
+6. [bat](./bat/README.md)
+7. [git](./git/README.md)
+8. [lazygit](./lazygit/README.md)
+9. [Neovim](./nvim/README.md)
 
 ## configs containing secrets
 

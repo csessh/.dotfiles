@@ -5,9 +5,7 @@ return {
         { "-", ":Oil<CR>", silent = true, desc = "Open Oil at current buffer's directory" },
     },
     opts = {
-        columns = {
-            "icon",
-        },
+        columns = { "icon" },
         skip_confirm_for_simple_edits = true,
         watch_for_changes = true,
         view_options = {

@@ -1,8 +1,6 @@
 return {
     "nvim-lualine/lualine.nvim",
-    dependencies = {
-        "nvim-tree/nvim-web-devicons",
-    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
         options = {
             theme = "powerline_dark",
@@ -14,7 +12,7 @@ return {
             lualine_b = { "branch", "diff" },
             lualine_c = { "diagnostics" },
             lualine_x = { "grapple" },
-            lualine_y = { 'vim.fn.getfperm(vim.fn.expand("%:p"))', "encoding", "location" },
+            lualine_y = { "filetype", 'vim.fn.getfperm(vim.fn.expand("%:p"))', "location" },
             lualine_z = { "filename" },
         },
     },

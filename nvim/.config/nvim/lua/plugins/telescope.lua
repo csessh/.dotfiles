@@ -12,7 +12,7 @@ return {
             {
                 "<leader>ff",
                 mode = { "n" },
-                ':Telescope frecency workspace=CWD path_display={"smart"} <CR>',
+                ':Telescope frecency workspace=CWD path_display={"smart"}<CR>',
                 {
                     desc = "Telescope find files using frecency",
                     silent = true,
@@ -53,15 +53,16 @@ return {
                     },
                 },
                 pickers = {
-                    find_files = { hidden = true },
                     frecency = { hidden = true },
                     live_grep = {
                         additional_args = { "--hidden" },
                     },
                     grep_string = {
+                        initial_mode = "normal",
                         additional_args = { "--hidden" },
                     },
                     buffers = {
+                        initial_mode = "normal",
                         cwd_only = true,
                         sort_lastused = true,
                     },
