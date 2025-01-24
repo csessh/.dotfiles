@@ -33,7 +33,7 @@ return {
                 lspconfig.bashls,
                 lspconfig.jsonls,
                 lspconfig.ruff,
-                lspconfig.pylsp,
+                lspconfig.pyright,
                 lspconfig.taplo,
                 lspconfig.yamlls,
                 lspconfig.markdown_oxide,
