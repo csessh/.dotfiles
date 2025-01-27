@@ -1,6 +1,6 @@
 return {
     "csessh/aoc.nvim",
-    cond = vim.fn.getcwd() == vim.fn.expand "~/Documents/AoC/",
+    cond = string.find(vim.fn.getcwd(), vim.fn.expand "~/Documents/AoC/"),
     opts = {
         session_filepath = "/var/tmp/aoc/session.txt",
         puzzle_input = {

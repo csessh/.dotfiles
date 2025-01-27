@@ -21,7 +21,7 @@ zinit light zsh-users/zsh-autosuggestions
 autoload -U compinit && compinit
 zinit cdreplay -q
 
-plugins=(web-search command-not-found colored-man-pages git)
+plugins=(sudo web-search command-not-found colored-man-pages git)
 
 # Source custom configuration
 source $ZSH/oh-my-zsh.sh
