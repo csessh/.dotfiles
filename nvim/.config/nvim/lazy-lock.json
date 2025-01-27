@@ -39,12 +39,12 @@
   "plenary.nvim": { "branch": "master", "commit": "3707cdb1e43f5cea73afb6037e6494e7ce847a66" },
   "quicker.nvim": { "branch": "master", "commit": "92e0f61a5d6422424cf7728ad323d2a06e3ab2d5" },
   "render-markdown.nvim": { "branch": "main", "commit": "ad055861d17afe058bd835e82292e14a64b51b1d" },
-  "satellite.nvim": { "branch": "main", "commit": "bce591cb5e379bd989623993c604c774633e7ed9" },
   "stopinsert.nvim": { "branch": "main", "commit": "2a16692752b4e55360d38fd0af1a57fddef51073" },
   "telescope-frecency.nvim": { "branch": "master", "commit": "cf19bb00e8cd68c54e7cd156efcdc7d978bd4b89" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
   "themery.nvim": { "branch": "main", "commit": "bfa58f4b279d21cb515b28023e1b68ec908584b2" },
   "tiny-code-action.nvim": { "branch": "main", "commit": "34d8a0053a833dbc51b2eecc1170bd35aa18baa4" },
-  "visual-whitespace.nvim": { "branch": "main", "commit": "31d0ed71ad7e376879d7e0df0c8cc4f1467702d4" }
+  "visual-whitespace.nvim": { "branch": "main", "commit": "31d0ed71ad7e376879d7e0df0c8cc4f1467702d4" },
+  "which-key.nvim": { "branch": "main", "commit": "6cebd86917df559a88de0f806b2989799c6e6423" }
 }
