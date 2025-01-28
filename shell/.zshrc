@@ -5,7 +5,7 @@ export UPDATE_ZSH_DAYS=14
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 
-ZSH_THEME="afowler_modified"
+ZSH_THEME="tdo"
 
 # Plugins and snippets
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"

@@ -2,9 +2,7 @@ return {
     {
         "refractalize/oil-git-status.nvim",
         dependencies = { "stevearc/oil.nvim" },
-        config = {
-            show_ignored = false,
-        },
+        opts = { show_ignored = false },
     },
     {
         "stevearc/oil.nvim",
@@ -13,9 +11,7 @@ return {
             { "-", ":Oil<CR>", silent = true, desc = "Open Oil at current buffer's directory" },
         },
         opts = {
-            win_options = {
-                signcolumn = "yes:2",
-            },
+            win_options = { signcolumn = "yes:2" },
             columns = { "icon" },
             skip_confirm_for_simple_edits = true,
             watch_for_changes = true,
