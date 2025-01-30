@@ -45,7 +45,7 @@ Some application may require `source` to reload.
 It's best to setup and configure the environment in the following order:
 
 1. [1Password](./1password/README.md)
-2. [kitty terminal](./kitty/README.md)
+2. [Kitty](./kitty/README.md)
 3. [brew](./brew/README.md)
 4. [zsh](./shell/README.md)
 5. [tmux](./tmux/README.md)
@@ -54,13 +54,17 @@ It's best to setup and configure the environment in the following order:
 8. [lazygit](./lazygit/README.md)
 9. [Neovim](./nvim/README.md)
 
+Optional:
+
+1. [htop](./htop/README.md)
+
 ## configs containing secrets
 
 Some configs may contain secrets such as username/password or API access token.
 
 Secret injection can be done with 1Password CLI. See [1Password](./1password) for more information.
 
-* [pet](./pet/README.md)
+1. [pet](./pet/README.md)
 
 **NOTE**: Configuration files created with 1Password secret injection must be updated manually.
 
