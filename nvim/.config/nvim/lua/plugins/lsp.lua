@@ -49,21 +49,15 @@ return {
             lspconfig.lua_ls.setup {
                 settings = {
                     Lua = {
-                        runtime = {
-                            version = "LuaJIT",
-                        },
+                        runtime = { version = "LuaJIT" },
                         workspace = {
                             checkThirdParty = false,
-                            library = {
-                                vim.env.VIMRUNTIME,
-                            },
+                            library = { vim.env.VIMRUNTIME },
                         },
                         diagnostics = {
                             globals = { "vim" },
                         },
-                        telemetry = {
-                            enable = false,
-                        },
+                        telemetry = { enable = false },
                     },
                 },
                 capabilities = capabilities,

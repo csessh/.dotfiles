@@ -1,13 +1,6 @@
 return {
     { "hrsh7th/cmp-nvim-lsp" },
     {
-        "folke/lazydev.nvim",
-        ft = "lua",
-        opts = {
-            library = { "lazy.nvim" },
-        },
-    },
-    {
         "L3MON4D3/LuaSnip",
         dependencies = {
             "saadparwaiz1/cmp_luasnip",
@@ -69,7 +62,6 @@ return {
                 sources = cmp.config.sources {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
-                    { name = "lazydev", group_index = 0 },
                     { name = "buffer" },
                     { name = "path" },
                 },
