@@ -9,5 +9,14 @@ return {
                 join = "gj",
             },
         }
+
+        require("mini.operators").setup {
+            evaluate = { prefix = ",=" },
+            replace = {
+                replace = ",r",
+                reindent_linewise = true,
+            },
+            sort = { prefix = ",s" },
+        }
     end,
 }

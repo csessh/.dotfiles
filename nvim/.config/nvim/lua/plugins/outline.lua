@@ -1,7 +1,11 @@
 return {
     "hedyhli/outline.nvim",
     keys = {
-        { ",s", "<cmd>Outline<CR>", { desc = "Toggle Outline", silent = true } },
+        {
+            ",o",
+            "<cmd>Outline<CR>",
+            { desc = "Toggle Outline", silent = true },
+        },
     },
     opts = {
         providers = {
