@@ -8,6 +8,8 @@ return {
                 go = { "golangcilint" },
                 lua = { "luacheck" },
                 bash = { "shellcheck" },
+                yaml = { "yamllint" },
+                json = { "jsonlint" },
             }
         end,
     },
