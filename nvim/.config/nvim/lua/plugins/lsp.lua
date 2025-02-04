@@ -64,12 +64,16 @@ return {
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)
-                    local opts = { buffer = ev.buf, noremap = true }
-                    vim.keymap.set("n", "g?", vim.lsp.buf.hover, opts)
-                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-                    vim.keymap.set("n", "<leader>fm", function()
+                    vim.keymap.set(
+                        "n",
+                        "grn",
+                        vim.lsp.buf.rename,
+                        { buffer = ev.buf, noremap = true, desc = "LSP rename variable" }
+                    )
+
+                    vim.keymap.set("n", "gfm", function()
                         vim.lsp.buf.format { async = false }
-                    end, opts)
+                    end, { buffer = ev.buf, noremap = true, desc = "LSP format current buffer" })
                 end,
             })
         end,

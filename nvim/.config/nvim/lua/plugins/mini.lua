@@ -4,9 +4,8 @@ return {
     config = function()
         require("mini.splitjoin").setup {
             mappings = {
-                toggle = ",J",
-                split = ",s",
-                join = ",j",
+                join = ",J",
+                split = ",j",
             },
         }
 
