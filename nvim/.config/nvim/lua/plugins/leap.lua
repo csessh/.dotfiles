@@ -1,8 +1,16 @@
 return {
     "ggandor/leap.nvim",
     keys = {
-        { "<leader>s", mode = { "n" }, "<Plug>(leap)", { desc = "Bi-directional lead" } },
-        { "<leader>S", mode = { "n" }, "<Plug>(leap-from-window)", { desc = "Leap from one window to another" } },
+        {
+            "<leader>l",
+            "<Plug>(leap)",
+            desc = "Bi-directional lead",
+        },
+        {
+            "<leader>L",
+            "<Plug>(leap-from-window)",
+            desc = "Leap from one window to another",
+        },
     },
     opts = {
         safe_labels = {},

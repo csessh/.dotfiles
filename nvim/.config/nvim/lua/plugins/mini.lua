@@ -4,16 +4,16 @@ return {
     config = function()
         require("mini.splitjoin").setup {
             mappings = {
-                toggle = "gS",
-                split = "gs",
-                join = "gj",
+                toggle = ",J",
+                split = ",s",
+                join = ",j",
             },
         }
 
         require("mini.operators").setup {
             evaluate = { prefix = ",=" },
             replace = {
-                replace = ",r",
+                prefix = ",r",
                 reindent_linewise = true,
             },
             sort = { prefix = ",s" },
