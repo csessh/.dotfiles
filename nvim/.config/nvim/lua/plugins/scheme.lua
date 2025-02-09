@@ -4,8 +4,8 @@ return {
         opts = {
             livePreview = true,
             themes = {
-                "eldritch",
                 "cyberdream",
+                "eldritch",
             },
         },
     },
@@ -23,8 +23,7 @@ return {
         lazy = true,
         priority = 1000,
         opts = {
-            italic_comments = true,
-            borderless_telescope = true,
+            borderless_picker = true,
             cache = true,
             terminal_colors = true,
         },

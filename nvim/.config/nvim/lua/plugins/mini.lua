@@ -16,6 +16,7 @@ return {
                 reindent_linewise = true,
             },
             sort = { prefix = ",s" },
+            exchange = { prefix = ",m" },
         }
     end,
 }

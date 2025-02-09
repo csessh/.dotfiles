@@ -3,13 +3,13 @@ return {
         "mfussenegger/nvim-lint",
         config = function()
             require("lint").linters_by_ft = {
-                python = { "ruff" },
+                bash = { "shellcheck" },
                 cpp = { "cpplint" },
                 go = { "golangcilint" },
-                lua = { "luacheck" },
-                bash = { "shellcheck" },
-                yaml = { "yamllint" },
                 json = { "jsonlint" },
+                lua = { "luacheck" },
+                python = { "ruff" },
+                yaml = { "yamllint" },
             }
         end,
     },

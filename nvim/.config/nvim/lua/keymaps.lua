@@ -24,8 +24,6 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit Insert mode and retur
 
 -- Package managers
 vim.keymap.set("n", "<leader>X", ":source %<CR>", { desc = "Source current file" })
-vim.keymap.set("n", "<leader>L", ":Lazy<CR>", { desc = "Open LazyVim" })
-vim.keymap.set("n", "<leader>M", ":Mason<CR>", { desc = "Open Mason" })
 
 -- Disable keymaps
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disabled" })

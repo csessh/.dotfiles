@@ -11,8 +11,8 @@ return {
     opts = {
         providers = {
             priority = {
-                "lsp",
                 "coc",
+                "lsp",
                 "markdown",
                 "norg",
             },

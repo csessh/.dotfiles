@@ -28,15 +28,15 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require "lspconfig"
             local servers = {
-                lspconfig.gopls,
-                lspconfig.clangd,
                 lspconfig.bashls,
-                lspconfig.ruff,
-                lspconfig.pyright,
-                lspconfig.taplo,
-                lspconfig.markdown_oxide,
-                lspconfig.dockerls,
+                lspconfig.clangd,
                 lspconfig.docker_compose_language_service,
+                lspconfig.dockerls,
+                lspconfig.gopls,
+                lspconfig.markdown_oxide,
+                lspconfig.pyright,
+                lspconfig.ruff,
+                lspconfig.taplo,
             }
 
             for _, server in ipairs(servers) do
