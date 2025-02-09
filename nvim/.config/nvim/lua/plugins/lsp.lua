@@ -66,12 +66,12 @@ return {
                 callback = function(ev)
                     vim.keymap.set(
                         "n",
-                        "grn",
+                        "<leader>rn",
                         vim.lsp.buf.rename,
                         { buffer = ev.buf, noremap = true, desc = "LSP rename variable" }
                     )
 
-                    vim.keymap.set("n", "gfm", function()
+                    vim.keymap.set("n", "<leader>fm", function()
                         vim.lsp.buf.format { async = false }
                     end, { buffer = ev.buf, noremap = true, desc = "LSP format current buffer" })
                 end,
