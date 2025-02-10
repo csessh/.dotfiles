@@ -16,7 +16,7 @@ return {
                 silent = true,
             },
             {
-                "<leader>gr",
+                "<leader>gl",
                 require("telescope.builtin").live_grep,
                 desc = "Telescope live grep",
             },

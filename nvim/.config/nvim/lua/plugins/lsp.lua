@@ -1,13 +1,5 @@
 return {
     {
-        "williamboman/mason.nvim",
-        config = true,
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        opts = {},
-    },
-    {
         "rachartier/tiny-code-action.nvim",
         dependencies = {
             { "nvim-lua/plenary.nvim" },

@@ -7,7 +7,7 @@ return {
                 cpp = { "cpplint" },
                 go = { "golangcilint" },
                 json = { "jsonlint" },
-                lua = { "luacheck" },
+                lua = { "selene" },
                 python = { "ruff" },
                 yaml = { "yamllint" },
             }
