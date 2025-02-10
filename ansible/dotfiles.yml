@@ -1,0 +1,25 @@
+- name: The "I-specialise-in-automation" dotfiles playbook
+  hosts: local
+  roles:
+    # Standard tools/packages
+    - utils
+
+    # Essentials
+    - git
+    - lazygit
+    - neovim
+    # - tmux
+    # - zsh
+
+    # Programming languages
+    # - go
+    # - python
+
+    # Tools which require specific configuration
+    # - 1password
+    # - bat
+    # - htop
+    # - kitty
+    - pet
+
+

@@ -1,0 +1,19 @@
+- name: Ensure neovim is installed
+  become: yes
+  ansible.builtin.dnf:
+    name: "neovim"
+    state: latest
+
+- name: Simulate stow
+  shell:
+    cmd: stow nvim --simulate -v 
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow nvim
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+

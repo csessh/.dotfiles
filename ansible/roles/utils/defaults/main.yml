@@ -1,0 +1,16 @@
+packages:
+  - cmatrix
+  - curl
+  - fastfetch
+  - fd-find
+  - fzf
+  - gcc
+  - helm
+  - openssl
+  - python3-libdnf5
+  - ripgrep
+  - stow
+  - tree
+  - wget
+  - xclip
+  - zoxide

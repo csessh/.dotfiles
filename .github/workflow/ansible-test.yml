@@ -1,0 +1,16 @@
+name: Test Ansible playbooks to bootstrap development environment
+
+on:
+  - push
+
+jobs:
+  - play:
+    runs-on: fedora-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: ansible/dotfiles.yml
+          requirements: ansible/requirements.yml

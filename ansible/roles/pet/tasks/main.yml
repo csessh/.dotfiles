@@ -1,0 +1,27 @@
+- name: Add Fyra Labs Terra repository
+  become: yes
+  yum_repository:
+    name: fyralabs-terra
+    description: Fyra Labs Terra Repository
+    baseurl: https://repos.fyralabs.com/terra$releasever
+    enabled: yes
+    gpgcheck: no
+
+- name: Install pet package
+  become: yes
+  package:
+    name: pet
+    state: present
+
+- name: Simulate stow pet
+  shell:
+    cmd: stow pet --simulate -v 
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow pet
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
