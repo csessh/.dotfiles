@@ -6,7 +6,6 @@
 
     # Essentials
     - git
-    - lazygit
     - neovim
     # - tmux
     # - zsh
