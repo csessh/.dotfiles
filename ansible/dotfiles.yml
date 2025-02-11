@@ -3,22 +3,16 @@
   roles:
     # Standard tools/packages
     - utils
-
-    # Essentials
     - git
-    - neovim
-    # - tmux
-    # - zsh
-
-    # Programming languages
-    # - go
-    # - python
 
     # Tools which require specific configuration
-    # - 1password
-    # - bat
-    # - htop
-    # - kitty
+    - bat
+    - htop
+    - kitty
     - pet
 
-
+    # Other essentials
+    - tmux
+    - neovim
+    - shell
+    - 1password

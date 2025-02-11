@@ -1,27 +1,13 @@
-- name: Add Fyra Labs Terra repository
-  become: yes
-  yum_repository:
-    name: fyralabs-terra
-    description: Fyra Labs Terra Repository
-    baseurl: https://repos.fyralabs.com/terra$releasever
-    enabled: yes
-    gpgcheck: no
+- name: Load GitHub GIST PAT from ansible-vault encrypted file
+  include_vars:
+    file: ~/.dotfiles/ansible/roles/pet/defaults/secrets.yml
 
-- name: Install pet package
-  become: yes
-  package:
-    name: pet
-    state: present
+- name: Inject PAT to pet config template and save it
+  template:
+    src: ~/.dotfiles/pet/.config/pet/config-template.j2
+    dest: ~/.config/pet/config.toml 
 
-- name: Simulate stow pet
-  shell:
-    cmd: stow pet --simulate -v 
-    chdir: ~/.dotfiles/
-  register: sim_result
-  changed_when: False
-
-- name: Stow dotfiles
-  shell:
-    cmd: stow pet
+- name: Sync snippets
+  ansible.builtin.shell:
+    cmd: pet sync
     chdir: ~/.dotfiles
-  when: '"LINK: " in sim_result.stderr'

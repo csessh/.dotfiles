@@ -1,13 +1,4 @@
-- name: Ensure all dnf packages are updated (Fedora)
-  become: yes
-  ansible.builtin.dnf:
-    name: "*"
-    state: latest
+- import_tasks: dnf.yml
+  when: ansible_distribution == "Fedora"
 
-- name: Install dnf packages (Fedora)
-  become: yes
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    update_cache: yes
-    state: latest
-  loop: "{{ packages }}"
+- import_tasks: font.yml

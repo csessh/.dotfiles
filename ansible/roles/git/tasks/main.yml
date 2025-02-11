@@ -1,33 +1,25 @@
-- name: Simulate stow git
-  shell:
+- name: Simulate stow
+  ansible.builtin.shell:
     cmd: stow git --simulate -v 
     chdir: ~/.dotfiles/
   register: sim_result
   changed_when: False
 
 - name: Stow dotfiles
-  shell:
+  ansible.builtin.shell:
     cmd: stow git
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'
 
-- name: Install dnf packages (Fedora)
-  become: yes
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    update_cache: yes
-    state: latest
-  loop: "{{ packages }}"
-
-- name: Simulate stow lazygit
-  shell:
+- name: Simulate stow
+  ansible.builtin.shell:
     cmd: stow lazygit --simulate -v 
     chdir: ~/.dotfiles/
   register: sim_result
   changed_when: False
 
 - name: Stow dotfiles
-  shell:
+  ansible.builtin.shell:
     cmd: stow lazygit
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'

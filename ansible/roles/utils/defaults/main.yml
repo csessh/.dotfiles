@@ -1,16 +1,38 @@
 packages:
+  # Essentials
+  - 1password-cli
   - cmatrix
   - curl
   - fastfetch
   - fd-find
   - fzf
   - gcc
+  - git
+  - git-delta
+  - git-lfs
+  - go
   - helm
+  - nodejs
   - openssl
   - python3-libdnf5
   - ripgrep
   - stow
   - tree
+  - uv
   - wget
   - xclip
   - zoxide
+  - zsh
+
+  # Tools require configurations
+  - bat
+  - htop
+  - kitty
+  - lazygit
+  - neovim
+  - pet
+  - tmux
+
+  # Other GUI tools
+  - 1password
+  - firefox

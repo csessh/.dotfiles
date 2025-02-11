@@ -8,7 +8,3 @@ stow kitty
 ```
 
 What? that's it? Yes.
-
-## Keybindings
-
-TODO: Update this section 

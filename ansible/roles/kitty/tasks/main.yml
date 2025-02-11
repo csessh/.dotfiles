@@ -1,17 +1,13 @@
 - name: Simulate stow
   ansible.builtin.shell:
-    cmd: stow nvim --simulate -v 
+    cmd: stow kitty --simulate -v
     chdir: ~/.dotfiles/
   register: sim_result
   changed_when: False
 
 - name: Stow dotfiles
   ansible.builtin.shell:
-    cmd: stow nvim
+    cmd: stow kitty
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'
 
-- name: Install pynvim (neovim Python provider)
-  ansible.builtin.pip:
-    name: pynvim
-    executable: pip3
