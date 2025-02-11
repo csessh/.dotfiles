@@ -4,12 +4,18 @@ return {
         {
             ",o",
             "<cmd>Outline<CR>",
-            { desc = "Toggle Outline", silent = true },
+            desc = "Toggle Outline",
+            silent = true,
         },
     },
     opts = {
         providers = {
-            priority = { "lsp", "coc", "markdown", "norg" },
+            priority = {
+                "coc",
+                "lsp",
+                "markdown",
+                "norg",
+            },
             lsp = {
                 blacklist_clients = { "ruff" },
             },

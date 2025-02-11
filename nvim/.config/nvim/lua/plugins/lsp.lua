@@ -1,13 +1,5 @@
 return {
     {
-        "williamboman/mason.nvim",
-        config = true,
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        opts = {},
-    },
-    {
         "rachartier/tiny-code-action.nvim",
         dependencies = {
             { "nvim-lua/plenary.nvim" },
@@ -28,17 +20,15 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require "lspconfig"
             local servers = {
-                lspconfig.gopls,
-                lspconfig.clangd,
                 lspconfig.bashls,
-                lspconfig.jsonls,
-                lspconfig.ruff,
-                lspconfig.pyright,
-                lspconfig.taplo,
-                lspconfig.yamlls,
-                lspconfig.markdown_oxide,
-                lspconfig.dockerls,
+                lspconfig.clangd,
                 lspconfig.docker_compose_language_service,
+                lspconfig.dockerls,
+                lspconfig.gopls,
+                lspconfig.markdown_oxide,
+                lspconfig.pyright,
+                lspconfig.ruff,
+                lspconfig.taplo,
             }
 
             for _, server in ipairs(servers) do
@@ -66,12 +56,16 @@ return {
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)
-                    local opts = { buffer = ev.buf, noremap = true }
-                    vim.keymap.set("n", "g?", vim.lsp.buf.hover, opts)
-                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                    vim.keymap.set(
+                        "n",
+                        "<leader>rn",
+                        vim.lsp.buf.rename,
+                        { buffer = ev.buf, noremap = true, desc = "LSP rename variable" }
+                    )
+
                     vim.keymap.set("n", "<leader>fm", function()
                         vim.lsp.buf.format { async = false }
-                    end, opts)
+                    end, { buffer = ev.buf, noremap = true, desc = "LSP format current buffer" })
                 end,
             })
         end,

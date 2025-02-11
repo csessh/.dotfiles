@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+if ! [ -x "$(command -v ansible)" ]; then
+    pip3 install ansible
+fi
+
+INVENTORY=~/.dotfiles/ansible/inventory
+PLAYBOOK=~/.dotfiles/ansible/dotfiles.yml
+
+ansible-playbook -i $INVENTORY $PLAYBOOK --ask-become-pass --ask-vault-pass

@@ -1,0 +1,20 @@
+- name: Clone TPM repo (plugin manager)
+  git:
+    repo: "https://github.com/tmux-plugins/tpm"
+    dest: "~/.tmux/plugins/tpm"
+    update: yes
+    force: yes
+
+- name: Simulate stow
+  ansible.builtin.shell:
+    cmd: stow tmux --simulate -v
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  ansible.builtin.shell:
+    cmd: stow tmux
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+

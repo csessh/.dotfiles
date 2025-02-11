@@ -1,0 +1,18 @@
+- name: Install Oh My Zsh
+  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  args:
+    creates: ~/.oh-my-zsh  # Prevents re-running if already installed
+
+- name: Simulate stow
+  ansible.builtin.shell:
+    cmd: stow shell --simulate -v
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  ansible.builtin.shell:
+    cmd: stow shell
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+

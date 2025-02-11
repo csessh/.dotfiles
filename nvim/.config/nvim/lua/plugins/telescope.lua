@@ -11,30 +11,24 @@ return {
         keys = {
             {
                 "<leader>ff",
-                mode = { "n" },
                 ':Telescope frecency workspace=CWD path_display={"smart"}<CR>',
-                {
-                    desc = "Telescope find files using frecency",
-                    silent = true,
-                },
+                desc = "Telescope find files using frecency",
+                silent = true,
             },
             {
-                "<leader>lg",
-                mode = { "n" },
+                "<leader>gl",
                 require("telescope.builtin").live_grep,
-                { desc = "Telescope live grep" },
+                desc = "Telescope live grep",
             },
             {
                 "<leader>gw",
-                mode = { "n", "v" },
                 require("telescope.builtin").grep_string,
-                { desc = "Telescope grep string under cursor" },
+                desc = "Telescope grep string under cursor",
             },
             {
                 "<leader>bf",
-                mode = { "n" },
                 require("telescope.builtin").buffers,
-                { desc = "Telescope show available buffers" },
+                desc = "Telescope show available buffers",
             },
         },
         config = function()

@@ -9,12 +9,6 @@ stow nvim
 
 It's just that easy.
 
-Additionally, in order for nvim-treesitter to properly enable `auto_install` option:
-
-```bash
-npm install tree-sitter-cli 
-```
-
 ## LSPs and auto-completion
 
 See [lsp.lua](./.config/nvim/lua/plugins/lsp.lua) for a complete list of required LSPs. 

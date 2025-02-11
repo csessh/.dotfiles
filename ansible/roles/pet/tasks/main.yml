@@ -1,0 +1,13 @@
+- name: Load GitHub GIST PAT from ansible-vault encrypted file
+  include_vars:
+    file: ~/.dotfiles/ansible/roles/pet/defaults/secrets.yml
+
+- name: Inject PAT to pet config template and save it
+  template:
+    src: ~/.dotfiles/pet/.config/pet/config-template.j2
+    dest: ~/.config/pet/config.toml 
+
+- name: Sync snippets
+  ansible.builtin.shell:
+    cmd: pet sync
+    chdir: ~/.dotfiles
