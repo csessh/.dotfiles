@@ -1,0 +1,47 @@
+- name: Install required dependencies
+  become: yes
+  dnf:
+    name: dnf-plugins-core
+    state: present
+
+- name: Add Docker repository
+  become: yes
+  command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  args:
+    creates: /etc/yum.repos.d/docker-ce.repo
+
+- name: Install Docker packages
+  become: yes
+  dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Start and enable Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Get current user using whoami
+  command: whoami
+  register: current_user
+
+- name: Add user to docker group (optional)
+  user:
+    name: "{{ current_user.stdout }}"
+    groups: docker
+    append: yes
+  when: current_user.stdout != 'root'
+
+- name: Verify Docker installation
+  command: docker --version
+  register: docker_version
+
+- name: Show installed Docker version
+  debug:
+    msg: "Docker version installed: {{ docker_version.stdout }}"

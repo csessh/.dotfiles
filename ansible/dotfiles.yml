@@ -4,6 +4,7 @@
     # Standard tools/packages
     - utils
     - git
+    - docker
 
     # Tools which require specific configuration
     - bat
