@@ -2,11 +2,17 @@
   include_vars:
     file: ~/.dotfiles/ansible/roles/pet/defaults/secrets.yml
 
-- name: Ensure font directory exists
+- name: Ensure Pet config directory exists
   file:
     path: "~/.config/pet"
     state: directory
     mode: '0755'
+
+- name: Ensure Pet snippet file exists
+  file:
+    path: /var/tmp/pet/snippet.toml
+    state: touch
+    mode: '0644'
 
 - name: Inject PAT to pet config template and save it
   template:
