@@ -15,6 +15,7 @@ packages:
   - nodejs
   - openssl
   - python3-libdnf5
+  - python3-pip
   - ripgrep
   - stow
   - tree
