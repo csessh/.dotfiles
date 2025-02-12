@@ -8,21 +8,18 @@
   get_url:
     url: "https://github.com/eigilnikolajsen/commit-mono/releases/download/v1.143/CommitMono-1.143.zip"
     dest: "~/.local/share/fonts/CommitMono.zip"
-  when: result.rc != 0
 
 - name: Unzip Commit Mono font
   unarchive:
     src: "~/.local/share/fonts/CommitMono.zip"
     dest: "~/.local/share/fonts"
     remote_src: yes
-  when: result.rc != 0
+    creates: "~/.local/share/fonts/CommitMono-Regular.ttf"
 
 - name: Remove the ZIP file
   file:
     path: "~/.local/share/fonts/CommitMono.zip"
     state: absent
-  when: result.rc != 0
 
 - name: Refresh font cache
   command: fc-cache -fv
-  when: result.rc != 0
