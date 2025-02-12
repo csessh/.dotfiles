@@ -12,7 +12,7 @@
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:lazygit.repo
 
-- name: Enable 1Password repository
+- name: Add 1Password repository
   copy:
     dest: /etc/yum.repos.d/1password.repo
     content: |
