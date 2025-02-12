@@ -1,7 +1,8 @@
 - name: Install Oh My Zsh
-  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  ansible.builtin.shell:
+    cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   args:
-    creates: ~/.oh-my-zsh  # Prevents re-running if already installed
+    creates: ~/.oh-my-zsh
 
 - name: Simulate stow
   ansible.builtin.shell:
@@ -19,4 +20,7 @@
 - name: Source .zshrc
   ansible.builtin.shell:
     cmd: zeload
-  when: '"LINK: " in sim_result.stderr'
+
+- name: Start zsh shell
+  ansible.builtin.shell:
+    cmd: zsh
