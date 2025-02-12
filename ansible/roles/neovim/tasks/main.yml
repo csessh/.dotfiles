@@ -14,4 +14,3 @@
 - name: Install pynvim (neovim Python provider)
   ansible.builtin.pip:
     name: pynvim
-    executable: pip3
