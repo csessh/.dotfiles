@@ -1,9 +1,3 @@
-- name: Ensure all dnf packages are updated (Fedora)
-  become: yes
-  ansible.builtin.dnf:
-    name: "*"
-    state: latest
-
 - name: Add Fyra Labs Terra repository (Required for Pet)
   become: yes
   yum_repository:
@@ -13,10 +7,27 @@
     enabled: yes
     gpgcheck: no
 
-- name: Install dnf packages (Fedora)
+- name: Enable COPR repository (Required for lazygit)
+  command: sudo dnf copr enable atim/lazygit -y
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:lazygit.repo
+
+- name: Enable 1Password repository
+  command: sudo dnf config-manager --add-repo https://downloads.1password.com/linux/rpm/stable.repo
+  args:
+    creates: /etc/yum.repos.d/1password.repo
+
+- name: Ensure all dnf packages are updated (Fedora)
+  become: yes
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: Install packages with dnf (Fedora)
   become: yes
   ansible.builtin.dnf:
     name: "{{ item }}"
     update_cache: yes
     state: latest
   loop: "{{ packages }}"
+  ignore_errors: yes 
