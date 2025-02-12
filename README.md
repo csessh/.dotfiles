@@ -1,70 +1,46 @@
 # Dotfiles
 
 This repo contains my own dev configuration files, a.k.a dotfiles.
+The configurations are managed with GNU Stow, and automated with Ansible
 
-Depending on the OS, required package manager(s) may be different.
-This instruction was drafted with: `dnf` and `Homebrew`.
+This playbook currently supports Fedora. Ubuntu and MacOS playbooks are in the work.
 
-Linux distro of choice: Fedora 40.
+## Ansible
 
-## Fonts
+### Pre-requisites
 
-It can be any [Nerd Fonts](https://www.nerdfonts.com/).
-The current favourite is [CommitMono](https://commitmono.com/).
+Ansible is able to automate 99% of the process, however it does require the following packages to be present:
 
-```bash
-wget -P ~/.local/share/fonts https://github.com/eigilnikolajsen/commit-mono/releases/download/v1.143/CommitMono-1.143.zip \
-&& cd ~/.local/share/fonts \
-&& unzip CommitMono.zip \
-&& rm CommitMono.zip \
-&& fc-cache -fv
+- Python3
+- pip
+- [Ansible](https://docs.ansible.com/ansible/latest/index.html)
+
+Note: 9 out of 10 times, Python and pip are shipped out of the box with a Linux distro.
+
+Ansible must be installed manually.
+
+``` bash
+sudo dnf install ansible
 ```
 
-*NOTE*: It's fairly important to note that some [Neovim](./nvim)'s plugins require nerd font glyphs to display filetype icons.
+### dotfiles playbook
 
-## GNU Stow
-
-[Stow](https://www.gnu.org/software/stow/) is widely available on most package managers.
-
-```bash
-sudo dnf install stow
+``` bash
+cd ~/.dotfiles/ansible
+bin/install
 ```
-
-[Stow](https://www.gnu.org/software/stow/) creates symlinks for each dotfile and places them appropriately under `~` directory.
-
-> GNU Stow is a symlink farm manager which takes distinct packages of software and/or data located in separate directories on the filesystem, and makes them appear to be installed in the same place. For example, /usr/local/bin could contain symlinks to files within /usr/local/stow/emacs/bin, /usr/local/stow/perl/bin etc., and likewise recursively for any other subdirectories such as .../share, .../man, and so on.
-
-> This is particularly useful for keeping track of system-wide and per-user installations of software built from source, but can also facilitate a more controlled approach to management of configuration files in the user's home directory, especially when coupled with version control systems.
-
-Nothing more is required.
-Changes made to configuration files under `~/.dotfiles` will be automatically detected by services/applications.
-Some application may require `source` to reload.
 
 ## dotfiles
 
-It's best to setup and configure the environment in the following order:
+For more details, refer to each package's README.md:
 
-1. [1Password](./1password/README.md)
-2. [Kitty](./kitty/README.md)
-3. [brew](./brew/README.md)
-4. [zsh](./shell/README.md)
-5. [tmux](./tmux/README.md)
-6. [bat](./bat/README.md)
-7. [git](./git/README.md)
-8. [lazygit](./lazygit/README.md)
-9. [Neovim](./nvim/README.md)
-
-Optional:
-
-1. [htop](./htop/README.md)
-
-## configs containing secrets
-
-Some configs may contain secrets such as username/password or API access token.
-
-Secret injection can be done with 1Password CLI. See [1Password](./1password) for more information.
-
-1. [pet](./pet/README.md)
-
-**NOTE**: Configuration files created with 1Password secret injection must be updated manually.
-
+- [1Password](./1password/README.md)
+- [kitty](./kitty/README.md)
+- [neovim](./nvim/README.md)
+- [bat](./bat/README.md)
+- [git](./git/README.md)
+- [htop](./htop/README.md)
+- [lazygit](./lazygit/README.md)
+- [pet](./pet/README.md)
+- [tmux](./tmux/README.md)
+- [zsh](./shell/README.md)
