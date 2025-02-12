@@ -1,3 +1,13 @@
+- name: Get current user using whoami
+  command: whoami
+  register: current_user
+
+- name: Change default shell to Zsh for current user
+  become: yes
+  user:
+    name: "{{ current_user.stdout }}"
+    shell: /bin/zsh
+
 - name: Install Oh My Zsh
   shell:
     cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -16,7 +26,3 @@
     cmd: stow shell
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'
-
-- name: Start zsh shell
-  shell:
-    cmd: zsh
