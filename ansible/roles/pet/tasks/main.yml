@@ -4,7 +4,13 @@
 
 - name: Ensure Pet config directory exists
   file:
-    path: "~/.config/pet"
+    path: ~/.config/pet
+    state: directory
+    mode: '0755'
+
+- name: Ensure Pet snippet directory exists
+  file:
+    path: /var/tmp/pet
     state: directory
     mode: '0755'
 
