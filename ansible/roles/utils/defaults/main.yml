@@ -3,7 +3,6 @@ packages:
   - 1password-cli
   - cmatrix
   - curl
-  - dnf-plugins-core
   - fastfetch
   - fd-find
   - fzf
@@ -26,13 +25,6 @@ packages:
   - xclip
   - zoxide
   - zsh
-
-  # Docker
-  - containerd.io 
-  - docker-buildx-plugin 
-  - docker-ce 
-  - docker-ce-cli 
-  - docker-compose-plugin
 
   # Tools require configurations
   - bat

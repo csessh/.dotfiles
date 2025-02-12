@@ -27,16 +27,6 @@
       gpgkey=https://downloads.1password.com/linux/keys/1password.asc
     mode: '0644'
 
-- name: Add Docker repository
-  become: yes
-  yum_repository:
-    name: docker-ce
-    description: Docker CE Repository
-    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
-    enabled: yes
-    gpgcheck: yes
-    gpgkey: https://download.docker.com/linux/centos/gpg
-
 - name: Ensure all dnf packages are updated (Fedora)
   become: yes
   dnf:
