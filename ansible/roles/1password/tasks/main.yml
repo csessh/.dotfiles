@@ -1,12 +1,12 @@
 - name: Simulate stow
-  ansible.builtin.shell:
+  shell:
     cmd: stow 1password --simulate -v
     chdir: ~/.dotfiles/
   register: sim_result
   changed_when: False
 
 - name: Stow dotfiles
-  ansible.builtin.shell:
+  shell:
     cmd: stow 1password
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'
