@@ -26,6 +26,6 @@
     dest: ~/.config/pet/config.toml 
 
 - name: Sync snippets
-  ansible.builtin.shell:
+  shell:
     cmd: pet sync
     chdir: ~/.dotfiles
