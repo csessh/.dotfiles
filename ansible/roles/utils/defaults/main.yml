@@ -3,6 +3,7 @@ packages:
   - 1password-cli
   - cmatrix
   - curl
+  - dnf-plugins-core
   - fastfetch
   - fd-find
   - fzf

@@ -3,3 +3,6 @@ localhost
 
 [local:vars]
 ansible_connection=local
+
+[linode]
+172.236.35.22

@@ -11,13 +11,12 @@ This playbook currently supports Fedora. Ubuntu and MacOS playbooks are in the w
 
 Ansible is able to automate 99% of the process, however it does require the following packages to be present:
 
-- Python3
-- pip
+- Python3 and pip
 - [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
 Note: 9 out of 10 times, Python and pip are shipped out of the box with a Linux distro.
 
-Ansible must be installed manually.
+To install Ansible:
 
 ``` bash
 sudo dnf install ansible

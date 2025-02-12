@@ -1,0 +1,6 @@
+- name: Clone .dotfiles from GitHub to $HOME
+  git:
+    repo: "https://github.com/csessh/.dotfiles.git"
+    dest: ~/.dotfiles
+    version: main
+    update: yes

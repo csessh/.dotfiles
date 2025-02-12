@@ -1,6 +1,7 @@
 - name: Get current user using whoami
   command: whoami
   register: current_user
+  changed_when: False
 
 - name: Change default shell to Zsh for current user
   become: yes

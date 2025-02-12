@@ -1,12 +1,6 @@
-- name: Install required dependencies
-  become: yes
-  dnf:
-    name: dnf-plugins-core
-    state: present
-
 - name: Add Docker repository
   become: yes
-  command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  command: dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo 
   args:
     creates: /etc/yum.repos.d/docker-ce.repo
 
@@ -30,6 +24,7 @@
 - name: Get current user using whoami
   command: whoami
   register: current_user
+  changed_when: False
 
 - name: Add user to docker group (optional)
   user:
