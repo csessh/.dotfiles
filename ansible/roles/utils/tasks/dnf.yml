@@ -7,15 +7,23 @@
     enabled: yes
     gpgcheck: no
 
-- name: Enable COPR repository (Required for lazygit)
+- name: Add COPR repository (Required for lazygit)
   command: sudo dnf copr enable atim/lazygit -y
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:lazygit.repo
 
 - name: Enable 1Password repository
-  command: sudo dnf config-manager --add-repo https://downloads.1password.com/linux/rpm/stable.repo
-  args:
-    creates: /etc/yum.repos.d/1password.repo
+  copy:
+    dest: /etc/yum.repos.d/1password.repo
+    content: |
+      [1password]
+      name=1Password Stable Channel
+      baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
+      enabled=1
+      gpgcheck=1
+      repo_gpgcheck=1
+      gpgkey=https://downloads.1password.com/linux/keys/1password.asc
+    mode: '0644'
 
 - name: Ensure all dnf packages are updated (Fedora)
   become: yes
