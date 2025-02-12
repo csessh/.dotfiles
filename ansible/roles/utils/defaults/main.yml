@@ -18,6 +18,7 @@ packages:
   - ripgrep
   - stow
   - tree
+  - unzip
   - uv
   - wget
   - xclip
