@@ -17,10 +17,6 @@
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'
 
-- name: Source .zshrc
-  ansible.builtin.shell:
-    cmd: zeload
-
 - name: Start zsh shell
   ansible.builtin.shell:
     cmd: zsh
