@@ -1,5 +1,5 @@
 - name: The "I-specialise-in-automation" dotfiles playbook
-  hosts: linode
+  hosts: local
   roles:
     # Standard tools/packages
     - utils
