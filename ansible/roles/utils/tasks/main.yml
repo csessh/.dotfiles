@@ -1,6 +1,6 @@
-- import_tasks: dnf.yml
-  when: ansible_distribution == "Fedora"
-
 - import_tasks: clone.yml
 
 - import_tasks: font.yml
+
+- import_tasks: dnf.yml
+  when: ansible_distribution == "Fedora"

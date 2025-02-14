@@ -3,7 +3,6 @@ packages:
   - 1password-cli
   - cmatrix
   - curl
-  - dnf-plugins-core
   - fastfetch
   - fd-find
   - fzf
@@ -15,17 +14,27 @@ packages:
   - helm
   - nodejs
   - openssl
-  - python3-libdnf5
-  - python3-pip
   - ripgrep
   - stow
   - tree
   - unzip
-  - uv
   - wget
   - xclip
   - zoxide
   - zsh
+
+  # Python
+  - python3-libdnf5
+  - python3-neovim
+  - python3-pip
+  - uv
+
+  # Docker engine
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-ce
+  - docker-ce-cli
+  - docker-compose-plugin
 
   # Tools require configurations
   - bat
