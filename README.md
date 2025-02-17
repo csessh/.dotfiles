@@ -24,10 +24,59 @@ sudo dnf install ansible
 
 ### dotfiles playbook
 
+As `ansible.cfg` and `inventory` are placed under `ansible/` directory, the execution of the the playbook will need to be from this directory:
+
 ``` bash
-cd ~/.dotfiles/ansible
-bin/install
+cd ~/.dotfiles/ansiblehttps://github.com/zapling/mason-conform.nvim?tab=readme-ov-file#setup
 ```
+
+### Running the playbook locally
+
+If there is a `vault` file present (ignored by `.gitignore`):
+
+``` bash
+ansible-playbook -i inventory dotfiles.yml --become-pass-file vaut --vault-pass-file vaut
+```
+
+Otherwise, specify passwords at prompts:
+
+``` bash
+ansible-playbook -i inventory dotfiles.yml --ask-become-pass --ask-vault-pass
+```
+
+### Running the playbook remotely
+
+Current, some very minor modification of [inventory](./ansible/inventory) and [dotfiles.yml](./ansible/dotfiles.yml) is required.
+
+``` ini
+[local]
+localhost
+
+[local:vars]
+ansible_connection=local
+
+[remotes]
+x.x.x.x
+
+```
+
+``` yml
+
+- name: The "I-specialise-in-automation" dotfiles playbook
+  hosts: remotes
+  roles:
+    # Standard tools/packages
+    - utils
+    ...
+```
+
+Finally, execute playbook in remote servers:
+
+``` bash
+ansible-playbook -i inventory dotfiles.yml
+```
+
+*Note*: Unless remote hosts are part of long term workflow, don't commit their IP addresses to Git repo.
 
 ## dotfiles
 

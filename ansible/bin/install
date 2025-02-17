@@ -1,8 +1,0 @@
-#!/bin/bash
-
-set -e
-
-INVENTORY=~/.dotfiles/ansible/inventory
-PLAYBOOK=~/.dotfiles/ansible/dotfiles.yml
-
-ansible-playbook -i $INVENTORY $PLAYBOOK --ask-become-pass --ask-vault-pass
