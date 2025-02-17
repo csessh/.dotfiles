@@ -35,13 +35,13 @@ cd ~/.dotfiles/ansiblehttps://github.com/zapling/mason-conform.nvim?tab=readme-o
 If there is a `vault` file present (ignored by `.gitignore`):
 
 ``` bash
-ansible-playbook -i inventory dotfiles.yml --become-pass-file vaut --vault-pass-file vaut
+ansible-playbook dotfiles.yml --become-pass-file vaut --vault-pass-file vaut
 ```
 
 Otherwise, specify passwords at prompts:
 
 ``` bash
-ansible-playbook -i inventory dotfiles.yml --ask-become-pass --ask-vault-pass
+ansible-playbook dotfiles.yml --ask-become-pass --ask-vault-pass
 ```
 
 ### Running the playbook remotely
@@ -73,7 +73,7 @@ x.x.x.x
 Finally, execute playbook in remote servers:
 
 ``` bash
-ansible-playbook -i inventory dotfiles.yml
+ansible-playbook dotfiles.yml
 ```
 
 *Note*: Unless remote hosts are part of long term workflow, don't commit their IP addresses to Git repo.
