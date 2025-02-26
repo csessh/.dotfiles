@@ -27,7 +27,7 @@ sudo dnf install ansible
 As `ansible.cfg` and `inventory` are placed under `ansible/` directory, the execution of the the playbook will need to be from this directory:
 
 ``` bash
-cd ~/.dotfiles/ansiblehttps://github.com/zapling/mason-conform.nvim?tab=readme-ov-file#setup
+cd ~/.dotfiles/ansible
 ```
 
 ### Running the playbook locally
