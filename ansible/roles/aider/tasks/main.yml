@@ -1,0 +1,22 @@
+- name: Ensure UV is installed
+  pip:
+    name: uv
+    state: present
+
+- name: Ensure python 3.12 is install (aider requires it specifically)
+  package:
+    name: python3.12
+    state: present
+
+- name: Install Aider Chat using UV
+  command: uv tool install --force --python python3.12 aider-chat@latest
+
+- name: Load API key from ansible-vault encrypted file
+  include_vars:
+    file: ~/.dotfiles/ansible/roles/aider/defaults/secrets.yml
+
+- name: Inject API key to aider config template and save it
+  template:
+    src: ~/.dotfiles/aider/conf.j2
+    dest: ~/.aider.conf.yml
+

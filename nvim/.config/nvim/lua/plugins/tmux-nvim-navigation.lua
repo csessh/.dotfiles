@@ -1,5 +1,5 @@
 return {
-    'alexghergh/nvim-tmux-navigation',
+    "alexghergh/nvim-tmux-navigation",
     opts = {
         keybindings = {
             left = "<C-h>",
@@ -7,6 +7,6 @@ return {
             up = "<C-k>",
             right = "<C-l>",
             last_active = "<C-\\>",
-        }
-    }
+        },
+    },
 }

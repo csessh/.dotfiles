@@ -4,3 +4,4 @@
     dest: ~/.dotfiles
     version: main
     update: yes
+  ignore_errors: True
