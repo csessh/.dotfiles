@@ -10,6 +10,7 @@
   changed_when: False
 
 - name: Add user to docker group (optional)
+  become: yes
   user:
     name: "{{ current_user.stdout }}"
     groups: docker
