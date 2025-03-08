@@ -4,6 +4,7 @@
     state: present
 
 - name: Ensure python 3.12 is install (aider requires it specifically)
+  become: yes
   package:
     name: python3.12
     state: present
