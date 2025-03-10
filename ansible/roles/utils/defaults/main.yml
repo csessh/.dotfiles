@@ -28,6 +28,7 @@ packages:
   - python3-libdnf5
   - python3-neovim
   - python3-pip
+  - python-devel
   - uv
 
   # Docker engine
