@@ -1,5 +1,5 @@
 ####################################################################
-#  HELPER SCRIPTS 
+#  HELPER SCRIPTS
 ####################################################################
 nah() {
     git reset --hard
@@ -26,3 +26,14 @@ petprev() {
     sh -c "pet new -t `printf %q "$PREV"`"
 }
 
+keychron() {
+    PERM=600
+    if [[ $1 == "-u" ]]; then
+        PERM=777
+    fi
+
+    for i in {0..4}; do
+        sudo chmod $PERM /dev/hidraw$i
+    done
+    ls -la /dev | grep hidraw
+}
