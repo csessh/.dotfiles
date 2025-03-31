@@ -4,21 +4,21 @@
     state: directory
     mode: '0755'
 
-- name: Download Commit Mono font
+- name: Download Fira Mono font
   get_url:
-    url: "https://github.com/eigilnikolajsen/commit-mono/releases/download/v1.143/CommitMono-1.143.zip"
-    dest: "~/.local/share/fonts/CommitMono.zip"
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraMono.zip"
+    dest: "~/.local/share/fonts/FiraMono.zip"
 
-- name: Unzip Commit Mono font
+- name: Unzip Fira Mono font
   unarchive:
-    src: "~/.local/share/fonts/CommitMono.zip"
+    src: "~/.local/share/fonts/FiraMono.zip"
     dest: "~/.local/share/fonts"
     remote_src: yes
-    creates: "~/.local/share/fonts/CommitMono-Regular.ttf"
+    creates: "~/.local/share/fonts/FiraMono-Regular.ttf"
 
 - name: Remove the ZIP file
   file:
-    path: "~/.local/share/fonts/CommitMono.zip"
+    path: "~/.local/share/fonts/FiraMono.zip"
     state: absent
 
 - name: Refresh font cache
