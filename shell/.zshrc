@@ -1,6 +1,5 @@
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
-export ZSH=$HOME/.oh-my-zsh
 export UPDATE_ZSH_DAYS=14
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
@@ -24,7 +23,7 @@ zinit cdreplay -q
 plugins=(sudo web-search command-not-found colored-man-pages git)
 
 # Source custom configuration
-source $ZSH/oh-my-zsh.sh
+source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
 # Shell integrations
 source <(fzf --zsh)
@@ -34,4 +33,4 @@ eval "$(uv generate-shell-completion zsh)"
 
 # xterm-kitty ssh woe
 # https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
-[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh" 
+[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color kitty +kitten ssh"
