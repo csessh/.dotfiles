@@ -13,7 +13,6 @@
     - pet
 
     # Other essentials
-    - tmux
     - neovim
     - 1password
     - shell

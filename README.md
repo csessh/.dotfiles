@@ -90,5 +90,4 @@ For more details, refer to each package's README.md:
 - [htop](./htop/README.md)
 - [lazygit](./lazygit/README.md)
 - [pet](./pet/README.md)
-- [tmux](./tmux/README.md)
 - [zsh](./shell/README.md)

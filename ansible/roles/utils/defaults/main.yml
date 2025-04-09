@@ -45,7 +45,6 @@ packages:
   - lazygit
   - neovim
   - pet
-  - tmux
 
   # Other GUI tools
   - 1password

@@ -2,7 +2,6 @@
 #  ALIAS
 ####################################################################
 
-alias tmx="tmux"
 alias cat="bat"
 alias tree='tree -Cap -I ".git"'
 alias vim=" nvim"
