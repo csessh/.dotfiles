@@ -11,10 +11,6 @@ vim.keymap.set("n", "<leader>j", "o<Esc>", { desc = "Add a blank line below curr
 vim.keymap.set("n", "<leader>k", "O<Esc>", { desc = "Add a blank line above current line. Stay in Normal mode" })
 vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { desc = "Clear search highlights" })
 
--- Use <leader>p to paste after vi[wWp..]
--- Think "Select and replace" operation -> <leader>p
-vim.keymap.set("x", "<leader>p", '"_dP', { desc = 'Paste, while in visual mode, without losing "" register value' })
-
 -- Search within visually selected texts
 vim.keymap.set("x", "/", "<Esc>/\\%V", { noremap = true, desc = "Search forward within visually selected texts" })
 vim.keymap.set("x", "?", "<Esc>?\\%V", { noremap = true, desc = "Search backward within visually selected texts" })
@@ -27,3 +23,4 @@ vim.keymap.set("n", "<leader>X", ":source %<CR>", { desc = "Source current file"
 
 -- Disable keymaps
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disabled" })
+vim.keymap.set("n", "<F1>", "<nop>", { desc = "Disabled" })
