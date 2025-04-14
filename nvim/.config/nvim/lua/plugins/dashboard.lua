@@ -7,7 +7,6 @@ return {
     opts = function()
         local git_dashboard = require("git-dashboard-nvim").setup {
             title = "owner_with_repo_name",
-            filled_squares = { "", "", "", "", "", "" },
         }
 
         local opts = {
