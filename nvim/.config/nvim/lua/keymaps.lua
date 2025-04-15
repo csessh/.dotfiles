@@ -23,4 +23,4 @@ vim.keymap.set("n", "<leader>X", ":source %<CR>", { desc = "Source current file"
 
 -- Disable keymaps
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disabled" })
-vim.keymap.set("n", "<F1>", "<nop>", { desc = "Disabled" })
+vim.keymap.set({ "n", "i", "v", "x" }, "<F1>", "<nop>", { desc = "Disabled" })
