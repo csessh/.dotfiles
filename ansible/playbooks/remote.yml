@@ -1,6 +1,9 @@
 - name: The "I-specialise-in-automation" dotfiles playbook for remote servers
+  vars:
+    id: remote_playbook
   roles:
     # Standard tools/packages
+    - ssh
     - utils
     - git
     - docker

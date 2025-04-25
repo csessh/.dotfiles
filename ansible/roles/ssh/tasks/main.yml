@@ -17,6 +17,10 @@
   register: github_block_exists
   ignore_errors: yes
 
+- name: Load GitHub privatge key from ansible-vault encrypted file
+  include_vars:
+    file: ~/.dotfiles/ansible/roles/ssh/defaults/secrets.yml
+
 - name: Add SSH config for github.com if not present
   blockinfile:
     path: ~/.ssh/config

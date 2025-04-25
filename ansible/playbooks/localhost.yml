@@ -4,6 +4,7 @@
   hosts: local
   roles:
     # Standard tools/packages
+    - ssh
     - utils
     - git
     - docker
@@ -16,6 +17,4 @@
     - 1password
     - shell
     - pet
-
-    # AI
     - aider

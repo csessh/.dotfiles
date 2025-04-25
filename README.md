@@ -35,59 +35,17 @@ cd ~/.dotfiles/ansible
 If there is a `vault` file present (ignored by `.gitignore`):
 
 ``` bash
-ansible-playbook dotfiles.yml --become-pass-file vaut --vault-pass-file vaut
+ansible-playbook localhost.yml --become-pass-file vaut --vault-pass-file vaut
 ```
 
 Otherwise, specify passwords at prompts:
 
 ``` bash
-ansible-playbook dotfiles.yml --ask-become-pass --ask-vault-pass
+ansible-playbook localhost.yml --ask-become-pass --ask-vault-pass
 ```
 
-### Running the playbook remotely
-
-Current, some very minor modification of [inventory](./ansible/inventory) and [dotfiles.yml](./ansible/dotfiles.yml) is required.
-
-``` ini
-[local]
-localhost
-
-[local:vars]
-ansible_connection=local
-
-[remotes]
-x.x.x.x
-
-```
-
-``` yml
-
-- name: The "I-specialise-in-automation" dotfiles playbook
-  hosts: remotes
-  roles:
-    # Standard tools/packages
-    - utils
-    ...
-```
-
-Finally, execute playbook in remote servers:
+### Running the playbook on remote servers
 
 ``` bash
-ansible-playbook dotfiles.yml
+ansible-playbook remote.yml -i <address> remote.yml
 ```
-
-*Note*: Unless remote hosts are part of long term workflow, don't commit their IP addresses to Git repo.
-
-## dotfiles
-
-For more details, refer to each package's README.md:
-
-- [1Password](./1password/README.md)
-- [kitty](./kitty/README.md)
-- [neovim](./nvim/README.md)
-- [bat](./bat/README.md)
-- [git](./git/README.md)
-- [htop](./htop/README.md)
-- [lazygit](./lazygit/README.md)
-- [pet](./pet/README.md)
-- [zsh](./shell/README.md)
