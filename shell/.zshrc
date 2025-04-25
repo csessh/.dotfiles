@@ -1,6 +1,6 @@
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
-export UPDATE_ZSH_DAYS=14
+export UPDATE_ZSH_DAYS=28
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 
@@ -33,4 +33,4 @@ eval "$(uv generate-shell-completion zsh)"
 
 # xterm-kitty ssh woe
 # https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
-[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color kitty +kitten ssh"
+[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color kitty ssh"

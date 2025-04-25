@@ -1,5 +1,4 @@
-- name: The "I-specialise-in-automation" dotfiles playbook
-  hosts: local
+- name: The "I-specialise-in-automation" dotfiles playbook for remote servers
   roles:
     # Standard tools/packages
     - utils
@@ -9,13 +8,6 @@
     # Tools which require specific configuration
     - bat
     - htop
-    - kitty
-    - pet
-
-    # Other essentials
     - neovim
-    - 1password
     - shell
-
-    # AI
-    - aider
+    - pet

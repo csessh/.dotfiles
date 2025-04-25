@@ -11,15 +11,6 @@
   args:
     creates: /etc/yum.repos.d/docker-ce.repo
 
-- name: Add Fyra Labs Terra repository (Required for Pet)
-  become: yes
-  yum_repository:
-    name: fyralabs-terra
-    description: Fyra Labs Terra Repository
-    baseurl: https://repos.fyralabs.com/terra$releasever
-    enabled: yes
-    gpgcheck: no
-
 - name: Add COPR repository (Required for lazygit)
   become: yes
   command: sudo dnf copr enable atim/lazygit -y
@@ -53,4 +44,4 @@
     update_cache: yes
     state: latest
   loop: "{{ packages }}"
-  ignore_errors: yes 
+  ignore_errors: yes

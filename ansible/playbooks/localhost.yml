@@ -1,0 +1,21 @@
+- name: The "I-specialise-in-automation" dotfiles playbook
+  vars:
+    id: localhost_playbook
+  hosts: local
+  roles:
+    # Standard tools/packages
+    - utils
+    - git
+    - docker
+
+    # Tools which require specific configuration
+    - bat
+    - htop
+    - kitty
+    - neovim
+    - 1password
+    - shell
+    - pet
+
+    # AI
+    - aider

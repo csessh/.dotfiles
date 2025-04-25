@@ -1,0 +1,43 @@
+- name: Ensure ~/.ssh directory exists
+  file:
+    path: "~/.ssh"
+    state: directory
+    mode: "0700"
+    owner: "{{ ansible_user }}"
+
+- name: Ensure ~/.ssh/config file exists
+  file:
+    path: "~/.ssh/config"
+    state: touch
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+
+- name: Check if github.com block already exists
+  command: grep -q 'Host github.com' ~/.ssh/config
+  register: github_block_exists
+  ignore_errors: yes
+
+- name: Add SSH config for github.com if not present
+  blockinfile:
+    path: ~/.ssh/config
+    create: yes
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+    block: |
+      Host github.com
+        IdentityFile ~/.ssh/github
+        IdentitiesOnly yes
+  when: github_block_exists.rc != 0
+
+- name: Check if SSH key ~/.ssh/github already exists
+  stat:
+    path: ~/.ssh/github
+  register: github_key
+
+- name: Write private key to ~/.ssh/github if not present
+  copy:
+    content: "{{ github_private_key }}"
+    dest: "~/.ssh/github"
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+  when: not github_key.stat.exists

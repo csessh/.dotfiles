@@ -1,3 +1,8 @@
+- name: Remove stock htoprc
+  file:
+    path: ~/.config/htop/htoprc
+    state: absent
+
 - name: Simulate stow
   shell:
     cmd: stow htop --simulate -v

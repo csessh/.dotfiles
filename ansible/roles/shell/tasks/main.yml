@@ -15,6 +15,11 @@
   args:
     creates: ~/.oh-my-zsh
 
+- name: Remove stock zshrc
+  file:
+    path: ~/.zshrc
+    state: absent
+
 - name: Simulate stow
   shell:
     cmd: stow shell --simulate -v
