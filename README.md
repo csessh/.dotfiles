@@ -35,7 +35,7 @@ cd ~/.dotfiles/ansible
 If there is a `vault` file present (ignored by `.gitignore`):
 
 ``` bash
-ansible-playbook localhost.yml --become-pass-file vaut --vault-pass-file vaut
+ansible-playbook localhost.yml --become-pass-file vaut --vault-pass-file vault
 ```
 
 Otherwise, specify passwords at prompts:
@@ -47,5 +47,5 @@ ansible-playbook localhost.yml --ask-become-pass --ask-vault-pass
 ### Running the playbook on remote servers
 
 ``` bash
-ansible-playbook remote.yml -i <address> remote.yml
+ansible-playbook remote.yml -i "<address>," --become-pass-file vault --vault-pass-file vault
 ```
