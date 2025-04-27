@@ -1,6 +1,7 @@
-- name: The "I-specialise-in-automation" dotfiles playbook for remote servers
+- name: The "I-specialise-in-automation" dotfiles playbook
   vars:
-    id: remote_playbook
+    playbook_id: localhost_playbook
+  hosts: local
   roles:
     # Standard tools/packages
     - ssh
@@ -11,6 +12,9 @@
     # Tools which require specific configuration
     - bat
     - htop
+    - kitty
     - neovim
+    - 1password
     - shell
     - pet
+    - aider

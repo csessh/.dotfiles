@@ -42,7 +42,3 @@ packages:
   - lazygit
   - neovim
   - pet
-
-  # Other GUI tools
-  - 1password
-  - firefox

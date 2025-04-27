@@ -1,29 +1,17 @@
-- name: Ensure ~/.ssh directory exists
-  file:
-    path: "~/.ssh"
-    state: directory
-    mode: "0700"
-    owner: "{{ ansible_user }}"
-
-- name: Ensure ~/.ssh/config file exists
-  file:
-    path: "~/.ssh/config"
-    state: touch
-    mode: "0600"
-    owner: "{{ ansible_user }}"
+- name: Check if 1password ssh agent block already exists
+  command: grep -q 'IdentityAgent ~/.1password/agent.sock' ~/.ssh/config
+  register: op_agent_block_exists
+  ignore_errors: yes
 
 - name: Check if github.com block already exists
   command: grep -q 'Host github.com' ~/.ssh/config
   register: github_block_exists
   ignore_errors: yes
 
-- name: Load GitHub privatge key from ansible-vault encrypted file
-  include_vars:
-    file: ~/.dotfiles/ansible/roles/ssh/defaults/secrets.yml
-
 - name: Add SSH config for github.com if not present
+  become: yes
   blockinfile:
-    path: ~/.ssh/config
+    path: "{{ ansible_env.HOME }}/.ssh/config"
     create: yes
     mode: "0600"
     owner: "{{ ansible_user }}"
@@ -31,17 +19,24 @@
       Host github.com
         IdentityFile ~/.ssh/github
         IdentitiesOnly yes
-  when: github_block_exists.rc != 0
+  when: github_block_exists.rc != 0 and op_agent_block_exists.rc != 0
 
 - name: Check if SSH key ~/.ssh/github already exists
   stat:
     path: ~/.ssh/github
+  ignore_errors: yes
   register: github_key
 
+- name: Load GitHub privatge key from ansible-vault encrypted file
+  include_vars:
+    file: ~/.dotfiles/ansible/roles/ssh/defaults/secrets.yml
+  when: not github_key.stat.exists and op_agent_block_exists.rc != 0
+
 - name: Write private key to ~/.ssh/github if not present
+  become: yes
   copy:
     content: "{{ github_private_key }}"
     dest: "~/.ssh/github"
     mode: "0600"
     owner: "{{ ansible_user }}"
-  when: not github_key.stat.exists
+  when: not github_key.stat.exists and op_agent_block_exists.rc != 0
