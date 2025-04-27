@@ -5,6 +5,15 @@
     update_cache: yes
     state: latest
 
+- name: Add Fyra Labs Terra repository (Required for Pet)
+  become: yes
+  yum_repository:
+    name: fyralabs-terra
+    description: Fyra Labs Terra Repository
+    baseurl: https://repos.fyralabs.com/terra$releasever
+    enabled: yes
+    gpgcheck: no
+
 - name: Add Docker repository
   become: yes
   command: dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
