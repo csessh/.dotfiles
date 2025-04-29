@@ -32,6 +32,7 @@ return {
     },
     {
         "rshkarin/mason-nvim-lint",
+        commit = "910dadb99cb2bf0d5176026c7a4ab1861c4e561f",
         dependencies = { "williamboman/mason.nvim" },
         opts = {
             ensure_installed = {

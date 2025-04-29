@@ -33,4 +33,4 @@ eval "$(uv generate-shell-completion zsh)"
 
 # xterm-kitty ssh woe
 # https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
-[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color kitty ssh"
+# [[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh"
