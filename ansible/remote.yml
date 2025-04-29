@@ -5,13 +5,14 @@
   roles:
     # Standard tools/packages
     - ssh
-    - utils
-    - git
     - docker
+    - git
+    - utils
 
     # Tools which require specific configuration
     - bat
+    - fastfetch
     - htop
     - neovim
-    - shell
     - pet
+    - shell

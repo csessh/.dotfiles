@@ -8,9 +8,9 @@ return {
         style = "relative",
     },
     keys = {
-        { "<M-k>", ":Grapple toggle_tags<cr>", silent = true, desc = "Toggle tags menu" },
-        { "<M-j>", ":Grapple toggle<cr>", silent = true, desc = "Toggle tag" },
-        { "<M-l>", ":Grapple cycle_tags next<cr>", silent = true, desc = "Go to next tag" },
-        { "<M-h>", ":Grapple cycle_tags prev<cr>", silent = true, desc = "Go to previous tag" },
+        { "<Up>", ":Grapple toggle_tags<cr>", silent = true, desc = "Toggle tags menu" },
+        { "<Down>", ":Grapple toggle<cr>", silent = true, desc = "Toggle tag" },
+        { "<Right>", ":Grapple cycle_tags next<cr>", silent = true, desc = "Go to next tag" },
+        { "<Left>", ":Grapple cycle_tags prev<cr>", silent = true, desc = "Go to previous tag" },
     },
 }
