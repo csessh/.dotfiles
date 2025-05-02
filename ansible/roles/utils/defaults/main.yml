@@ -1,10 +1,10 @@
 packages:
   # Essentials
+  - ca-certificates
   - cmatrix
   - curl
   - fastfetch
   - fd-find
-  - fuse-sshfs
   - fzf
   - gcc
   - git
