@@ -5,8 +5,6 @@ return {
         config = function()
             require("conform").setup {
                 formatters_by_ft = {
-                    sh = { "beautysh" },
-                    cpp = { "clang-format" },
                     go = { "goimports", "gofumpt" },
                     lua = { "stylua" },
                     python = { "isort", "ruff_format" },
@@ -30,8 +28,6 @@ return {
         dependencies = { "williamboman/mason.nvim" },
         opts = {
             ensure_installed = {
-                "beautysh",
-                "clang-format",
                 "gofumpt",
                 "goimports",
                 "isort",
