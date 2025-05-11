@@ -5,11 +5,11 @@
   roles:
     # Standard tools/packages
     - ssh
-    - docker
-    - git
     - utils
+    - git
 
     # Tools which require specific configuration
+    - docker
     - bat
     - fastfetch
     - htop

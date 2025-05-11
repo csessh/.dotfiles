@@ -3,13 +3,13 @@
     playbook_id: localhost_playbook
   hosts: local
   roles:
-    # Standard tools/packages
+    # Must be installed first
     - ssh
-    - docker
-    - git
     - utils
+    - git
 
     # Tools which require specific configuration
+    - docker
     - 1password
     - aider
     - bat

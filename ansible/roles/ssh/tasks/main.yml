@@ -2,6 +2,7 @@
   command: grep -q 'IdentityAgent ~/.1password/agent.sock' ~/.ssh/config
   register: op_agent_block_exists
   ignore_errors: yes
+  when: playbook_id == "localhost_playbook"
 
 - name: Check if github.com block already exists
   command: grep -q 'Host github.com' ~/.ssh/config
@@ -36,7 +37,14 @@
   become: yes
   copy:
     content: "{{ github_private_key }}"
-    dest: "~/.ssh/github"
+    dest: ~/.ssh/github
     mode: "0600"
     owner: "{{ ansible_user }}"
   when: not github_key.stat.exists and op_agent_block_exists.rc != 0
+
+- name: Add GitHub SSH key to known_hosts if not already present
+  ansible.builtin.known_hosts:
+    name: github.com
+    key: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
+    path: ~/.ssh/known_hosts
+    state: present
