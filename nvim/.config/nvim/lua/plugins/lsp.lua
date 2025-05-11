@@ -24,7 +24,6 @@ return {
                 lspconfig.clangd,
                 lspconfig.docker_compose_language_service,
                 lspconfig.dockerls,
-                lspconfig.gopls,
                 lspconfig.markdown_oxide,
                 lspconfig.pyright,
                 lspconfig.ruff,

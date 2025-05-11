@@ -5,7 +5,6 @@ return {
         config = function()
             require("conform").setup {
                 formatters_by_ft = {
-                    go = { "goimports", "gofumpt" },
                     lua = { "stylua" },
                     python = { "isort", "ruff_format" },
                     ["_"] = { "trim_whitespace" },
@@ -28,8 +27,6 @@ return {
         dependencies = { "williamboman/mason.nvim" },
         opts = {
             ensure_installed = {
-                "gofumpt",
-                "goimports",
                 "isort",
                 "ruff_format",
                 "stylua",

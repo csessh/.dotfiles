@@ -21,7 +21,6 @@ return {
                 "clangd",
                 "docker_compose_language_service",
                 "dockerls",
-                "gopls",
                 "lua_ls",
                 "markdown_oxide",
                 "pyright",
@@ -37,7 +36,6 @@ return {
         opts = {
             ensure_installed = {
                 "cpplint",
-                "golangci-lint",
                 "jsonlint",
                 "ruff",
                 "selene",
