@@ -2,6 +2,7 @@ packages:
   # Essentials
   - ca-certificates
   - cmatrix
+  - croc
   - curl
   - fastfetch
   - fd-find
