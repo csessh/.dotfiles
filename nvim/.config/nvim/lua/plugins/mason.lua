@@ -12,36 +12,4 @@ return {
             ui = { check_outdated_packages_on_open = true },
         },
     },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = { "williamboman/mason.nvim" },
-        opts = {
-            ensure_installed = {
-                "bashls",
-                "clangd",
-                "docker_compose_language_service",
-                "dockerls",
-                "lua_ls",
-                "markdown_oxide",
-                "pyright",
-                "ruff",
-                "taplo",
-            },
-        },
-    },
-    {
-        "rshkarin/mason-nvim-lint",
-        commit = "910dadb99cb2bf0d5176026c7a4ab1861c4e561f",
-        dependencies = { "williamboman/mason.nvim" },
-        opts = {
-            ensure_installed = {
-                "cpplint",
-                "jsonlint",
-                "ruff",
-                "selene",
-                "shellcheck",
-                "yamllint",
-            },
-        },
-    },
 }
