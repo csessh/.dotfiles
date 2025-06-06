@@ -10,6 +10,7 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>j", "o<Esc>", { desc = "Add a blank line below current line. Stay in Normal mode" })
 vim.keymap.set("n", "<leader>k", "O<Esc>", { desc = "Add a blank line above current line. Stay in Normal mode" })
 vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { desc = "Clear search highlights" })
+vim.keymap.set("n", "<leader><Backspace>", ":FrecencyValidate<CR><CR>", { desc = "Validate Frecency entries" })
 
 -- Search within visually selected texts
 vim.keymap.set("x", "/", "<Esc>/\\%V", { noremap = true, desc = "Search forward within visually selected texts" })
