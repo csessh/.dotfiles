@@ -39,7 +39,7 @@ packages:
 
   # Tools require configurations
   - bat
-  - htop
+  - btop
   - kitty
   - lazygit
   - neovim
