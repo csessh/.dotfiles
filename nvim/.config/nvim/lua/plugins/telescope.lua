@@ -11,9 +11,8 @@ return {
         keys = {
             {
                 "<leader>ff",
-                ':Telescope frecency workspace=CWD path_display={"smart"}<CR>',
-                desc = "Telescope find files using frecency",
-                silent = true,
+                require("telescope.builtin").find_files,
+                desc = "Telescope find files",
             },
             {
                 "<leader>gl",
@@ -47,7 +46,9 @@ return {
                     },
                 },
                 pickers = {
-                    frecency = { hidden = true },
+                    find_files = {
+                        additional_args = { "--hidden" },
+                    },
                     live_grep = {
                         additional_args = { "--hidden" },
                     },
