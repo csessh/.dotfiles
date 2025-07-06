@@ -7,8 +7,8 @@
 vim.g.mapleader = " "
 
 -- Editor shortcuts
-vim.keymap.set("n", "<leader>j", "o<Esc>", { desc = "Add a blank line below current line. Stay in Normal mode" })
-vim.keymap.set("n", "<leader>k", "O<Esc>", { desc = "Add a blank line above current line. Stay in Normal mode" })
+vim.keymap.set("n", "<leader>j", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>")
+vim.keymap.set("n", "<leader>k", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>")
 vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { desc = "Clear search highlights" })
 vim.keymap.set("n", "<leader><Backspace>", ":FrecencyValidate<CR><CR>", { desc = "Validate Frecency entries" })
 
