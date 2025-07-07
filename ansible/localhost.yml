@@ -16,6 +16,10 @@
     - fastfetch
     - htop
     - kitty
+    - pet
+
+    # Other essentials
+    - tmux
     - neovim
     - pet
     - shell

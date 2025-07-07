@@ -49,3 +49,20 @@ ansible-playbook localhost.yml --ask-become-pass --ask-vault-pass
 ``` bash
 ansible-playbook remote.yml -i "<address>," --become-pass-file vault --vault-pass-file vault
 ```
+
+*Note*: Unless remote hosts are part of long term workflow, don't commit their IP addresses to Git repo.
+
+## dotfiles
+
+For more details, refer to each package's README.md:
+
+- [1Password](./1password/README.md)
+- [kitty](./kitty/README.md)
+- [neovim](./nvim/README.md)
+- [bat](./bat/README.md)
+- [git](./git/README.md)
+- [htop](./htop/README.md)
+- [lazygit](./lazygit/README.md)
+- [pet](./pet/README.md)
+- [tmux](./tmux/README.md)
+- [zsh](./shell/README.md)
