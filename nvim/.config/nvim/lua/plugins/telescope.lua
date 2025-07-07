@@ -1,10 +1,6 @@
 return {
     { "nvim-telescope/telescope-ui-select.nvim" },
     {
-        "nvim-telescope/telescope-frecency.nvim",
-        version = "*",
-    },
-    {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.8",
         dependencies = { "nvim-lua/plenary.nvim" },
@@ -46,9 +42,7 @@ return {
                     },
                 },
                 pickers = {
-                    find_files = {
-                        additional_args = { "--hidden" },
-                    },
+                    find_files = { hidden = true },
                     live_grep = {
                         additional_args = { "--hidden" },
                     },
@@ -65,7 +59,6 @@ return {
             }
 
             telescope.load_extension "ui-select"
-            telescope.load_extension "frecency"
         end,
     },
 }

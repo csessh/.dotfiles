@@ -10,7 +10,6 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>j", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>")
 vim.keymap.set("n", "<leader>k", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>")
 vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { desc = "Clear search highlights" })
-vim.keymap.set("n", "<leader><Backspace>", ":FrecencyValidate<CR><CR>", { desc = "Validate Frecency entries" })
 
 -- Search within visually selected texts
 vim.keymap.set("x", "/", "<Esc>/\\%V", { noremap = true, desc = "Search forward within visually selected texts" })
