@@ -7,8 +7,8 @@
 vim.g.mapleader = " "
 
 -- Editor shortcuts
-vim.keymap.set("n", "<leader>j", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>")
-vim.keymap.set("n", "<leader>k", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>")
+vim.keymap.set("n", "<leader>j", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>j")
+vim.keymap.set("n", "<leader>k", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>k")
 vim.keymap.set("n", "<leader><Esc>", ":noh<CR>", { desc = "Clear search highlights" })
 
 -- Search within visually selected texts
