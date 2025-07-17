@@ -7,6 +7,7 @@ return {
                 formatters_by_ft = {
                     lua = { "stylua" },
                     python = { "isort", "ruff_format" },
+                    ts = { "eslint_d" },
                     ["_"] = { "trim_whitespace" },
                 },
                 format_on_save = {
@@ -30,6 +31,7 @@ return {
                 "isort",
                 "ruff_format",
                 "stylua",
+                "eslint_d",
             },
         },
     },

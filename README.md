@@ -61,7 +61,6 @@ For more details, refer to each package's README.md:
 - [neovim](./nvim/README.md)
 - [bat](./bat/README.md)
 - [git](./git/README.md)
-- [htop](./htop/README.md)
 - [lazygit](./lazygit/README.md)
 - [pet](./pet/README.md)
 - [tmux](./tmux/README.md)

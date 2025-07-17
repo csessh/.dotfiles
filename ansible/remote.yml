@@ -12,7 +12,6 @@
     - docker
     - bat
     - fastfetch
-    - htop
     - neovim
     - pet
     - shell

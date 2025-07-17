@@ -1,0 +1,33 @@
+---
+- name: Check if Claude CLI is already installed
+  ansible.builtin.command: which claude
+  register: claude_check
+  failed_when: false
+  changed_when: false
+
+- name: Download Claude CLI installer
+  ansible.builtin.get_url:
+    url: https://claude.ai/cli/install.sh
+    dest: /tmp/claude-install.sh
+    mode: '0755'
+  when: claude_check.rc != 0
+
+- name: Install Claude CLI
+  ansible.builtin.shell: /tmp/claude-install.sh
+  when: claude_check.rc != 0
+  become: true
+
+- name: Clean up installer
+  ansible.builtin.file:
+    path: /tmp/claude-install.sh
+    state: absent
+  when: claude_check.rc != 0
+
+- name: Verify Claude CLI installation
+  ansible.builtin.command: claude --version
+  register: claude_version
+  changed_when: false
+
+- name: Display Claude CLI version
+  ansible.builtin.debug:
+    msg: "Claude CLI installed successfully: {{ claude_version.stdout }}"

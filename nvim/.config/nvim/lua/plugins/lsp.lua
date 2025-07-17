@@ -28,6 +28,7 @@ return {
                 lspconfig.pyright,
                 lspconfig.ruff,
                 lspconfig.taplo,
+                lspconfig.ts_ls,
             }
 
             for _, server in ipairs(servers) do
