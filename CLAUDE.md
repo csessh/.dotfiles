@@ -51,6 +51,10 @@ stow <package> # Deploy any package configuration
 - Required external dependencies: fzf, ripgrep, fd, xclip
 - Configured LSPs: bashls, clangd, docker_compose_language_service, dockerls, lua_ls, markdown_oxide, pyright, ruff, taplo, ts_ls
 - Auto-formatters: stylua (Lua), isort+ruff_format (Python), eslint_d (TypeScript)
+- Python testing: pytest.nvim plugin provides `<leader>pt` to run tests, `<leader>pta` to attach pytest to buffer
+- Code actions: `<leader>ca` for LSP code actions
+- LSP formatting: `<leader>fm` to format current buffer
+- LSP rename: `<leader>rn` to rename variables
 
 ### Tmux Setup
 - Plugin manager: TPM installation required
@@ -80,12 +84,32 @@ stow <package> # Deploy any package configuration
 - **neovim**: Mason for LSP/formatter management
 - **External tools**: fzf, ripgrep, fd, xclip for full neovim functionality
 
+## Testing and Validation
+
+### Stow Package Testing
+```bash
+# Test a specific package deployment
+stow <package>    # Deploy configuration
+stow -D <package> # Remove/unstow configuration
+stow -R <package> # Restow (remove then deploy)
+```
+
+### Ansible Validation
+```bash
+# Check playbook syntax
+ansible-playbook localhost.yml --syntax-check
+
+# Dry-run to see what would change
+ansible-playbook localhost.yml --check --diff
+```
+
 ## Development Workflow
 
 1. Make configuration changes in the appropriate package directory
 2. Test locally with `stow <package>` 
 3. For system-wide changes, update the corresponding Ansible role
-4. Use Ansible playbooks for complete environment setup on new systems
-5. Commit changes to git for version control
+4. Validate with `ansible-playbook --check --diff` before applying
+5. Use Ansible playbooks for complete environment setup on new systems
+6. Commit changes to git for version control
 
 The repository supports both individual package deployment (Stow) and complete system automation (Ansible), making it suitable for both incremental updates and full environment provisioning.
