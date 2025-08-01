@@ -42,7 +42,11 @@ return {
                         runtime = { version = "LuaJIT" },
                         workspace = {
                             checkThirdParty = false,
-                            library = { vim.env.VIMRUNTIME },
+                            library = {
+                                vim.env.VIMRUNTIME,
+                                "${3rd}/love2d/library",
+                            },
+                            userThirdParty = { os.getenv "HOME" .. "/.local/share/LuaAddons" },
                         },
                         diagnostics = {
                             globals = { "vim" },
