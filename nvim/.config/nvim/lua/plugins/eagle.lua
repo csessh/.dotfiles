@@ -1,13 +1,18 @@
-vim.opt.mousemoveevent = true
-vim.keymap.set("n", "g?", ":EagleWin<CR>", { noremap = true, silent = true })
-
 return {
     "soulis-1256/eagle.nvim",
+    keys = {
+        {
+            "<leader>?",
+            ":EagleWin<CR>",
+            silent = true,
+            noremap = true,
+        },
+    },
     opts = {
         show_headers = true,
         order = 1,
         improved_markdown = true,
-        mouse_mode = true,
+        mouse_mode = false,
         keyboard_mode = true,
         logging = false,
         close_on_cmd = true,
