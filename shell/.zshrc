@@ -3,6 +3,7 @@ export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
 export UPDATE_ZSH_DAYS=28
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
+export TERM=xterm-256color
 
 ZSH_THEME="tdo"
 
