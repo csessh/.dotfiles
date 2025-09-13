@@ -18,13 +18,11 @@ return {
         opts = {
             ensure_installed = {
                 "bashls",
-                "clangd",
                 "docker_compose_language_service",
                 "dockerls",
                 "lua_ls",
                 "markdown_oxide",
                 "pyright",
-                "ruff",
                 "taplo",
                 "ts_ls",
             },
@@ -36,12 +34,8 @@ return {
         dependencies = { "williamboman/mason.nvim" },
         opts = {
             ensure_installed = {
-                "cpplint",
                 "jsonlint",
-                "ruff",
-                "selene",
                 "shellcheck",
-                "yamllint",
                 "eslint_d",
             },
         },

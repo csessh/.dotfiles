@@ -6,7 +6,6 @@ return {
             require("conform").setup {
                 formatters_by_ft = {
                     lua = { "stylua" },
-                    python = { "isort", "ruff_format" },
                     ts = { "eslint_d" },
                     ["_"] = { "trim_whitespace" },
                 },
@@ -28,8 +27,6 @@ return {
         dependencies = { "williamboman/mason.nvim" },
         opts = {
             ensure_installed = {
-                "isort",
-                "ruff_format",
                 "stylua",
                 "eslint_d",
             },

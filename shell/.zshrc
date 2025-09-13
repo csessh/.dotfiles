@@ -26,12 +26,7 @@ plugins=(sudo web-search command-not-found colored-man-pages git)
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
 # Shell integrations
-source <(fzf --zsh)
 source <(docker completion zsh)
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
-
-# xterm-kitty ssh woe
-# https://www.reddit.com/r/KittyTerminal/comments/13ephdh/xtermkitty_ssh_woes_i_know_about_the_kitten_but/
-# [[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh"
-eval "$(uv generate-shell-completion zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
