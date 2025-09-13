@@ -4,7 +4,6 @@ export UPDATE_ZSH_DAYS=28
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 export TERM=xterm-256color
-
 ZSH_THEME="tdo"
 
 # Plugins and snippets
@@ -31,3 +30,6 @@ source <(docker completion zsh)
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export FLYCTL_INSTALL="$HOME/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
