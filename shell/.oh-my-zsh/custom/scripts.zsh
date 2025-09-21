@@ -32,7 +32,7 @@ keychron() {
         PERM=777
     fi
 
-    for i in {0..4}; do
+    for i in {0..6}; do
         sudo chmod $PERM /dev/hidraw$i
     done
     ls -la /dev | grep hidraw
