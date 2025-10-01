@@ -85,10 +85,15 @@ stow -R nvim    # Restow (remove then deploy)
 **External dependencies**: fzf, ripgrep, fd, xclip
 
 ### Tmux
+- Prefix key: `C-Space` (customized from default `C-b`)
 - TPM installation: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
 - tmux-resurrect: `<prefix><C-s>` save sessions, `<prefix><C-r>` restore
 - Neovim-tmux navigation: `<C-h/j/k/l>` seamlessly navigate between panes
-- Configuration file: `.tmux.conf` in tmux directory
+- Pane navigation: `<prefix>hjkl` to select panes
+- Pane resizing: `M-hjkl` (Alt+hjkl, no prefix) resize by 5 units
+- Pane swapping: `<prefix>HJKL` to swap panes in direction
+- Split panes: `<prefix>s` (horizontal), `<prefix>v` (vertical)
+- Reload config: `<prefix>r`
 
 ### Shell (zsh)
 - Install: `sudo dnf install zsh`
@@ -101,9 +106,9 @@ stow -R nvim    # Restow (remove then deploy)
 Roles are executed in specific order (localhost.yml:6-24):
 1. **Foundation** (must run first): ssh, utils, git
 2. **Configured tools**: docker, 1password, bat, claude, fastfetch, kitty, pet
-3. **Essentials**: tmux, neovim, shell
+3. **Essentials**: tmux, neovim, pet (duplicate), shell
 
-Remote playbook (remote.yml) excludes GUI-specific tools (1password, kitty, claude).
+Remote playbook (remote.yml:5-17) excludes GUI-specific tools (1password, kitty, claude, tmux initially).
 
 ## Development Workflow
 
