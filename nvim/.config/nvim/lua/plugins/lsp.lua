@@ -14,49 +14,90 @@ return {
         end,
     },
     {
-        "neovim/nvim-lspconfig",
+        "hrsh7th/cmp-nvim-lsp",
         lazy = false,
         config = function()
+            -- Get capabilities from cmp_nvim_lsp
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lspconfig = require "lspconfig"
+            local mason_bin = vim.fn.stdpath "data" .. "/mason/bin/"
+
+            -- List of LSP servers with their configurations
             local servers = {
-                lspconfig.bashls,
-                lspconfig.clangd,
-                lspconfig.docker_compose_language_service,
-                lspconfig.dockerls,
-                lspconfig.markdown_oxide,
-                lspconfig.pyright,
-                lspconfig.ruff,
-                lspconfig.taplo,
-                lspconfig.ts_ls,
-            }
-
-            for _, server in ipairs(servers) do
-                server.setup { capabilities = capabilities }
-            end
-
-            -- Specific configuration for lua_ls LSP
-            lspconfig.lua_ls.setup {
-                settings = {
-                    Lua = {
-                        runtime = { version = "LuaJIT" },
-                        workspace = {
-                            checkThirdParty = false,
-                            library = {
-                                vim.env.VIMRUNTIME,
-                                "${3rd}/love2d/library",
+                bashls = {
+                    cmd = { mason_bin .. "bash-language-server", "start" },
+                    filetypes = { "sh", "bash" },
+                },
+                clangd = {
+                    cmd = { mason_bin .. "clangd" },
+                    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+                },
+                docker_compose_language_service = {
+                    cmd = { mason_bin .. "docker-compose-langserver", "--stdio" },
+                    filetypes = { "yaml.docker-compose" },
+                },
+                dockerls = {
+                    cmd = { mason_bin .. "docker-langserver", "--stdio" },
+                    filetypes = { "dockerfile" },
+                },
+                markdown_oxide = {
+                    cmd = { mason_bin .. "markdown-oxide" },
+                    filetypes = { "markdown" },
+                },
+                pyright = {
+                    cmd = { mason_bin .. "pyright-langserver", "--stdio" },
+                    filetypes = { "python" },
+                },
+                ruff = {
+                    cmd = { mason_bin .. "ruff", "server" },
+                    filetypes = { "python" },
+                },
+                taplo = {
+                    cmd = { mason_bin .. "taplo", "lsp", "stdio" },
+                    filetypes = { "toml" },
+                },
+                ts_ls = {
+                    cmd = { mason_bin .. "typescript-language-server", "--stdio" },
+                    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+                },
+                lua_ls = {
+                    cmd = { mason_bin .. "lua-language-server" },
+                    filetypes = { "lua" },
+                    settings = {
+                        Lua = {
+                            runtime = { version = "LuaJIT" },
+                            workspace = {
+                                checkThirdParty = false,
+                                library = {
+                                    vim.env.VIMRUNTIME,
+                                    "${3rd}/love2d/library",
+                                },
+                                userThirdParty = { os.getenv "HOME" .. "/.local/share/LuaAddons" },
                             },
-                            userThirdParty = { os.getenv "HOME" .. "/.local/share/LuaAddons" },
+                            diagnostics = {
+                                globals = { "vim" },
+                            },
+                            telemetry = { enable = false },
                         },
-                        diagnostics = {
-                            globals = { "vim" },
-                        },
-                        telemetry = { enable = false },
                     },
                 },
-                capabilities = capabilities,
             }
 
+            -- Configure and enable each server
+            for name, config in pairs(servers) do
+                -- Merge with shared capabilities and root markers
+                config.capabilities = capabilities
+                config.root_markers = { ".git" }
+
+                vim.lsp.config(name, config)
+                vim.lsp.enable(name)
+            end
+
+            -- Create LspInfo command as alias to checkhealth
+            vim.api.nvim_create_user_command("LspInfo", function()
+                vim.cmd "checkhealth vim.lsp"
+            end, { desc = "Show LSP client information" })
+
+            -- Setup keymaps on LspAttach
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)

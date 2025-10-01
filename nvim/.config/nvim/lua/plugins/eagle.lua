@@ -2,7 +2,7 @@ return {
     "soulis-1256/eagle.nvim",
     keys = {
         {
-            "<leader>?",
+            "g?",
             ":EagleWin<CR>",
             silent = true,
             noremap = true,

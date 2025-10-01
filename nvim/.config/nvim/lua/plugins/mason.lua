@@ -11,24 +11,31 @@ return {
             },
             ui = { check_outdated_packages_on_open = true },
         },
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = { "williamboman/mason.nvim" },
-        opts = {
-            ensure_installed = {
-                "bashls",
+        config = function(_, opts)
+            require("mason").setup(opts)
+
+            -- Auto-install LSP servers
+            local ensure_installed = {
+                "bash-language-server",
                 "clangd",
-                "docker_compose_language_service",
-                "dockerls",
-                "lua_ls",
-                "markdown_oxide",
+                "docker-compose-language-service",
+                "dockerfile-language-server",
+                "lua-language-server",
+                "markdown-oxide",
                 "pyright",
                 "ruff",
                 "taplo",
-                "ts_ls",
-            },
-        },
+                "typescript-language-server",
+            }
+
+            local registry = require "mason-registry"
+            for _, name in ipairs(ensure_installed) do
+                local package = registry.get_package(name)
+                if not package:is_installed() then
+                    package:install()
+                end
+            end
+        end,
     },
     {
         "rshkarin/mason-nvim-lint",

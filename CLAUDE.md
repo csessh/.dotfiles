@@ -8,18 +8,19 @@ This is a personal dotfiles repository managed with GNU Stow and automated with 
 
 ## Architecture
 
-The repository follows a structured approach with two main management systems:
+The repository follows a dual-management approach:
 
 ### GNU Stow Structure
 - Each tool has its own directory (e.g., `nvim/`, `tmux/`, `shell/`, `git/`)
-- Configurations are organized to mirror the target filesystem structure
-- Use `stow <package>` from the repository root to deploy configurations
+- Configurations mirror the target filesystem structure
+- Deploy with `stow <package>` from repository root
 
 ### Ansible Automation
-- Located in `ansible/` directory
-- Playbooks for local (`localhost.yml`) and remote (`remote.yml`) deployment
-- Role-based organization under `ansible/roles/`
-- Vault file for secrets management (ignored by git)
+- `ansible/localhost.yml`: Local machine setup (includes GUI tools like kitty, 1password, claude)
+- `ansible/remote.yml`: Remote server setup (excludes GUI tools)
+- `ansible/roles/`: 13 role-based configurations
+- Role execution order matters: `ssh`, `utils`, `git` must run first
+- Vault file for secrets management (gitignored)
 
 ## Common Commands
 
@@ -27,7 +28,7 @@ The repository follows a structured approach with two main management systems:
 ```bash
 cd ~/.dotfiles/ansible
 
-# With vault file present:
+# With vault file:
 ansible-playbook localhost.yml --become-pass-file vault --vault-pass-file vault
 
 # Without vault file:
@@ -35,81 +36,86 @@ ansible-playbook localhost.yml --ask-become-pass --ask-vault-pass
 
 # Remote deployment:
 ansible-playbook remote.yml -i "<address>," --become-pass-file vault --vault-pass-file vault
+
+# Validation:
+ansible-playbook localhost.yml --syntax-check           # Check syntax
+ansible-playbook localhost.yml --check --diff          # Dry-run
 ```
 
 ### GNU Stow Package Management
 ```bash
 cd ~/.dotfiles
-stow nvim      # Deploy neovim configuration
-stow tmux      # Deploy tmux configuration
-stow shell     # Deploy zsh configuration
-stow <package> # Deploy any package configuration
+stow nvim       # Deploy neovim configuration
+stow -D nvim    # Remove/unstow
+stow -R nvim    # Restow (remove then deploy)
 ```
 
 ### Neovim Development
-- LSP management: `:Mason` to install/manage LSPs, linters, formatters
-- Required external dependencies: fzf, ripgrep, fd, xclip
-- Configured LSPs: bashls, clangd, docker_compose_language_service, dockerls, lua_ls, markdown_oxide, pyright, ruff, taplo, ts_ls
-- Auto-formatters: stylua (Lua), isort+ruff_format (Python), eslint_d (TypeScript)
-- Python testing: pytest.nvim plugin provides `<leader>pt` to run tests, `<leader>pta` to attach pytest to buffer
-- Code actions: `<leader>ca` for LSP code actions
-- LSP formatting: `<leader>fm` to format current buffer
-- LSP rename: `<leader>rn` to rename variables
+- `:Mason` - Install/manage LSPs, linters, formatters
+- `:LspInfo` - Show LSP client information (alias to `:checkhealth vim.lsp`)
 
-### Tmux Setup
-- Plugin manager: TPM installation required
-- Key plugin: tmux-resurrect for session persistence
-- Seamless neovim-tmux navigation with Ctrl+hjkl
+**LSP Servers** (all in nvim/.config/nvim/lua/plugins/lsp.lua:25-83):
+- bashls, clangd, docker_compose_language_service, dockerls
+- lua_ls (configured for Love2D support), markdown_oxide
+- pyright, ruff (Python)
+- taplo (TOML), ts_ls (TypeScript/JavaScript)
 
-## Key Components
+**Auto-formatters** (conform.lua:7-12):
+- Lua: stylua
+- Python: isort → ruff_format (sequential)
+- TypeScript: eslint_d
+- Format-on-save enabled (500ms timeout)
 
-- **Neovim**: Lua-based configuration with LSP, formatting, and extensive plugin ecosystem
-- **Shell**: zsh with oh-my-zsh framework
-- **Tmux**: Session management with plugin support and neovim integration
-- **Git**: Version control configuration
-- **Terminal**: kitty and ghostty terminal configurations
-- **Development Tools**: bat, lazygit, pet, fastfetch, 1Password CLI integration
+**Linters** (linters.lua:5-12):
+- bash: shellcheck
+- cpp: cpplint
+- json: jsonlint
+- lua: selene
+- python: ruff
+- yaml: yamllint
 
-## Installation Dependencies
+**Key bindings**:
+- `<leader>ca` - LSP code actions
+- `<leader>fm` - Format current buffer
+- `<leader>rn` - Rename variable
+- `<leader>pt` - Run pytest
+- `<leader>pta` - Attach pytest to buffer
+- `<leader>ptd` - Detach pytest
 
-### System Requirements
-- Python3 and pip (usually pre-installed on Fedora)
-- Ansible: `sudo dnf install ansible`
-- Git for repository management
-- GNU Stow for dotfile deployment
+**External dependencies**: fzf, ripgrep, fd, xclip
 
-### Tool-Specific Dependencies
-- **zsh setup**: oh-my-zsh installation script
-- **tmux**: TPM plugin manager from GitHub
-- **neovim**: Mason for LSP/formatter management
-- **External tools**: fzf, ripgrep, fd, xclip for full neovim functionality
+### Tmux
+- TPM installation: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+- tmux-resurrect: `<prefix><C-s>` save sessions, `<prefix><C-r>` restore
+- Neovim-tmux navigation: `<C-h/j/k/l>` seamlessly navigate between panes
+- Configuration file: `.tmux.conf` in tmux directory
 
-## Testing and Validation
+### Shell (zsh)
+- Install: `sudo dnf install zsh`
+- oh-my-zsh: `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+- Skip default `.zshrc` creation during oh-my-zsh install
+- Deploy with `stow shell` after installation
 
-### Stow Package Testing
-```bash
-# Test a specific package deployment
-stow <package>    # Deploy configuration
-stow -D <package> # Remove/unstow configuration
-stow -R <package> # Restow (remove then deploy)
-```
+## Ansible Role Structure
 
-### Ansible Validation
-```bash
-# Check playbook syntax
-ansible-playbook localhost.yml --syntax-check
+Roles are executed in specific order (localhost.yml:6-24):
+1. **Foundation** (must run first): ssh, utils, git
+2. **Configured tools**: docker, 1password, bat, claude, fastfetch, kitty, pet
+3. **Essentials**: tmux, neovim, shell
 
-# Dry-run to see what would change
-ansible-playbook localhost.yml --check --diff
-```
+Remote playbook (remote.yml) excludes GUI-specific tools (1password, kitty, claude).
 
 ## Development Workflow
 
-1. Make configuration changes in the appropriate package directory
-2. Test locally with `stow <package>` 
-3. For system-wide changes, update the corresponding Ansible role
-4. Validate with `ansible-playbook --check --diff` before applying
-5. Use Ansible playbooks for complete environment setup on new systems
-6. Commit changes to git for version control
+1. Edit configurations in appropriate package directory
+2. Test with `stow <package>` or `stow -R <package>`
+3. For system-level changes, update corresponding Ansible role in `ansible/roles/<role>/tasks/main.yml`
+4. Validate Ansible changes with `--check --diff` before applying
+5. Use Ansible playbooks for complete environment provisioning
 
-The repository supports both individual package deployment (Stow) and complete system automation (Ansible), making it suitable for both incremental updates and full environment provisioning.
+## Installation Prerequisites
+
+- Python3 and pip (pre-installed on Fedora)
+- Ansible: `sudo dnf install ansible`
+- Git
+- GNU Stow
