@@ -46,6 +46,21 @@ return {
                 pyright = {
                     cmd = { mason_bin .. "pyright-langserver", "--stdio" },
                     filetypes = { "python" },
+                    settings = {
+                        python = {
+                            analysis = {
+                                autoSearchPaths = true,
+                                useLibraryCodeForTypes = true,
+                                diagnosticMode = "openFilesOnly",
+                            },
+                        },
+                    },
+                    before_init = function(_, config)
+                        local venv_path = vim.fn.getcwd() .. "/.venv/bin/python"
+                        if vim.fn.filereadable(venv_path) == 1 then
+                            config.settings.python.pythonPath = venv_path
+                        end
+                    end,
                 },
                 ruff = {
                     cmd = { mason_bin .. "ruff", "server" },
