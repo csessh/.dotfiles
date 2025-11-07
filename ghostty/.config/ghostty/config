@@ -22,4 +22,4 @@ shell-integration = zsh
 cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor, ssh-env
-keybind = shift+enter=text:\n
+keybind = shift+enter=text:\x1b\r

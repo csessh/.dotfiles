@@ -37,3 +37,28 @@ keychron() {
     done
     ls -la /dev | grep hidraw
 }
+
+mkd() {
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
+
+trim() {
+    sed 's/^[ \t]*//;s/[ \t]*$//'
+}
+
+rgrep() {
+	grep -Id recurse "$@"
+}
+
+today() {
+    date '+%Y-%m-%d'
+}
+
+paths() {
+	echo $PATH | tr ':' '\n'
+}
+
+filesize() {
+	du -sk * | sort -n
+}
+
