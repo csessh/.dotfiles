@@ -59,6 +59,6 @@ paths() {
 }
 
 filesize() {
-	du -sk * | sort -n
+	du -sk * | sort -h
 }
 
