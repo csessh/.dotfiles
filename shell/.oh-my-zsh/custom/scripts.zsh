@@ -39,7 +39,8 @@ keychron() {
 }
 
 mkd() {
-    mkdir -p -- "$1" && cd -P -- "$1"
+    mkdir -p -- "$1";
+    cd "$1";
 }
 
 trim() {

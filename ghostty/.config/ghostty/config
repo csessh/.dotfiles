@@ -9,6 +9,7 @@ window-decoration = false
 fullscreen = true
 link-url = true
 mouse-hide-while-typing = true
+mouse-scroll-multiplier = 1
 window-vsync = true
 window-padding-balance = true
 window-padding-y = 0
