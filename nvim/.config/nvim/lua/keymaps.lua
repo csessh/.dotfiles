@@ -19,7 +19,7 @@ vim.keymap.set("x", "?", "<Esc>?\\%V", { noremap = true, desc = "Search backward
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit Insert mode and return to Terminal mode" })
 
 -- Package managers
-vim.keymap.set("n", "<leader>X", ":source %<CR>", { desc = "Source current file" })
+vim.keymap.set("n", "<leader>%", ":source %<CR>", { desc = "Source current file" })
 
 -- Disable keymaps
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disabled" })

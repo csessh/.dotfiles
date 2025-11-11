@@ -11,7 +11,7 @@ return {
                 desc = "Telescope find files",
             },
             {
-                "<leader>gl",
+                "<leader>gr",
                 require("telescope.builtin").live_grep,
                 desc = "Telescope live grep",
             },
@@ -42,7 +42,7 @@ return {
                     },
                 },
                 pickers = {
-                    find_files = { hidden = true },
+                    find_files = { hidden = true, no_ignore = true },
                     live_grep = {
                         additional_args = { "--hidden" },
                     },

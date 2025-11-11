@@ -1,5 +1,6 @@
 return {
     "csessh/aoc.nvim",
+    enabled = false,
     cond = string.find(vim.fn.getcwd(), vim.fn.expand "~/Documents/AoC/"),
     opts = {
         session_filepath = "/var/tmp/aoc/session.txt",

@@ -51,15 +51,17 @@ rgrep() {
 	grep -Id recurse "$@"
 }
 
-today() {
-    date '+%Y-%m-%d'
-}
+  today() {
+      date '+%d %B %Y'
+  }
 
 paths() {
 	echo $PATH | tr ':' '\n'
 }
 
 filesize() {
-	du -sk * | sort -h
+    {
+        echo "SIZE FILENAME"
+        du -sh * | sort -h
+    } | column -t
 }
-
