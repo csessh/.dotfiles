@@ -57,7 +57,7 @@ return {
         },
         window = {
             position = "left",
-            width = 30,
+            width = 40,
         },
         buffers = {
             follow_current_file = {
