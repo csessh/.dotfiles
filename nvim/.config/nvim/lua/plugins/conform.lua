@@ -1,13 +1,12 @@
 return {
     {
         "stevearc/conform.nvim",
-        enabled = false,
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            require("nvim.config.nvim.lua.plugins.archived.conform").setup {
+            require("conform").setup {
                 formatters_by_ft = {
                     lua = { "stylua" },
-                    python = { "isort", "ruff_format" },
+                    python = { "ruff_format", "ruff_organize_imports" },
                     ts = { "eslint_d" },
                     ["_"] = { "trim_whitespace" },
                 },
@@ -26,14 +25,12 @@ return {
         -- Mason -> Conform -> Mason-Conform
         -- https://github.com/zapling/mason-conform.nvim?tab=readme-ov-file#setup
         "zapling/mason-conform.nvim",
-        enabled = false,
         dependencies = { "williamboman/mason.nvim" },
         opts = {
             ensure_installed = {
-                "isort",
-                "ruff_format",
-                "stylua",
                 "eslint_d",
+                "ruff",
+                "stylua",
             },
         },
     },
