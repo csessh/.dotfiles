@@ -1,5 +1,5 @@
 return {
-    "nvim-zh/colorful-winsep.nvim",
-    event = { "WinLeave" },
-    opts = { smooth = true },
+  "nvim-zh/colorful-winsep.nvim",
+  event = { "WinLeave" },
+  opts = { smooth = true },
 }
