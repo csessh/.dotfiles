@@ -26,10 +26,14 @@ return {
                         lookahead = true,
 
                         keymaps = {
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
                             ["af"] = "@function.outer",
                             ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
-                            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+                            ["ai"] = "@conditional.outer",
+                            ["ii"] = "@conditional.inner",
+                            ["al"] = "@loop.outer",
+                            ["il"] = "@loop.inner",
                         },
                         include_surrounding_whitespace = false,
                     },
@@ -38,8 +42,7 @@ return {
                         set_jumps = true,
                         goto_next_start = {
                             ["]f"] = "@function.outer",
-                            ["]c"] = { query = "@class.outer", desc = "Next class start" },
-                            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+                            ["]c"] = "@class.outer",
                         },
                         goto_next_end = {
                             ["]F"] = "@function.outer",
@@ -52,6 +55,16 @@ return {
                         goto_previous_end = {
                             ["[F"] = "@function.outer",
                             ["[C"] = "@class.outer",
+                        },
+                        goto_next = {
+                            ["]i"] = "@conditional.outer",
+                            ["]l"] = "@loop.outer",
+                            ["]z"] = "@fold",
+                        },
+                        goto_previous = {
+                            ["[i"] = "@conditional.outer",
+                            ["[l"] = "@loop.outer",
+                            ["[z"] = "@fold",
                         },
                     },
                 },
