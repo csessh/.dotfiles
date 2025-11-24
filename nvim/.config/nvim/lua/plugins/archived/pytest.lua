@@ -1,5 +1,6 @@
 return {
   "richardhapb/pytest.nvim",
+  enabled = false,
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   opts = {
     open_output_onfail = false,
