@@ -51,9 +51,9 @@ rgrep() {
 	grep -Id recurse "$@"
 }
 
-  today() {
-      date '+%d %B %Y'
-  }
+today() {
+  date '+%d %B %Y'
+}
 
 paths() {
 	echo $PATH | tr ':' '\n'
@@ -64,4 +64,8 @@ filesize() {
         echo "SIZE FILENAME"
         du -sh * | sort -h
     } | column -t
+}
+
+dockerps() {
+    docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
 }
