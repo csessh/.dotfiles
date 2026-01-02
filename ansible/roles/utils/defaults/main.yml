@@ -13,6 +13,8 @@ packages:
   - git-lfs
   - nodejs
   - openssl
+  - pam-u2f
+  - pamu2fcfg
   - ripgrep
   - stow
   - tree
