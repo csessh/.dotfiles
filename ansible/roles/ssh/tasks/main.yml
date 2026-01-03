@@ -53,3 +53,9 @@
     key: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
     path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
     state: present
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow ssh
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
