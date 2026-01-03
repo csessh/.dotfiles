@@ -4,43 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a personal dotfiles repository managed with GNU Stow and automated with Ansible. It contains configuration files for various development tools and applications on a Fedora Linux system.
+This is a personal dotfiles repository managed with GNU Stow. It contains configuration files for various development tools and applications on a Fedora Linux system.
 
 ## Architecture
 
-The repository follows a dual-management approach:
+Each tool has its own directory (e.g., `nvim/`, `tmux/`, `shell/`, `git/`) that mirrors the target filesystem structure. Deploy with `stow <package>` from repository root.
 
-### GNU Stow Structure
-- Each tool has its own directory (e.g., `nvim/`, `tmux/`, `shell/`, `git/`)
-- Configurations mirror the target filesystem structure
-- Deploy with `stow <package>` from repository root
-
-### Ansible Automation
-- `ansible/localhost.yml`: Local machine setup (includes GUI tools like kitty, 1password, claude)
-- `ansible/remote.yml`: Remote server setup (excludes GUI tools)
-- `ansible/roles/`: 13 role-based configurations
-- Role execution order matters: `ssh`, `utils`, `git` must run first
-- Vault file for secrets management (gitignored)
+**Stow packages**: bat, fastfetch, ghostty, git, kitty, lazygit, nvim, pet, shell, ssh, tmux, Yubico
 
 ## Common Commands
-
-### Ansible Deployment
-```bash
-cd ~/.dotfiles/ansible
-
-# With vault file:
-ansible-playbook localhost.yml --become-pass-file vault --vault-pass-file vault
-
-# Without vault file:
-ansible-playbook localhost.yml --ask-become-pass --ask-vault-pass
-
-# Remote deployment:
-ansible-playbook remote.yml -i "<address>," --become-pass-file vault --vault-pass-file vault
-
-# Validation:
-ansible-playbook localhost.yml --syntax-check           # Check syntax
-ansible-playbook localhost.yml --check --diff          # Dry-run
-```
 
 ### GNU Stow Package Management
 ```bash
@@ -101,26 +73,8 @@ stow -R nvim    # Restow (remove then deploy)
 - Skip default `.zshrc` creation during oh-my-zsh install
 - Deploy with `stow shell` after installation
 
-## Ansible Role Structure
-
-Roles are executed in specific order (localhost.yml:6-24):
-1. **Foundation** (must run first): ssh, utils, git
-2. **Configured tools**: docker, 1password, bat, claude, fastfetch, kitty, pet
-3. **Essentials**: tmux, neovim, pet (duplicate), shell
-
-Remote playbook (remote.yml:5-17) excludes GUI-specific tools (1password, kitty, claude, tmux initially).
-
 ## Development Workflow
 
 1. Edit configurations in appropriate package directory
 2. Test with `stow <package>` or `stow -R <package>`
-3. For system-level changes, update corresponding Ansible role in `ansible/roles/<role>/tasks/main.yml`
-4. Validate Ansible changes with `--check --diff` before applying
-5. Use Ansible playbooks for complete environment provisioning
-
-## Installation Prerequisites
-
-- Python3 and pip (pre-installed on Fedora)
-- Ansible: `sudo dnf install ansible`
-- Git
-- GNU Stow
+3. Verify changes work as expected before committing
