@@ -1,0 +1,16 @@
+- name: Simulate stow
+  shell:
+    cmd: stow bat --simulate -v
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow bat
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+
+- name: Rebuild Bat cache
+  shell:
+    cmd: bat cache --build

@@ -1,0 +1,24 @@
+- name: The "I-specialise-in-automation" dotfiles playbook
+  vars:
+    playbook_id: localhost_playbook
+  hosts: local
+  roles:
+    # Must be installed first
+    - ssh
+    - utils
+    - git
+
+    # Tools which require specific configuration
+    - docker
+    - 1password
+    - bat
+    - claude
+    - fastfetch
+    - kitty
+    - pet
+
+    # Other essentials
+    - tmux
+    - neovim
+    - pet
+    - shell

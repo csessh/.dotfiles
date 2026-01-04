@@ -1,0 +1,26 @@
+- name: Simulate stow
+  shell:
+    cmd: stow git --simulate -v 
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow git
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+
+- name: Simulate stow
+  shell:
+    cmd: stow lazygit --simulate -v 
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow lazygit
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+

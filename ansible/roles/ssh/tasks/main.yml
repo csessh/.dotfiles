@@ -1,0 +1,61 @@
+- name: Ensure ~/.ssh/config exists
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh/config"
+    state: touch
+    mode: "0640"
+
+- name: Check if 1password ssh agent block already exists
+  command: grep -q 'IdentityAgent ~/.1password/agent.sock' ~/.ssh/config
+  register: op_agent_block_exists
+  ignore_errors: yes
+
+- name: Check if github.com block already exists
+  command: grep -q 'Host github.com' ~/.ssh/config
+  register: github_block_exists
+  ignore_errors: yes
+
+- name: Add SSH config for github.com if not present
+  become: yes
+  blockinfile:
+    path: "{{ ansible_env.HOME }}/.ssh/config"
+    create: yes
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+    block: |
+      Host github.com
+        IdentityFile ~/.ssh/github
+        IdentitiesOnly yes
+  when: github_block_exists.rc != 0 and op_agent_block_exists.rc != 0
+
+- name: Check if SSH key ~/.ssh/github already exists
+  stat:
+    path: "{{ ansible_env.HOME }}/.ssh/github"
+  ignore_errors: yes
+  register: github_key
+
+- name: Load GitHub privatge key from ansible-vault encrypted file
+  include_vars:
+    file: ~/.dotfiles/ansible/roles/ssh/defaults/secrets.yml
+  when: not github_key.stat.exists and op_agent_block_exists.rc != 0
+
+- name: Write private key to ~/.ssh/github if not present
+  become: yes
+  copy:
+    content: "{{ github_private_key }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/github"
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+  when: not github_key.stat.exists and op_agent_block_exists.rc != 0
+
+- name: Add GitHub SSH key to known_hosts if not already present
+  ansible.builtin.known_hosts:
+    name: github.com
+    key: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
+    path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    state: present
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow ssh
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'

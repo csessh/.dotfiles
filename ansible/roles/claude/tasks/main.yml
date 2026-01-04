@@ -1,0 +1,47 @@
+---
+- name: Check if Claude CLI is already installed
+  ansible.builtin.command: which claude
+  register: claude_check
+  failed_when: false
+  changed_when: false
+
+- name: Check if npm is available
+  ansible.builtin.command: which npm
+  register: npm_check
+  failed_when: false
+  changed_when: false
+  when: claude_check.rc != 0
+
+- name: Install Claude CLI via npm
+  community.general.npm:
+    name: "@anthropic-ai/claude-cli"
+    global: true
+  when: claude_check.rc != 0 and npm_check.rc == 0
+  become: true
+
+- name: Download Claude CLI installer (fallback)
+  ansible.builtin.get_url:
+    url: https://claude.ai/cli/install.sh
+    dest: /tmp/claude-install.sh
+    mode: '0755'
+  when: claude_check.rc != 0 and npm_check.rc != 0
+
+- name: Install Claude CLI via installer (fallback)
+  ansible.builtin.shell: /tmp/claude-install.sh
+  when: claude_check.rc != 0 and npm_check.rc != 0
+  become: true
+
+- name: Clean up installer (fallback)
+  ansible.builtin.file:
+    path: /tmp/claude-install.sh
+    state: absent
+  when: claude_check.rc != 0 and npm_check.rc != 0
+
+- name: Verify Claude CLI installation
+  ansible.builtin.command: claude --version
+  register: claude_version
+  changed_when: false
+
+- name: Display Claude CLI version
+  ansible.builtin.debug:
+    msg: "Claude CLI installed successfully: {{ claude_version.stdout }}"

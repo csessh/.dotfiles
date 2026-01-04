@@ -1,0 +1,17 @@
+- name: The "I-specialise-in-automation" dotfiles playbook for remote servers
+  hosts: all
+  vars:
+    playbook_id: remote_playbook
+  roles:
+    # Standard tools/packages
+    - ssh
+    - utils
+    - git
+
+    # Tools which require specific configuration
+    - docker
+    - bat
+    - fastfetch
+    - neovim
+    - pet
+    - shell

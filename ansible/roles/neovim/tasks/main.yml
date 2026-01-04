@@ -1,0 +1,16 @@
+- name: Simulate stow
+  shell:
+    cmd: stow nvim --simulate -v 
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow nvim
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
+
+- name: Install pynvim (neovim Python provider)
+  pip:
+    name: pynvim

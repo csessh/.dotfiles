@@ -1,0 +1,34 @@
+- name: Get current user using whoami
+  command: whoami
+  register: current_user
+  changed_when: False
+
+- name: Change default shell to Zsh for current user
+  become: yes
+  user:
+    name: "{{ current_user.stdout }}"
+    shell: /bin/zsh
+
+- name: Install Oh My Zsh
+  shell:
+    cmd: echo "Y" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  args:
+    creates: ~/.oh-my-zsh
+
+- name: Remove stock zshrc
+  file:
+    path: ~/.zshrc
+    state: absent
+
+- name: Simulate stow
+  shell:
+    cmd: stow shell --simulate -v
+    chdir: ~/.dotfiles/
+  register: sim_result
+  changed_when: False
+
+- name: Stow dotfiles
+  shell:
+    cmd: stow shell
+    chdir: ~/.dotfiles
+  when: '"LINK: " in sim_result.stderr'
