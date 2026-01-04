@@ -3,6 +3,7 @@ packages:
   - ca-certificates
   - cmatrix
   - curl
+  - cloudflared
   - fastfetch
   - fd-find
   - fuse-sshfs
@@ -13,8 +14,6 @@ packages:
   - git-lfs
   - nodejs
   - openssl
-  - pam-u2f
-  - pamu2fcfg
   - ripgrep
   - stow
   - tree
@@ -23,6 +22,11 @@ packages:
   - xclip
   - zoxide
   - zsh
+
+  # Yubikey
+  - pam-u2f
+  - pamu2fcfg
+  - ykman
 
   # Python
   - python3-libdnf5
@@ -41,7 +45,7 @@ packages:
   # Tools require configurations
   - bat
   - btop
-  - kitty
+  - ghostty
   - lazygit
   - neovim
   - pet

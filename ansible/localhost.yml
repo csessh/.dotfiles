@@ -10,7 +10,6 @@
 
     # Tools which require specific configuration
     - docker
-    - 1password
     - bat
     - claude
     - fastfetch

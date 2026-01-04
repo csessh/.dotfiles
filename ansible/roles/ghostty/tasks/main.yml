@@ -1,13 +1,13 @@
 - name: Simulate stow
   shell:
-    cmd: stow kitty --simulate -v
+    cmd: stow ghostty --simulate -v
     chdir: ~/.dotfiles/
   register: sim_result
   changed_when: False
 
 - name: Stow dotfiles
   shell:
-    cmd: stow kitty
+    cmd: stow ghostty
     chdir: ~/.dotfiles
   when: '"LINK: " in sim_result.stderr'
 
