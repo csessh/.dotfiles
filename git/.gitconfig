@@ -1,6 +1,6 @@
 [user]
     name = Thang Do
-    email = csessh@hey.com
+    email = tdo@hjkl.vn
 [core]
     editor = nvim
     longpaths = true
