@@ -6,6 +6,10 @@ export EDITOR="nvim"
 
 ZSH_THEME="tdo"
 
+if ! ssh-add -l 2>/dev/null | grep -q "opensc\|PKCS"; then
+    ssh-add -s /usr/lib64/opensc-pkcs11.so 2>/dev/null
+fi
+
 # Plugins and snippets
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
