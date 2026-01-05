@@ -44,17 +44,36 @@ detect_os() {
 OS=$(detect_os)
 info "Detected OS: $OS"
 
+# Upgrade system packages
+upgrade_system() {
+    info "Upgrading system packages..."
+
+    case "$OS" in
+        fedora)
+            sudo dnf upgrade -y
+            ;;
+        ubuntu|debian)
+            sudo apt-get update
+            sudo apt-get upgrade -y
+            ;;
+        macos)
+            if command -v brew &> /dev/null; then
+                brew update && brew upgrade
+            fi
+            ;;
+    esac
+}
+
 # Install essential packages (needed before nix/home-manager)
 install_essentials() {
     info "Installing essential packages..."
 
     case "$OS" in
         fedora)
-            sudo dnf install -y git stow curl zsh
+            sudo dnf install -y git stow curl zsh unzip
             ;;
         ubuntu|debian)
-            sudo apt-get update
-            sudo apt-get install -y git stow curl zsh
+            sudo apt-get install -y git stow curl zsh unzip
             ;;
         macos)
             # Homebrew should already have git, install stow
@@ -124,17 +143,14 @@ stow_package() {
     stow -R "$package" 2>/dev/null || stow "$package"
 }
 
-# Install home-manager
+# Install home-manager (flake-based, no channel install needed)
 install_home_manager() {
     if command -v home-manager &> /dev/null; then
         info "home-manager is already installed"
         return
     fi
 
-    info "Installing home-manager..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
+    info "home-manager will be installed via flake on first switch"
 }
 
 # Install system packages based on OS
@@ -280,20 +296,32 @@ set_default_shell() {
 main() {
     info "Starting bootstrap..."
 
-    # Step 1: Install essentials (git, stow, curl, zsh)
+    # Step 1: Upgrade system packages
+    upgrade_system
+
+    # Step 2: Install essentials (git, stow, curl, zsh, unzip)
     install_essentials
 
-    # Step 2: Clone dotfiles (needed for stow)
+    # Step 3: Clone dotfiles (needed for stow)
     clone_dotfiles
 
-    # Step 3: Install Nix
+    # Step 4: Install Nix
     install_nix
 
-    # Step 4: Stow nix config to enable flakes
+    # Step 5: Stow nix config to enable flakes
     stow_package "nix"
 
-    # Step 5: Install home-manager
-    install_home_manager
+    # Step 6: Stow home-manager config (remove any existing config first)
+    if [ -d "$HOME/.config/home-manager" ] && [ ! -L "$HOME/.config/home-manager" ]; then
+        info "Removing existing home-manager config..."
+        rm -rf "$HOME/.config/home-manager"
+    fi
+    stow_package "home-manager"
+
+    # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
+    info "Applying home-manager configuration (this may take a while on first run)..."
+    cd "$DOTFILES_DIR/home-manager/.config/home-manager"
+    nix run home-manager -- switch --impure --flake .
 
     # Source nix profile to get home-manager in PATH
     source_nix
@@ -301,17 +329,6 @@ main() {
         . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     fi
     export PATH="$HOME/.nix-profile/bin:$PATH"
-
-    # Step 6: Stow home-manager config (remove default config first)
-    if [ -d "$HOME/.config/home-manager" ] && [ ! -L "$HOME/.config/home-manager" ]; then
-        info "Removing default home-manager config..."
-        rm -rf "$HOME/.config/home-manager"
-    fi
-    stow_package "home-manager"
-
-    # Step 7: Apply home-manager configuration (--impure to read $USER/$HOME)
-    info "Applying home-manager configuration..."
-    home-manager switch --impure
 
     # Step 8: Install system packages
     install_system_packages
