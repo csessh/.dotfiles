@@ -4,86 +4,84 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a personal dotfiles repository managed with GNU Stow. It contains configuration files for various development tools and applications on a Fedora Linux system.
+Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, Ubuntu, and macOS.
 
 ## Architecture
 
-Each tool has its own directory (e.g., `nvim/`, `tmux/`, `shell/`, `git/`) that mirrors the target filesystem structure. Deploy with `stow <package>` from repository root.
+**Two-layer management:**
+1. **Nix home-manager** - Installs packages declaratively (CLI tools, dev tools, languages)
+2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
-**Stow packages**: bat, fastfetch, ghostty, git, lazygit, nvim, pet, shell, ssh, tmux, Yubico
+Each tool directory mirrors the target filesystem structure. Deploy with `stow <package>` from repository root.
 
-**Theme**: Cyberdream is used consistently across nvim, bat, git-delta, and terminal emulators.
+**Stow packages**: bat, fastfetch, ghostty, git, home-manager, lazygit, nix, nvim, shell, ssh, tmux, Yubico
+
+**Theme**: Cyberdream across nvim, bat, git-delta, tmux, and terminal emulators.
 
 ## Common Commands
 
-### GNU Stow Package Management
+### Bootstrap (fresh system)
 ```bash
-cd ~/.dotfiles
-stow nvim       # Deploy neovim configuration
-stow -D nvim    # Remove/unstow
-stow -R nvim    # Restow (remove then deploy)
+git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/bootstrap.sh
 ```
 
-### Neovim Development
-- `:Mason` - Install/manage LSPs, linters, formatters
-- `:Telescope keymaps` - Search all keymaps
-- `:LspInfo` - Show LSP client information
+### Nix Package Management
+```bash
+# Add package: edit home-manager/.config/home-manager/packages.nix
+git add home-manager && home-manager switch --impure
 
-**LSP Servers** (nvim/.config/nvim/lua/plugins/lsp.lua):
-- bashls, clangd, docker_compose_language_service, dockerls
-- lua_ls (configured for Love2D support), markdown_oxide
-- pyright, ruff (Python)
-- taplo (TOML), ts_ls (TypeScript/JavaScript)
+# Update all packages
+nix flake update ~/.config/home-manager && home-manager switch
 
-**Auto-formatters** (conform.lua):
-- Lua: stylua
-- Python: isort → ruff_format (sequential)
-- TypeScript: eslint_d
-- Format-on-save enabled (500ms timeout)
+# Rollback
+home-manager generations  # list
+home-manager switch --rollback
 
-**Linters** (linters.lua):
-- bash: shellcheck, cpp: cpplint, json: jsonlint
-- lua: selene, python: ruff, yaml: yamllint
+# Garbage collection
+nix-collect-garbage -d
+```
 
-**Key bindings**:
-- `<leader>ca` - LSP code actions
-- `<leader>fm` - Format current buffer
-- `<leader>rn` - Rename variable
+### GNU Stow
+```bash
+stow nvim       # Deploy
+stow -D nvim    # Remove
+stow -R nvim    # Restow
+```
 
-**External dependencies**: fzf, ripgrep, fd, xclip
+## Neovim
 
-### Tmux
-- Prefix key: `C-Space` (customized from default `C-b`)
-- TPM installation: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
-- tmux-resurrect: `<prefix><C-s>` save sessions, `<prefix><C-r>` restore
-- Neovim-tmux navigation: `<C-h/j/k/l>` seamlessly navigate between panes
-- Pane navigation: `<prefix>hjkl` to select panes
-- Pane resizing: `M-hjkl` (Alt+hjkl, no prefix) resize by 5 units
-- Pane swapping: `<prefix>HJKL` to swap panes in direction
-- Split panes: `<prefix>s` (horizontal), `<prefix>v` (vertical)
-- Reload config: `<prefix>r`
+**LSP Servers** (lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
 
-### Shell (zsh)
-- Install: `sudo dnf install zsh`
-- oh-my-zsh: `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-- Skip default `.zshrc` creation during oh-my-zsh install
-- Deploy with `stow shell` after installation
+**Formatters** (conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (TypeScript). Format-on-save with 500ms timeout.
+
+**Linters** (linters.lua): shellcheck, cpplint, jsonlint, selene, ruff, yamllint
+
+**Key bindings**: `<leader>ca` code actions, `<leader>fm` format, `<leader>rn` rename
+
+## Tmux
+
+Prefix: `C-Space`
+
+- `<prefix>hjkl` select pane, `<prefix>HJKL` swap pane
+- `M-hjkl` resize (no prefix)
+- `<prefix>s` horizontal split, `<prefix>v` vertical split
+- `<prefix>r` reload config
+- `<prefix><C-s>` save session, `<prefix><C-r>` restore
+- `<prefix>Enter` toggle synchronize-panes
+- `<C-h/j/k/l>` seamless nvim-tmux navigation
+
+## Shell (zsh)
+
+Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosuggestions) and oh-my-zsh framework.
 
 **Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
 
-**Custom functions** (shell/.oh-my-zsh/custom/scripts.zsh):
-- `nah [-f]` - Hard reset git, `-f` cleans untracked files
-- `snipe` - Kill processes via fzf
-- `activate` - Source .venv/bin/activate
-- `zeload` - Reload zshrc
-- `petprev` - Save previous command to pet snippets
-- `mkd <dir>` - Create and cd into directory
-- `paths` - List PATH entries one per line
+**Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes
 
-**Keybindings**: `Ctrl+S` pet search, `Ctrl+P/N` history navigation
+**Keybindings**: `Ctrl+P/N` history search, `Ctrl+Z` fg
 
 ## Development Workflow
 
-1. Edit configurations in appropriate package directory
-2. Test with `stow <package>` or `stow -R <package>`
-3. Verify changes work as expected before committing
+1. Edit configs in package directory
+2. Test with `stow -R <package>`
+3. For Nix packages: edit packages.nix, run `home-manager switch --impure`

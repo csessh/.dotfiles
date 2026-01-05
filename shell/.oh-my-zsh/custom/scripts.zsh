@@ -21,11 +21,6 @@ zeload() {
     source ~/.zshrc
 }
 
-petprev() {
-    PREV=$(fc -lrn | head -n 1)
-    sh -c "pet new -t `printf %q "$PREV"`"
-}
-
 keychron() {
     PERM=600
     if [[ $1 == "-u" ]]; then
