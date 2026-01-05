@@ -271,9 +271,9 @@ main() {
     # Step 5: Stow home-manager config
     stow_package "home-manager"
 
-    # Step 6: Apply home-manager configuration
+    # Step 6: Apply home-manager configuration (--impure to read $USER/$HOME)
     info "Applying home-manager configuration..."
-    home-manager switch
+    home-manager switch --impure
 
     # Step 7: Install system packages
     install_system_packages

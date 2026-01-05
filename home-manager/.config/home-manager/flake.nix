@@ -11,19 +11,24 @@
 
   outputs = { nixpkgs, home-manager, ... }:
     let
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      # Read from environment (requires --impure flag)
+      username = builtins.getEnv "USER";
+      homeDir = builtins.getEnv "HOME";
+
+      # Helper to create home configuration for a system
+      mkHomeConfig = system: home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        extraSpecialArgs = { inherit username homeDir; };
+        modules = [ ./home.nix ];
+      };
     in {
       homeConfigurations = {
-        "tdo" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          modules = [ ./home.nix ];
-        };
-        # For macOS (if needed)
-        "tdo@macos" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-          modules = [ ./home.nix ];
-        };
+        # Default config uses current user (requires --impure)
+        "${username}" = mkHomeConfig "x86_64-linux";
+
+        # Named configs for specific systems
+        "linux" = mkHomeConfig "x86_64-linux";
+        "macos" = mkHomeConfig "aarch64-darwin";
       };
     };
 }

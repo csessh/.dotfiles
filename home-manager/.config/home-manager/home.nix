@@ -1,12 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, homeDir, ... }:
 
 {
   imports = [
     ./packages.nix
   ];
 
-  home.username = "tdo";
-  home.homeDirectory = "/home/tdo";
+  home.username = username;
+  home.homeDirectory = homeDir;
 
   # This value determines the home-manager release that your configuration is
   # compatible with. This helps avoid breakage when a new home-manager release

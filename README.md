@@ -61,7 +61,7 @@ nix-shell '<home-manager>' -A install
 # 5. Stow home-manager config and apply
 stow home-manager
 git add home-manager  # Required for flakes
-home-manager switch
+home-manager switch --impure  # --impure to read $USER/$HOME
 
 # 6. Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -91,7 +91,7 @@ Then apply:
 
 ```bash
 git add home-manager  # If file changed
-home-manager switch
+home-manager switch --impure
 ```
 
 ### Updating packages
