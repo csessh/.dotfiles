@@ -13,6 +13,7 @@
     lazygit
     ripgrep
     tree
+    unzip
     xclip
     zoxide
 
