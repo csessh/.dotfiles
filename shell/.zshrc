@@ -17,6 +17,8 @@ export EDITOR="nvim"
 
 ZSH_THEME="tdo"
 
+# SSH agent to load SSH PIV public key from Yubikey
+# Only once per session
 if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey (ECDSA)"; then
     ssh-add -s /usr/lib64/opensc-pkcs11.so 2>/dev/null
 fi
@@ -45,6 +47,3 @@ source <(fzf --zsh)
 source <(docker completion zsh)
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
-
-export FLYCTL_INSTALL="$HOME/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
