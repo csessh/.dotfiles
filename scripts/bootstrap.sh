@@ -294,7 +294,11 @@ main() {
     # Step 5: Install home-manager
     install_home_manager
 
-    # Step 6: Stow home-manager config
+    # Step 6: Stow home-manager config (remove default config first)
+    if [ -d "$HOME/.config/home-manager" ] && [ ! -L "$HOME/.config/home-manager" ]; then
+        info "Removing default home-manager config..."
+        rm -rf "$HOME/.config/home-manager"
+    fi
     stow_package "home-manager"
 
     # Step 7: Apply home-manager configuration (--impure to read $USER/$HOME)
