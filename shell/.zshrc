@@ -1,6 +1,16 @@
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
 export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
+
+# Nix
+if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+    . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
+if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
+export PATH="$HOME/.nix-profile/bin:$PATH"
+
 export UPDATE_ZSH_DAYS=28
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
