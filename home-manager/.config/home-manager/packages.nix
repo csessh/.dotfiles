@@ -7,6 +7,7 @@
     ############################
     bat
     btop
+    cloudflared
     fastfetch
     fd
     fzf
