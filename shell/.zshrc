@@ -7,7 +7,7 @@ export EDITOR="nvim"
 
 ZSH_THEME="tdo"
 
-if ! ssh-add -l 2>/dev/null | grep -q "opensc\|PKCS"; then
+if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey (ECDSA)"; then
     ssh-add -s /usr/lib64/opensc-pkcs11.so 2>/dev/null
 fi
 
