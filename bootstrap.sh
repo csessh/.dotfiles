@@ -320,8 +320,7 @@ main() {
 
     # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
     info "Applying home-manager configuration (this may take a while on first run)..."
-    cd "$DOTFILES_DIR/home-manager/.config/home-manager"
-    nix run home-manager -- switch --impure --flake .
+    nix run home-manager -- switch --impure --flake "$DOTFILES_DIR/home-manager/.config/home-manager"
 
     # Source nix profile to get home-manager in PATH
     source_nix

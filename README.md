@@ -9,7 +9,7 @@ Supports Fedora, Ubuntu, and macOS.
 **One-liner** (on a fresh system):
 
 ```bash
-git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/scripts/bootstrap.sh
+git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/bootstrap.sh
 ```
 
 **Or step by step:**
@@ -19,7 +19,7 @@ git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/scr
 git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles
 
 # Run bootstrap script
-~/.dotfiles/scripts/bootstrap.sh
+~/.dotfiles/bootstrap.sh
 ```
 
 The bootstrap script will:
