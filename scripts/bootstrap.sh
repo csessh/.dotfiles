@@ -104,7 +104,8 @@ source_nix() {
 # Clone dotfiles
 clone_dotfiles() {
     if [ -d "$DOTFILES_DIR" ]; then
-        info "Dotfiles already cloned at $DOTFILES_DIR"
+        info "Dotfiles already exist, pulling latest changes..."
+        git -C "$DOTFILES_DIR" pull --ff-only || warn "Could not pull latest changes"
         return
     fi
 
@@ -293,6 +294,13 @@ main() {
 
     # Step 5: Install home-manager
     install_home_manager
+
+    # Source nix profile to get home-manager in PATH
+    source_nix
+    if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    fi
+    export PATH="$HOME/.nix-profile/bin:$PATH"
 
     # Step 6: Stow home-manager config (remove default config first)
     if [ -d "$HOME/.config/home-manager" ] && [ ! -L "$HOME/.config/home-manager" ]; then
