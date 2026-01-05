@@ -1,4 +1,5 @@
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
 export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
 export UPDATE_ZSH_DAYS=28
 export LANG=en_US.UTF-8
