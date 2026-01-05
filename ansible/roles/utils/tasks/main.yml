@@ -1,7 +1,0 @@
-- import_tasks: dnf.yml
-  when: ansible_distribution == "Fedora"
-
-- import_tasks: clone.yml
-
-- import_tasks: font.yml
-  when: playbook_id == "localhost_playbook"
