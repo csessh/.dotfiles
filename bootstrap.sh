@@ -70,10 +70,10 @@ install_essentials() {
 
     case "$OS" in
         fedora)
-            sudo dnf install -y git stow curl zsh unzip
+            sudo dnf install -y git stow curl zsh unzip make
             ;;
         ubuntu|debian)
-            sudo apt-get install -y git stow curl zsh unzip
+            sudo apt-get install -y git stow curl zsh unzip make
             ;;
         macos)
             # Homebrew should already have git, install stow
@@ -343,7 +343,7 @@ main() {
 
     # Step 12: Stow remaining configs
     info "Stowing configuration packages..."
-    for pkg in git nvim tmux bat pet fastfetch ghostty ssh Yubico; do
+    for pkg in git nvim tmux bat fastfetch ghostty ssh Yubico; do
         if [ -d "$DOTFILES_DIR/$pkg" ]; then
             stow_package "$pkg"
         fi

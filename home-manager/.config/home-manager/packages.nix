@@ -11,7 +11,6 @@
     fd
     fzf
     lazygit
-    pet
     ripgrep
     tree
     xclip

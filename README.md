@@ -145,7 +145,6 @@ stow -R nvim
 - [ghostty](./ghostty/README.md) - terminal emulator
 - [git](./git/README.md) - git and lazygit configuration
 - [nvim](./nvim/README.md) - neovim configuration
-- [pet](./pet/README.md) - command snippet manager
 - [shell](./shell/README.md) - zsh configuration (requires oh-my-zsh)
 - [ssh](./ssh/README.md) - SSH configuration
 - [tmux](./tmux/README.md) - tmux configuration
