@@ -44,6 +44,29 @@ detect_os() {
 OS=$(detect_os)
 info "Detected OS: $OS"
 
+# Install essential packages (needed before nix/home-manager)
+install_essentials() {
+    info "Installing essential packages..."
+
+    case "$OS" in
+        fedora)
+            sudo dnf install -y git stow curl zsh
+            ;;
+        ubuntu|debian)
+            sudo apt-get update
+            sudo apt-get install -y git stow curl zsh
+            ;;
+        macos)
+            # Homebrew should already have git, install stow
+            if ! command -v brew &> /dev/null; then
+                info "Installing Homebrew..."
+                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            fi
+            brew install stow
+            ;;
+    esac
+}
+
 # Install Nix
 install_nix() {
     if command -v nix &> /dev/null; then
@@ -256,38 +279,41 @@ set_default_shell() {
 main() {
     info "Starting bootstrap..."
 
-    # Step 1: Clone dotfiles (needed for stow)
+    # Step 1: Install essentials (git, stow, curl, zsh)
+    install_essentials
+
+    # Step 2: Clone dotfiles (needed for stow)
     clone_dotfiles
 
-    # Step 2: Install Nix
+    # Step 3: Install Nix
     install_nix
 
-    # Step 3: Stow nix config to enable flakes
+    # Step 4: Stow nix config to enable flakes
     stow_package "nix"
 
-    # Step 4: Install home-manager
+    # Step 5: Install home-manager
     install_home_manager
 
-    # Step 5: Stow home-manager config
+    # Step 6: Stow home-manager config
     stow_package "home-manager"
 
-    # Step 6: Apply home-manager configuration (--impure to read $USER/$HOME)
+    # Step 7: Apply home-manager configuration (--impure to read $USER/$HOME)
     info "Applying home-manager configuration..."
     home-manager switch --impure
 
-    # Step 7: Install system packages
+    # Step 8: Install system packages
     install_system_packages
 
-    # Step 8: Add user to docker group
+    # Step 9: Add user to docker group
     setup_docker_group
 
-    # Step 9: Set up shell (oh-my-zsh + stow shell config)
+    # Step 10: Set up shell (oh-my-zsh + stow shell config)
     setup_shell
 
-    # Step 10: Install TPM
+    # Step 11: Install TPM
     install_tpm
 
-    # Step 11: Stow remaining configs
+    # Step 12: Stow remaining configs
     info "Stowing configuration packages..."
     for pkg in git nvim tmux bat pet fastfetch ghostty ssh Yubico; do
         if [ -d "$DOTFILES_DIR/$pkg" ]; then
@@ -295,7 +321,7 @@ main() {
         fi
     done
 
-    # Step 12: Set default shell
+    # Step 13: Set default shell
     set_default_shell
 
     info "Bootstrap complete!"
