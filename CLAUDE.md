@@ -10,7 +10,7 @@ This is a personal dotfiles repository managed with GNU Stow. It contains config
 
 Each tool has its own directory (e.g., `nvim/`, `tmux/`, `shell/`, `git/`) that mirrors the target filesystem structure. Deploy with `stow <package>` from repository root.
 
-**Stow packages**: ansible, bat, fastfetch, ghostty, git, lazygit, nvim, pet, shell, ssh, tmux, Yubico
+**Stow packages**: bat, fastfetch, ghostty, git, lazygit, nvim, pet, shell, ssh, tmux, Yubico
 
 **Theme**: Cyberdream is used consistently across nvim, bat, git-delta, and terminal emulators.
 
@@ -22,12 +22,6 @@ cd ~/.dotfiles
 stow nvim       # Deploy neovim configuration
 stow -D nvim    # Remove/unstow
 stow -R nvim    # Restow (remove then deploy)
-```
-
-### Ansible Deployment
-```bash
-cd ~/.dotfiles/ansible
-ansible-playbook localhost.yml --ask-become-pass --ask-vault-pass
 ```
 
 ### Neovim Development
