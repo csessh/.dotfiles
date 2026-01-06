@@ -44,6 +44,19 @@ detect_os() {
 OS=$(detect_os)
 info "Detected OS: $OS"
 
+# Detect CPU architecture
+detect_arch() {
+    case "$(uname -m)" in
+        x86_64)  echo "x86_64" ;;
+        aarch64) echo "aarch64" ;;
+        arm64)   echo "aarch64" ;;  # macOS reports arm64
+        *)       error "Unsupported architecture: $(uname -m)" ;;
+    esac
+}
+
+ARCH=$(detect_arch)
+info "Detected architecture: $ARCH"
+
 # Upgrade system packages
 upgrade_system() {
     info "Upgrading system packages..."
@@ -319,8 +332,16 @@ main() {
     stow_package "home-manager"
 
     # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
-    info "Applying home-manager configuration (this may take a while on first run)..."
-    nix run home-manager -- switch --impure --flake "$DOTFILES_DIR/home-manager/.config/home-manager"
+    # Select config based on OS and architecture
+    if [ "$OS" = "macos" ]; then
+        HM_CONFIG="macos"
+    elif [ "$ARCH" = "aarch64" ]; then
+        HM_CONFIG="linux-arm"
+    else
+        HM_CONFIG="linux"
+    fi
+    info "Applying home-manager configuration ($HM_CONFIG)..."
+    nix run home-manager -- switch --impure --flake "$DOTFILES_DIR/home-manager/.config/home-manager#$HM_CONFIG"
 
     # Source nix profile to get home-manager in PATH
     source_nix

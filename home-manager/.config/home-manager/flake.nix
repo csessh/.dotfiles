@@ -28,6 +28,7 @@
 
         # Named configs for specific systems
         "linux" = mkHomeConfig "x86_64-linux";
+        "linux-arm" = mkHomeConfig "aarch64-linux";
         "macos" = mkHomeConfig "aarch64-darwin";
       };
     };
