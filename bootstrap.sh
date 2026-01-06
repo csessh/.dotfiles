@@ -469,7 +469,11 @@ main() {
         fi
     done
 
-    # Step 13: Set default shell
+    # Step 13: Build bat cache for custom themes
+    info "Building bat cache..."
+    bat cache --build
+
+    # Step 14: Set default shell
     set_default_shell
 
     info "Bootstrap complete!"
