@@ -57,6 +57,26 @@ detect_arch() {
 ARCH=$(detect_arch)
 info "Detected architecture: $ARCH"
 
+# Prompt for host type (Linux only)
+HOST_TYPE="desktop"
+if [ "$OS" != "macos" ]; then
+    echo ""
+    echo "What type of host is this?"
+    echo "  1) Desktop (full install with GUI apps)"
+    echo "  2) Server (minimal install, CLI only)"
+    read -p "Select [1/2] (default: 1): " choice
+    case "$choice" in
+        2) HOST_TYPE="server" ;;
+        *) HOST_TYPE="desktop" ;;
+    esac
+fi
+info "Host type: $HOST_TYPE"
+
+# Store host type for subsequent home-manager switch calls
+mkdir -p "$HOME/.config"
+echo "$HOST_TYPE" > "$HOME/.config/host-type"
+info "Host type saved to ~/.config/host-type"
+
 # Upgrade system packages
 upgrade_system() {
     info "Upgrading system packages..."
@@ -189,10 +209,7 @@ install_system_packages() {
                 docker-ce-cli \
                 containerd.io \
                 docker-buildx-plugin \
-                docker-compose-plugin \
-                pam-u2f \
-                pamu2fcfg \
-                firefox
+                docker-compose-plugin
 
             # Enable and start Docker
             sudo systemctl enable --now docker
@@ -220,9 +237,7 @@ install_system_packages() {
                 docker-ce-cli \
                 containerd.io \
                 docker-buildx-plugin \
-                docker-compose-plugin \
-                libpam-u2f \
-                firefox
+                docker-compose-plugin
 
             # Enable and start Docker
             sudo systemctl enable --now docker
@@ -236,12 +251,76 @@ install_system_packages() {
             fi
 
             brew install --cask docker
-            brew install --cask firefox
             ;;
 
         *)
             warn "Unknown OS: $OS - skipping system package installation"
             warn "Please install Docker and other system packages manually"
+            ;;
+    esac
+}
+
+# Install server packages (Docker only, no GUI apps)
+install_server_packages() {
+    info "Installing server packages for $OS..."
+
+    case "$OS" in
+        fedora)
+            # Add Docker repository
+            if ! sudo dnf repolist | grep -q docker-ce; then
+                info "Adding Docker repository..."
+                sudo dnf -y install dnf-plugins-core
+                sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+            fi
+
+            # Install packages (no firefox, no pam-u2f)
+            sudo dnf install -y \
+                ca-certificates \
+                curl \
+                wget \
+                openssl \
+                docker-ce \
+                docker-ce-cli \
+                containerd.io \
+                docker-buildx-plugin \
+                docker-compose-plugin
+
+            # Enable and start Docker
+            sudo systemctl enable --now docker
+            ;;
+
+        ubuntu|debian)
+            # Add Docker repository
+            if ! apt-cache policy | grep -q docker; then
+                info "Adding Docker repository..."
+                sudo apt-get update
+                sudo apt-get install -y ca-certificates curl gnupg
+                sudo install -m 0755 -d /etc/apt/keyrings
+                curl -fsSL https://download.docker.com/linux/$OS/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+                sudo chmod a+r /etc/apt/keyrings/docker.gpg
+                echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$OS $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            fi
+
+            sudo apt-get update
+            # Install packages (no firefox, no libpam-u2f)
+            sudo apt-get install -y \
+                ca-certificates \
+                curl \
+                wget \
+                openssl \
+                docker-ce \
+                docker-ce-cli \
+                containerd.io \
+                docker-buildx-plugin \
+                docker-compose-plugin
+
+            # Enable and start Docker
+            sudo systemctl enable --now docker
+            ;;
+
+        *)
+            warn "Unknown OS: $OS - skipping server package installation"
+            warn "Please install Docker manually"
             ;;
     esac
 }
@@ -332,13 +411,21 @@ main() {
     stow_package "home-manager"
 
     # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
-    # Select config based on OS and architecture
+    # Select config based on OS, architecture, and host type
     if [ "$OS" = "macos" ]; then
         HM_CONFIG="macos"
     elif [ "$ARCH" = "aarch64" ]; then
-        HM_CONFIG="linux-arm"
+        if [ "$HOST_TYPE" = "server" ]; then
+            HM_CONFIG="linux-arm-server"
+        else
+            HM_CONFIG="linux-arm"
+        fi
     else
-        HM_CONFIG="linux"
+        if [ "$HOST_TYPE" = "server" ]; then
+            HM_CONFIG="linux-server"
+        else
+            HM_CONFIG="linux"
+        fi
     fi
     info "Applying home-manager configuration ($HM_CONFIG)..."
     nix run home-manager -- switch --impure --flake "$DOTFILES_DIR/home-manager/.config/home-manager#$HM_CONFIG"
@@ -351,7 +438,11 @@ main() {
     export PATH="$HOME/.nix-profile/bin:$PATH"
 
     # Step 8: Install system packages
-    install_system_packages
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        install_system_packages
+    else
+        install_server_packages
+    fi
 
     # Step 9: Add user to docker group
     setup_docker_group
@@ -364,7 +455,11 @@ main() {
 
     # Step 12: Stow remaining configs
     info "Stowing configuration packages..."
-    for pkg in git nvim tmux bat fastfetch ghostty ssh Yubico; do
+    STOW_PACKAGES="git nvim tmux bat fastfetch"
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        STOW_PACKAGES="$STOW_PACKAGES ghostty ssh Yubico"
+    fi
+    for pkg in $STOW_PACKAGES; do
         if [ -d "$DOTFILES_DIR/$pkg" ]; then
             stow_package "$pkg"
         fi

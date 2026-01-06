@@ -10,13 +10,6 @@ alias cat='bat'
 
 This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
 
-## Configuration
-
-```bash
-cd ~/.dotfiles
-stow bat
-```
-
 ## Themes
 
 ``` bash

@@ -15,21 +15,39 @@
       username = builtins.getEnv "USER";
       homeDir = builtins.getEnv "HOME";
 
+      # Read host type from file (defaults to "desktop" if not found)
+      hostTypeFile = "${homeDir}/.config/host-type";
+      hostType =
+        if builtins.pathExists hostTypeFile
+        then builtins.replaceStrings ["\n"] [""] (builtins.readFile hostTypeFile)
+        else "desktop";
+      isDesktop = hostType == "desktop";
+
+      # Detect current system (requires --impure)
+      currentSystem = builtins.currentSystem;
+
       # Helper to create home configuration for a system
-      mkHomeConfig = system: home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        extraSpecialArgs = { inherit username homeDir; };
+      mkHomeConfig = system: desktopEnabled: home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        extraSpecialArgs = { inherit username homeDir desktopEnabled; };
         modules = [ ./home.nix ];
       };
     in {
       homeConfigurations = {
-        # Default config uses current user (requires --impure)
-        "${username}" = mkHomeConfig "x86_64-linux";
+        # Default config uses current system and reads host type from file
+        "${username}" = mkHomeConfig currentSystem isDesktop;
 
-        # Named configs for specific systems
-        "linux" = mkHomeConfig "x86_64-linux";
-        "linux-arm" = mkHomeConfig "aarch64-linux";
-        "macos" = mkHomeConfig "aarch64-darwin";
+        # Desktop configs (full install with GUI apps)
+        "linux" = mkHomeConfig "x86_64-linux" true;
+        "linux-arm" = mkHomeConfig "aarch64-linux" true;
+        "macos" = mkHomeConfig "aarch64-darwin" true;
+
+        # Server configs (minimal CLI-only install)
+        "linux-server" = mkHomeConfig "x86_64-linux" false;
+        "linux-arm-server" = mkHomeConfig "aarch64-linux" false;
       };
     };
 }
