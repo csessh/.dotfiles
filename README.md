@@ -2,7 +2,7 @@
 
 Personal development configuration files managed with GNU Stow and Nix + home-manager.
 
-Supports Fedora, Ubuntu, and macOS.
+Supports Fedora, Ubuntu, and macOS with **desktop** and **server** profiles.
 
 ## Quick Start
 
@@ -24,54 +24,34 @@ git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles
 
 The bootstrap script will:
 
-1. Install Nix (Fedora: native package, others: official installer)
-2. Enable flakes via stow
-3. Install home-manager
-4. Apply home-manager configuration (installs all Nix packages)
-5. Install system packages (Docker, PAM, Firefox)
-6. Add user to docker group
-7. Install oh-my-zsh, remove stock .zshrc, stow shell config
-8. Install TPM (Tmux Plugin Manager)
-9. Stow all remaining configuration packages
-10. Set zsh as default shell
+1. Prompt for host type (desktop/server) on Linux
+2. Install Nix (Fedora: native package, others: official installer)
+3. Enable flakes via stow
+4. Save host type to `~/.config/host-type`
+5. Install home-manager and apply configuration
+6. Install system packages (Docker)
+7. Add user to docker group
+8. Install oh-my-zsh, remove stock .zshrc, stow shell config
+9. Install TPM (Tmux Plugin Manager)
+10. Stow configuration packages (desktop-only: ghostty, ssh, Yubico)
+11. Set zsh as default shell
 
 After bootstrap, log out and back in for all changes to take effect.
 
-## Manual Setup
+## Host Type Profiles
 
-If you prefer to run steps manually:
+On Linux, bootstrap prompts for host type:
+
+| Profile | Packages | Stow |
+|---------|----------|------|
+| **Desktop** | Base + firefox, ghostty, 1password, claude-code, fonts, xclip, pam_u2f, yubikey-manager | All packages + ghostty, ssh, Yubico |
+| **Server** | Base only (CLI tools, dev tools, languages) | Core packages only |
+
+To change host type after bootstrap:
 
 ```bash
-# 1. Install Nix (Fedora)
-sudo dnf install nix
-sudo systemctl enable --now nix-daemon
-
-# 2. Clone dotfiles
-git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-
-# 3. Enable flakes
-stow nix
-
-# 4. Install home-manager
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
-nix-shell '<home-manager>' -A install
-
-# 5. Stow home-manager config and apply
-stow home-manager
-git add home-manager  # Required for flakes
-home-manager switch --impure  # --impure to read $USER/$HOME
-
-# 6. Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-rm ~/.zshrc  # Remove stock zshrc
-
-# 7. Stow configs
-stow shell git nvim tmux bat pet fastfetch ghostty ssh Yubico
-
-# 8. Set default shell
-chsh -s $(which zsh)
+echo "server" > ~/.config/host-type  # or "desktop"
+home-manager switch --impure
 ```
 
 ## Package Management
@@ -81,16 +61,22 @@ chsh -s $(which zsh)
 Edit `~/.dotfiles/home-manager/.config/home-manager/packages.nix`:
 
 ```nix
-home.packages = with pkgs; [
-  # Add your package here
-  newpackage
-];
+let
+  basePackages = with pkgs; [
+    # Packages for all hosts
+    newpackage
+  ];
+
+  desktopPackages = with pkgs; [
+    # Desktop-only packages
+    gui-app
+  ];
+in { ... }
 ```
 
 Then apply:
 
 ```bash
-git add home-manager  # If file changed
 home-manager switch --impure
 ```
 
@@ -101,7 +87,7 @@ home-manager switch --impure
 nix flake update ~/.config/home-manager
 
 # Apply updates
-home-manager switch
+home-manager switch --impure
 ```
 
 ### Garbage collection
@@ -140,15 +126,17 @@ stow -R nvim
 
 ## Stow Packages
 
-- [bat](./bat/README.md) - cat replacement with syntax highlighting
-- [fastfetch](./fastfetch/README.md) - system information tool
-- [ghostty](./ghostty/README.md) - terminal emulator
-- [git](./git/README.md) - git and lazygit configuration
-- [nvim](./nvim/README.md) - neovim configuration
-- [shell](./shell/README.md) - zsh configuration (requires oh-my-zsh)
-- [ssh](./ssh/README.md) - SSH configuration
-- [tmux](./tmux/README.md) - tmux configuration
-- [Yubico](./Yubico/README.md) - YubiKey configuration
+| Package | Description | Desktop Only |
+|---------|-------------|--------------|
+| [bat](./bat/README.md) | cat replacement with syntax highlighting | |
+| [fastfetch](./fastfetch/README.md) | system information tool | |
+| [ghostty](./ghostty/README.md) | terminal emulator | Yes |
+| [git](./git/README.md) | git and lazygit configuration | |
+| [nvim](./nvim/README.md) | neovim configuration | |
+| [shell](./shell/README.md) | zsh configuration (requires oh-my-zsh) | |
+| [ssh](./ssh/README.md) | SSH configuration | Yes |
+| [tmux](./tmux/README.md) | tmux configuration | |
+| [Yubico](./Yubico/README.md) | YubiKey configuration | Yes |
 
 ## What's Managed Where
 
@@ -157,8 +145,7 @@ stow -R nvim
 | CLI tools (ripgrep, fd, fzf, bat, etc.) | Nix | Declarative, reproducible |
 | Dev tools (neovim, tmux, git) | Nix | Same versions across machines |
 | Languages (nodejs, python, go) | Nix | Consistent toolchain |
+| Desktop apps (firefox, 1password, ghostty) | Nix | Desktop profile only |
 | Docker | System (dnf/apt/brew) | System integration |
-| Firefox | System (dnf/apt/brew) | Better desktop integration |
-| PAM/YubiKey | System (dnf/apt) | System-level authentication |
 | oh-my-zsh | curl installer | Shell framework |
 | Configs | Stow | Symlinked from dotfiles |

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, Ubuntu, and macOS.
+Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, Ubuntu, and macOS with **desktop** and **server** host type profiles.
 
 ## Architecture
 
@@ -12,9 +12,13 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, U
 1. **Nix home-manager** - Installs packages declaratively (CLI tools, dev tools, languages)
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
-Each tool directory mirrors the target filesystem structure. Deploy with `stow <package>` from repository root.
+**Host type profiles** (Linux only):
+- **Desktop**: Full install with GUI apps (firefox, ghostty, 1password, claude-code, fonts, yubikey)
+- **Server**: Minimal CLI-only install (base packages only)
 
-**Stow packages**: bat, fastfetch, ghostty, git, home-manager, lazygit, nix, nvim, shell, ssh, tmux, Yubico
+Host type is stored in `~/.config/host-type` during bootstrap and read by flake.nix for subsequent `home-manager switch` calls.
+
+**Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux, Yubico (desktop)
 
 **Theme**: Cyberdream across nvim, bat, git-delta, tmux, and terminal emulators.
 
@@ -24,14 +28,17 @@ Each tool directory mirrors the target filesystem structure. Deploy with `stow <
 ```bash
 git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/bootstrap.sh
 ```
+Bootstrap prompts for host type (desktop/server) on Linux.
 
 ### Nix Package Management
 ```bash
 # Add package: edit home-manager/.config/home-manager/packages.nix
-git add home-manager && home-manager switch --impure
+# - basePackages: all hosts
+# - desktopPackages: desktop only
+home-manager switch --impure
 
 # Update all packages
-nix flake update ~/.config/home-manager && home-manager switch
+nix flake update ~/.config/home-manager && home-manager switch --impure
 
 # Rollback
 home-manager generations  # list
@@ -46,6 +53,12 @@ nix-collect-garbage -d
 stow nvim       # Deploy
 stow -D nvim    # Remove
 stow -R nvim    # Restow
+```
+
+### Change Host Type
+```bash
+echo "server" > ~/.config/host-type  # or "desktop"
+home-manager switch --impure
 ```
 
 ## Neovim
