@@ -20,6 +20,10 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 
 **Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux, Yubico (desktop)
 
+**Key directories**:
+- `home-manager/.config/home-manager/` - Nix flake and package definitions
+- `<package>/.config/<app>/` - Standard XDG config structure (stow deploys to ~/.config/)
+
 **Theme**: Cyberdream across nvim, bat, git-delta, tmux, and terminal emulators.
 
 ## Common Commands
@@ -79,17 +83,17 @@ Prefix: `C-Space`
 - `M-hjkl` resize (no prefix)
 - `<prefix>s` horizontal split, `<prefix>v` vertical split
 - `<prefix>r` reload config
-- `<prefix><C-s>` save session, `<prefix><C-r>` restore
+- `<prefix><C-s>` save session, `<prefix><C-r>` restore (tmux-resurrect)
 - `<prefix>Enter` toggle synchronize-panes
 - `<C-h/j/k/l>` seamless nvim-tmux navigation
 
 ## Shell (zsh)
 
-Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosuggestions) and oh-my-zsh framework.
+Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosuggestions) and oh-my-zsh framework. The `cd` command is zoxide (smart directory jumper).
 
 **Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
 
-**Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes
+**Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes, `today` current date, `keychron [-u]` hidraw permissions
 
 **Keybindings**: `Ctrl+P/N` history search, `Ctrl+Z` fg
 
