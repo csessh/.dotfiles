@@ -437,7 +437,9 @@ main() {
     # Source nix profile to get home-manager in PATH
     source_nix
     if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+        set +u  # hm-session-vars.sh checks unbound variables
         . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+        set -u
     fi
     export PATH="$HOME/.nix-profile/bin:$PATH"
 
