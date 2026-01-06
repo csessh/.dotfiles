@@ -351,7 +351,7 @@ setup_shell() {
     # Step 1: Install oh-my-zsh if not present
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
         info "Installing oh-my-zsh..."
-        RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        RUNZSH=no CHSH=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     else
         info "oh-my-zsh is already installed"
     fi
