@@ -12,8 +12,8 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora an
 1. **Nix home-manager** - Installs packages declaratively (CLI tools, dev tools, languages)
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
-**Host type profiles**:
-- **Desktop**: Full install with GUI apps (firefox, ghostty, 1password, claude-code, fonts, yubikey)
+**Host type profiles** (Linux only):
+- **Desktop**: Full install with GUI apps (ghostty, 1password, claude-code, fonts, yubikey)
 - **Server**: Minimal CLI-only install (base packages only)
 
 Host type is stored in `~/.config/host-type` during bootstrap and read by flake.nix for subsequent `home-manager switch` calls.

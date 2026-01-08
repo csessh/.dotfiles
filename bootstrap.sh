@@ -244,7 +244,7 @@ install_server_packages() {
                 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
             fi
 
-            # Install packages (no firefox, no pam-u2f)
+            # Install packages (no pam-u2f)
             sudo dnf install -y \
                 ca-certificates \
                 curl \
@@ -273,7 +273,7 @@ install_server_packages() {
             fi
 
             sudo apt-get update
-            # Install packages (no firefox, no libpam-u2f)
+            # Install packages (no libpam-u2f)
             sudo apt-get install -y \
                 ca-certificates \
                 curl \

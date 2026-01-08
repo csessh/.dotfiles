@@ -47,7 +47,6 @@ let
     # Desktop apps
     ############################
     _1password-gui
-    firefox
 
     ############################
     # Fonts
