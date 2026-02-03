@@ -1,4 +1,4 @@
-{ pkgs, lib, desktopEnabled ? true, ... }:
+{ pkgs, lib, desktopEnabled ? true, isDarwin ? false, ... }:
 
 let
   basePackages = with pkgs; [
@@ -55,11 +55,6 @@ let
     nerd-fonts.commit-mono
 
     ############################
-    # Terminal
-    ############################
-    ghostty
-
-    ############################
     # Utilities
     ############################
     xclip
@@ -69,6 +64,11 @@ let
     ############################
     pam_u2f
     yubikey-manager
+  ] ++ lib.optionals (!isDarwin) [
+    ############################
+    # Terminal (macOS: install via Homebrew)
+    ############################
+    ghostty
   ];
 
 in {

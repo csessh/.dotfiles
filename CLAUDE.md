@@ -20,6 +20,9 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 
 **Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux, Yubico (desktop)
 
+**Platform-specific notes:**
+- **Ghostty**: Linux installs via Nix; macOS installs via Homebrew (`brew install --cask ghostty`)
+
 **Key directories**:
 - `home-manager/.config/home-manager/` - Nix flake and package definitions
 - `<package>/.config/<app>/` - Standard XDG config structure (stow deploys to ~/.config/)

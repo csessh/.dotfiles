@@ -125,27 +125,33 @@ install_essentials() {
 
 # Install Nix
 install_nix() {
-    if command -v nix &> /dev/null; then
+    # Check filesystem instead of command (nix may not be in PATH yet)
+    if [ -d "/nix" ]; then
         info "Nix is already installed"
-        source_nix
-        return
+    else
+        info "Installing Nix..."
+
+        case "$OS" in
+            fedora)
+                # Use Fedora's native Nix package (has SELinux policies)
+                sudo dnf install -y nix
+                sudo systemctl enable --now nix-daemon
+                ;;
+            *)
+                # Use official installer for other distros
+                curl -L https://nixos.org/nix/install | sh -s -- --daemon
+                ;;
+        esac
     fi
 
-    info "Installing Nix..."
-
-    case "$OS" in
-        fedora)
-            # Use Fedora's native Nix package (has SELinux policies)
-            sudo dnf install -y nix
-            sudo systemctl enable --now nix-daemon
-            ;;
-        *)
-            # Use official installer for other distros
-            curl -L https://nixos.org/nix/install | sh -s -- --daemon
-            ;;
-    esac
-
     source_nix
+
+    # Clean up Nix installer's shell modifications (we manage these via stow)
+    if [ "$OS" = "macos" ]; then
+        info "Cleaning up Nix installer shell modifications..."
+        rm -f ~/.zshrc ~/.zprofile ~/.bashrc ~/.bash_profile 2>/dev/null
+        rm -f ~/.*.backup-before-nix 2>/dev/null
+    fi
 }
 
 # Source nix environment
@@ -255,6 +261,7 @@ install_system_packages() {
             fi
 
             brew install --cask docker
+            brew install --cask ghostty
             ;;
 
         *)
