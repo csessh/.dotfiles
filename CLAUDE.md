@@ -18,7 +18,7 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, U
 
 Host type is stored in `~/.config/host-type` during bootstrap and read by flake.nix for subsequent `home-manager switch` calls.
 
-**Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux, Yubico (desktop)
+**Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
 
 **Platform-specific notes:**
 - **Ghostty**: Linux installs via Nix; macOS installs via Homebrew (`brew install --cask ghostty`)

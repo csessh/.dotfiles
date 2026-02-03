@@ -33,7 +33,7 @@ The bootstrap script will:
 7. Add user to docker group
 8. Install oh-my-zsh, remove stock .zshrc, stow shell config
 9. Install TPM (Tmux Plugin Manager)
-10. Stow configuration packages (desktop-only: ghostty, ssh, Yubico)
+10. Stow configuration packages (desktop-only: ghostty, ssh)
 11. Set zsh as default shell
 
 After bootstrap, log out and back in for all changes to take effect.
@@ -44,7 +44,7 @@ On Linux, bootstrap prompts for host type:
 
 | Profile | Packages | Stow |
 |---------|----------|------|
-| **Desktop** | Base + firefox, ghostty, 1password, claude-code, fonts, xclip, pam_u2f, yubikey-manager | All packages + ghostty, ssh, Yubico |
+| **Desktop** | Base + firefox, ghostty, 1password, claude-code, fonts, xclip, pam_u2f, yubikey-manager | All packages + ghostty, ssh |
 | **Server** | Base only (CLI tools, dev tools, languages) | Core packages only |
 
 To change host type after bootstrap:
@@ -136,7 +136,6 @@ stow -R nvim
 | [shell](./shell/README.md) | zsh configuration (requires oh-my-zsh) | |
 | [ssh](./ssh/README.md) | SSH configuration | Yes |
 | [tmux](./tmux/README.md) | tmux configuration | |
-| [Yubico](./Yubico/README.md) | YubiKey configuration | Yes |
 
 ## What's Managed Where
 

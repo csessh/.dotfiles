@@ -262,6 +262,7 @@ install_system_packages() {
 
             brew install --cask docker
             brew install --cask ghostty
+            brew install pam-u2f
             ;;
 
         *)
