@@ -27,14 +27,18 @@
       currentSystem = builtins.currentSystem;
 
       # Helper to create home configuration for a system
-      mkHomeConfig = system: desktopEnabled: home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
+      mkHomeConfig = system: desktopEnabled:
+        let
+          isDarwin = builtins.match ".*-darwin" system != null;
+        in
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          extraSpecialArgs = { inherit username homeDir desktopEnabled isDarwin; };
+          modules = [ ./home.nix ];
         };
-        extraSpecialArgs = { inherit username homeDir desktopEnabled; };
-        modules = [ ./home.nix ];
-      };
     in {
       homeConfigurations = {
         # Default config uses current system and reads host type from file
