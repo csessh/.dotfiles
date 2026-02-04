@@ -2,7 +2,7 @@
 
 Personal development configuration files managed with GNU Stow and Nix + home-manager.
 
-Supports Fedora, Ubuntu, and macOS with **desktop** and **server** profiles.
+Supports Fedora and Ubuntu with **desktop** and **server** profiles.
 
 ## Quick Start
 
@@ -24,7 +24,7 @@ git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles
 
 The bootstrap script will:
 
-1. Prompt for host type (desktop/server) on Linux
+1. Prompt for host type (desktop/server)
 2. Install Nix (Fedora: native package, others: official installer)
 3. Enable flakes via stow
 4. Save host type to `~/.config/host-type`
@@ -40,7 +40,7 @@ After bootstrap, log out and back in for all changes to take effect.
 
 ## Host Type Profiles
 
-On Linux, bootstrap prompts for host type:
+Bootstrap prompts for host type:
 
 | Profile | Packages | Stow |
 |---------|----------|------|
@@ -145,6 +145,6 @@ stow -R nvim
 | Dev tools (neovim, tmux, git) | Nix | Same versions across machines |
 | Languages (nodejs, python, go) | Nix | Consistent toolchain |
 | Desktop apps (firefox, 1password, ghostty) | Nix | Desktop profile only |
-| Docker | System (dnf/apt/brew) | System integration |
+| Docker | System (dnf/apt) | System integration |
 | oh-my-zsh | curl installer | Shell framework |
 | Configs | Stow | Symlinked from dotfiles |

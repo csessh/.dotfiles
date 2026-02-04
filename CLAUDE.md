@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, Ubuntu, and macOS with **desktop** and **server** host type profiles.
+Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora and Ubuntu with **desktop** and **server** host type profiles.
 
 ## Architecture
 
@@ -12,7 +12,7 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, U
 1. **Nix home-manager** - Installs packages declaratively (CLI tools, dev tools, languages)
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
-**Host type profiles** (Linux only):
+**Host type profiles**:
 - **Desktop**: Full install with GUI apps (firefox, ghostty, 1password, claude-code, fonts, yubikey)
 - **Server**: Minimal CLI-only install (base packages only)
 
@@ -21,10 +21,6 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 **Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
 
 **Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
-
-**Platform-specific notes:**
-- **Ghostty**: Linux installs via Nix; macOS installs via Homebrew (`brew install --cask ghostty`)
-- **OpenSC**: macOS installs via Homebrew; Linux via Nix (desktop profile)
 
 **Key directories**:
 - `home-manager/.config/home-manager/` - Nix flake and package definitions
@@ -40,7 +36,7 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 ```bash
 git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/bootstrap.sh
 ```
-Bootstrap prompts for host type (desktop/server) on Linux.
+Bootstrap prompts for host type (desktop/server).
 
 ### Nix Package Management
 ```bash

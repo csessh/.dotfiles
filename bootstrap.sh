@@ -21,28 +21,22 @@ DOTFILES_REPO_SSH="git@github.com:csessh/.dotfiles.git"
 
 # Detect OS
 detect_os() {
-    case "$(uname -s)" in
-        Linux)
-            if [ -f /etc/fedora-release ]; then
-                echo "fedora"
-            elif [ -f /etc/os-release ]; then
-                . /etc/os-release
-                case "$ID" in
-                    ubuntu) echo "ubuntu" ;;
-                    debian) echo "debian" ;;
-                    *) echo "linux" ;;
-                esac
-            else
-                echo "linux"
-            fi
-            ;;
-        Darwin)
-            echo "macos"
-            ;;
-        *)
-            error "Unsupported operating system"
-            ;;
-    esac
+    if [ "$(uname -s)" != "Linux" ]; then
+        error "Unsupported operating system: $(uname -s)"
+    fi
+
+    if [ -f /etc/fedora-release ]; then
+        echo "fedora"
+    elif [ -f /etc/os-release ]; then
+        . /etc/os-release
+        case "$ID" in
+            ubuntu) echo "ubuntu" ;;
+            debian) echo "debian" ;;
+            *) echo "linux" ;;
+        esac
+    else
+        echo "linux"
+    fi
 }
 
 OS=$(detect_os)
@@ -53,7 +47,6 @@ detect_arch() {
     case "$(uname -m)" in
         x86_64)  echo "x86_64" ;;
         aarch64) echo "aarch64" ;;
-        arm64)   echo "aarch64" ;;  # macOS reports arm64
         *)       error "Unsupported architecture: $(uname -m)" ;;
     esac
 }
@@ -61,19 +54,17 @@ detect_arch() {
 ARCH=$(detect_arch)
 info "Detected architecture: $ARCH"
 
-# Prompt for host type (Linux only)
+# Prompt for host type
 HOST_TYPE="desktop"
-if [ "$OS" != "macos" ]; then
-    echo ""
-    echo "What type of host is this?"
-    echo "  1) Desktop (full install with GUI apps)"
-    echo "  2) Server (minimal install, CLI only)"
-    read -p "Select [1/2] (default: 1): " choice
-    case "$choice" in
-        2) HOST_TYPE="server" ;;
-        *) HOST_TYPE="desktop" ;;
-    esac
-fi
+echo ""
+echo "What type of host is this?"
+echo "  1) Desktop (full install with GUI apps)"
+echo "  2) Server (minimal install, CLI only)"
+read -p "Select [1/2] (default: 1): " choice
+case "$choice" in
+    2) HOST_TYPE="server" ;;
+    *) HOST_TYPE="desktop" ;;
+esac
 info "Host type: $HOST_TYPE"
 
 # Store host type for subsequent home-manager switch calls
@@ -93,11 +84,6 @@ upgrade_system() {
             sudo apt-get update
             sudo apt-get upgrade -y
             ;;
-        macos)
-            if command -v brew &> /dev/null; then
-                brew update && brew upgrade
-            fi
-            ;;
     esac
 }
 
@@ -111,14 +97,6 @@ install_essentials() {
             ;;
         ubuntu|debian)
             sudo apt-get install -y git stow curl zsh unzip make
-            ;;
-        macos)
-            # Homebrew should already have git, install stow
-            if ! command -v brew &> /dev/null; then
-                info "Installing Homebrew..."
-                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            fi
-            brew install stow
             ;;
     esac
 }
@@ -145,13 +123,6 @@ install_nix() {
     fi
 
     source_nix
-
-    # Clean up Nix installer's shell modifications (we manage these via stow)
-    if [ "$OS" = "macos" ]; then
-        info "Cleaning up Nix installer shell modifications..."
-        rm -f ~/.zshrc ~/.zprofile ~/.bashrc ~/.bash_profile 2>/dev/null
-        rm -f ~/.*.backup-before-nix 2>/dev/null
-    fi
 }
 
 # Source nix environment
@@ -253,19 +224,6 @@ install_system_packages() {
             sudo systemctl enable --now docker
             ;;
 
-        macos)
-            # Install Homebrew if not present
-            if ! command -v brew &> /dev/null; then
-                info "Installing Homebrew..."
-                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            fi
-
-            brew install --cask docker
-            brew install --cask ghostty
-            brew install opensc
-            brew install pam-u2f
-            ;;
-
         *)
             warn "Unknown OS: $OS - skipping system package installation"
             warn "Please install Docker and other system packages manually"
@@ -348,10 +306,6 @@ setup_smartcard_services() {
     OPENSC_LIB=""
     for lib in \
         "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
-        "/opt/homebrew/lib/pkcs11/opensc-pkcs11.so" \
-        "/opt/homebrew/lib/opensc-pkcs11.so" \
-        "/usr/local/lib/pkcs11/opensc-pkcs11.so" \
-        "/usr/local/lib/opensc-pkcs11.so" \
         "/usr/lib64/opensc-pkcs11.so" \
         "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
         "/usr/lib/aarch64-linux-gnu/opensc-pkcs11.so"; do
@@ -367,20 +321,13 @@ setup_smartcard_services() {
         warn "Could not find opensc-pkcs11.so library"
     fi
 
-    # Enable pcscd daemon (Linux only)
-    if [ "$OS" != "macos" ]; then
-        info "Enabling PC/SC smart card daemon..."
-        sudo systemctl enable --now pcscd
-    fi
+    # Enable pcscd daemon
+    info "Enabling PC/SC smart card daemon..."
+    sudo systemctl enable --now pcscd
 }
 
 # Add user to docker group for rootless docker commands
 setup_docker_group() {
-    if [ "$OS" = "macos" ]; then
-        info "Docker Desktop on macOS handles permissions automatically"
-        return
-    fi
-
     if groups "$USER" | grep -q docker; then
         info "User already in docker group"
         return
@@ -460,10 +407,8 @@ main() {
     stow_package "home-manager"
 
     # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
-    # Select config based on OS, architecture, and host type
-    if [ "$OS" = "macos" ]; then
-        HM_CONFIG="macos"
-    elif [ "$ARCH" = "aarch64" ]; then
+    # Select config based on architecture and host type
+    if [ "$ARCH" = "aarch64" ]; then
         if [ "$HOST_TYPE" = "server" ]; then
             HM_CONFIG="linux-arm-server"
         else

@@ -1,4 +1,4 @@
-{ pkgs, lib, desktopEnabled ? true, isDarwin ? false, ... }:
+{ pkgs, lib, desktopEnabled ? true, ... }:
 
 let
   basePackages = with pkgs; [
@@ -66,9 +66,9 @@ let
     pam_u2f
     pcsclite
     yubikey-manager
-  ] ++ lib.optionals (!isDarwin) [
+
     ############################
-    # Terminal (macOS: install via Homebrew)
+    # Terminal
     ############################
     ghostty
   ];

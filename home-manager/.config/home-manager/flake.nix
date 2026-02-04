@@ -28,15 +28,12 @@
 
       # Helper to create home configuration for a system
       mkHomeConfig = system: desktopEnabled:
-        let
-          isDarwin = builtins.match ".*-darwin" system != null;
-        in
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
           };
-          extraSpecialArgs = { inherit username homeDir desktopEnabled isDarwin; };
+          extraSpecialArgs = { inherit username homeDir desktopEnabled; };
           modules = [ ./home.nix ];
         };
     in {
@@ -47,7 +44,6 @@
         # Desktop configs (full install with GUI apps)
         "linux" = mkHomeConfig "x86_64-linux" true;
         "linux-arm" = mkHomeConfig "aarch64-linux" true;
-        "macos" = mkHomeConfig "aarch64-darwin" true;
 
         # Server configs (minimal CLI-only install)
         "linux-server" = mkHomeConfig "x86_64-linux" false;

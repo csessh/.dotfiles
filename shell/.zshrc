@@ -24,10 +24,6 @@ if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey"; then
     for lib in \
         "$HOME/.local/lib/opensc-pkcs11.so" \
         "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
-        "/opt/homebrew/lib/pkcs11/opensc-pkcs11.so" \
-        "/opt/homebrew/lib/opensc-pkcs11.so" \
-        "/usr/local/lib/pkcs11/opensc-pkcs11.so" \
-        "/usr/local/lib/opensc-pkcs11.so" \
         "/usr/lib64/opensc-pkcs11.so" \
         "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
         "/usr/lib/aarch64-linux-gnu/opensc-pkcs11.so"; do
