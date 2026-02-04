@@ -475,6 +475,12 @@ main() {
 
     info "Bootstrap complete!"
     warn "Please log out and back in for all changes to take effect."
+
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        echo ""
+        info "Optional: Configure YubiKey PAM authentication (login/sudo)"
+        echo "  Run: ~/.dotfiles/setup-yubikey-pam.sh"
+    fi
 }
 
 main "$@"
