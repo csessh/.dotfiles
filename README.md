@@ -148,3 +148,19 @@ stow -R nvim
 | Docker | System (dnf/apt) | System integration |
 | oh-my-zsh | curl installer | Shell framework |
 | Configs | Stow | Symlinked from dotfiles |
+
+## YubiKey Authentication (Desktop)
+
+Bootstrap configures YubiKey for **SSH** (PIV smart card) automatically. For **PAM authentication** (login/sudo with FIDO2), run the setup wizard:
+
+```bash
+~/.dotfiles/setup-yubikey-pam.sh
+```
+
+The wizard guides you through:
+1. FIDO2 PIN setup (skippable if already set)
+2. Key registration (primary + backup keys)
+3. PAM file configuration with backup and test-after-each
+4. Optional fingerprint reader disable
+
+See [Yubikey-auth.md](./Yubikey-auth.md) for manual steps and recovery instructions.

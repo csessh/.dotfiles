@@ -97,6 +97,8 @@ Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosugges
 
 **Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library is symlinked to `~/.local/lib/opensc-pkcs11.so` (created by bootstrap.sh).
 
+**Yubikey PAM**: For FIDO2 login/sudo authentication, run `~/.dotfiles/setup-yubikey-pam.sh` (guided wizard with backup/rollback). See `Yubikey-auth.md` for manual steps.
+
 **Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
 
 **Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes, `today` current date, `keychron [-u]` hidraw permissions
