@@ -18,14 +18,19 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora, U
 
 Host type is stored in `~/.config/host-type` during bootstrap and read by flake.nix for subsequent `home-manager switch` calls.
 
+**Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
+
 **Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
 
 **Platform-specific notes:**
 - **Ghostty**: Linux installs via Nix; macOS installs via Homebrew (`brew install --cask ghostty`)
+- **OpenSC**: macOS installs via Homebrew; Linux via Nix (desktop profile)
 
 **Key directories**:
 - `home-manager/.config/home-manager/` - Nix flake and package definitions
 - `<package>/.config/<app>/` - Standard XDG config structure (stow deploys to ~/.config/)
+
+**Version requirements** (packages.nix assertions): fzf 0.67+, neovim 0.11+, lua 5.4+
 
 **Theme**: Cyberdream across nvim, bat, git-delta, tmux, and terminal emulators.
 
@@ -93,6 +98,8 @@ Prefix: `C-Space`
 ## Shell (zsh)
 
 Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosuggestions) and oh-my-zsh framework. The `cd` command is zoxide (smart directory jumper).
+
+**Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library is symlinked to `~/.local/lib/opensc-pkcs11.so` (created by bootstrap.sh).
 
 **Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
 
