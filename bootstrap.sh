@@ -337,6 +337,40 @@ install_server_packages() {
     esac
 }
 
+# Enable pcscd for YubiKey/smart card support (desktop only)
+setup_smartcard_services() {
+    info "Setting up smart card services for YubiKey support..."
+
+    # Create symlink to opensc PKCS#11 library at a consistent path
+    # SSH config uses ~/.local/lib/opensc-pkcs11.so
+    mkdir -p "$HOME/.local/lib"
+    OPENSC_LIB=""
+    for lib in \
+        "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
+        "/opt/homebrew/lib/opensc-pkcs11.so" \
+        "/usr/local/lib/opensc-pkcs11.so" \
+        "/usr/lib64/opensc-pkcs11.so" \
+        "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
+        "/usr/lib/aarch64-linux-gnu/opensc-pkcs11.so"; do
+        if [ -f "$lib" ]; then
+            OPENSC_LIB="$lib"
+            break
+        fi
+    done
+    if [ -n "$OPENSC_LIB" ]; then
+        ln -sf "$OPENSC_LIB" "$HOME/.local/lib/opensc-pkcs11.so"
+        info "Linked opensc PKCS#11 library: $OPENSC_LIB -> ~/.local/lib/opensc-pkcs11.so"
+    else
+        warn "Could not find opensc-pkcs11.so library"
+    fi
+
+    # Enable pcscd daemon (Linux only)
+    if [ "$OS" != "macos" ]; then
+        info "Enabling PC/SC smart card daemon..."
+        sudo systemctl enable --now pcscd
+    fi
+}
+
 # Add user to docker group for rootless docker commands
 setup_docker_group() {
     if [ "$OS" = "macos" ]; then
@@ -458,16 +492,21 @@ main() {
         install_server_packages
     fi
 
-    # Step 9: Add user to docker group
+    # Step 9: Enable smart card daemon (desktop only, for YubiKey PIV)
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        setup_smartcard_services
+    fi
+
+    # Step 10: Add user to docker group
     setup_docker_group
 
-    # Step 10: Set up shell (oh-my-zsh + stow shell config)
+    # Step 11: Set up shell (oh-my-zsh + stow shell config)
     setup_shell
 
-    # Step 11: Install TPM
+    # Step 12: Install TPM
     install_tpm
 
-    # Step 12: Stow remaining configs
+    # Step 13: Stow remaining configs
     info "Stowing configuration packages..."
     STOW_PACKAGES="git nvim tmux bat fastfetch"
     if [ "$HOST_TYPE" = "desktop" ]; then
@@ -479,11 +518,11 @@ main() {
         fi
     done
 
-    # Step 13: Build bat cache for custom themes
+    # Step 14: Build bat cache for custom themes
     info "Building bat cache..."
     bat cache --build
 
-    # Step 14: Set default shell
+    # Step 15: Set default shell
     set_default_shell
 
     info "Bootstrap complete!"

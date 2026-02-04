@@ -19,8 +19,22 @@ ZSH_THEME="tdo"
 
 # SSH agent to load SSH PIV public key from Yubikey
 # Only once per session
-if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey (ECDSA)"; then
-    ssh-add -s /usr/lib64/opensc-pkcs11.so 2>/dev/null
+if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey"; then
+    OPENSC_PKCS11=""
+    for lib in \
+        "$HOME/.local/lib/opensc-pkcs11.so" \
+        "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
+        "/opt/homebrew/lib/opensc-pkcs11.so" \
+        "/usr/local/lib/opensc-pkcs11.so" \
+        "/usr/lib64/opensc-pkcs11.so" \
+        "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
+        "/usr/lib/aarch64-linux-gnu/opensc-pkcs11.so"; do
+        if [ -f "$lib" ]; then
+            OPENSC_PKCS11="$lib"
+            break
+        fi
+    done
+    [ -n "$OPENSC_PKCS11" ] && ssh-add -s "$OPENSC_PKCS11" 2>/dev/null
 fi
 
 # Plugins and snippets

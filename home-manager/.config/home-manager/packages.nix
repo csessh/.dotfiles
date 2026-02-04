@@ -62,7 +62,9 @@ let
     ############################
     # Security
     ############################
+    opensc
     pam_u2f
+    pcsclite
     yubikey-manager
   ] ++ lib.optionals (!isDarwin) [
     ############################
