@@ -348,7 +348,9 @@ setup_smartcard_services() {
     OPENSC_LIB=""
     for lib in \
         "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
+        "/opt/homebrew/lib/pkcs11/opensc-pkcs11.so" \
         "/opt/homebrew/lib/opensc-pkcs11.so" \
+        "/usr/local/lib/pkcs11/opensc-pkcs11.so" \
         "/usr/local/lib/opensc-pkcs11.so" \
         "/usr/lib64/opensc-pkcs11.so" \
         "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
