@@ -44,7 +44,7 @@ Bootstrap prompts for host type:
 
 | Profile | Packages | Stow |
 |---------|----------|------|
-| **Desktop** | Base + ghostty, 1password, claude-code, fonts, xclip, pam_u2f, yubikey-manager | All packages + ghostty, ssh, Yubico |
+| **Desktop** | Base + 1password, claude-code, fonts, xclip, pam_u2f, yubikey-manager | All packages + ghostty, ssh, Yubico |
 | **Server** | Base only (CLI tools, dev tools, languages) | Core packages only |
 
 To change host type after bootstrap:
@@ -144,7 +144,8 @@ stow -R nvim
 | CLI tools (ripgrep, fd, fzf, bat, etc.) | Nix | Declarative, reproducible |
 | Dev tools (neovim, tmux, git) | Nix | Same versions across machines |
 | Languages (nodejs, python, go) | Nix | Consistent toolchain |
-| Desktop apps (1password, ghostty) | Nix | Desktop profile only |
+| Desktop apps (1password) | Nix | Desktop profile only |
+| Ghostty | System (dnf/apt) | OpenGL compatibility |
 | Docker | System (dnf/apt/brew) | System integration |
 | oh-my-zsh | curl installer | Shell framework |
 | Configs | Stow | Symlinked from dotfiles |
