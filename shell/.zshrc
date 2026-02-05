@@ -17,8 +17,11 @@ export EDITOR="nvim"
 
 ZSH_THEME="tdo"
 
+# Use OpenSSH ssh-agent (not gcr-ssh-agent which lacks PKCS11 support)
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+
 # SSH agent to load SSH PIV public key from Yubikey
-# Only once per session
+# Only prompt if: key not loaded AND YubiKey is present
 if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey"; then
     OPENSC_PKCS11=""
     for lib in \
@@ -32,7 +35,10 @@ if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey"; then
             break
         fi
     done
-    [ -n "$OPENSC_PKCS11" ] && ssh-add -s "$OPENSC_PKCS11" 2>/dev/null
+    # Only attempt if library exists and YubiKey is present (has PIV slots)
+    if [ -n "$OPENSC_PKCS11" ] && pkcs11-tool --module "$OPENSC_PKCS11" --list-slots 2>/dev/null | grep -q "Slot"; then
+        ssh-add -s "$OPENSC_PKCS11"
+    fi
 fi
 
 # Plugins and snippets

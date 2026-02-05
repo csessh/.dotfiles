@@ -326,6 +326,24 @@ setup_smartcard_services() {
     sudo systemctl enable --now pcscd
 }
 
+# Setup OpenSSH ssh-agent for YubiKey PIV (desktop only)
+# GNOME's gcr-ssh-agent doesn't support PKCS11, so we use OpenSSH's ssh-agent
+setup_ssh_agent() {
+    info "Setting up OpenSSH ssh-agent for YubiKey PIV..."
+
+    # Mask gcr-ssh-agent if present (GNOME hijacks SSH_AUTH_SOCK with limited agent)
+    if systemctl --user list-unit-files gcr-ssh-agent.socket >/dev/null 2>&1; then
+        info "Masking GNOME gcr-ssh-agent (lacks PKCS11 support)..."
+        systemctl --user stop gcr-ssh-agent.socket gcr-ssh-agent.service 2>/dev/null || true
+        systemctl --user mask gcr-ssh-agent.socket gcr-ssh-agent.service 2>/dev/null || true
+    fi
+
+    # Enable OpenSSH ssh-agent service (stowed from ssh/.config/systemd/user/)
+    systemctl --user daemon-reload
+    systemctl --user enable --now ssh-agent.service
+    info "OpenSSH ssh-agent enabled"
+}
+
 # Add user to docker group for rootless docker commands
 setup_docker_group() {
     if groups "$USER" | grep -q docker; then
@@ -466,11 +484,16 @@ main() {
         fi
     done
 
-    # Step 14: Build bat cache for custom themes
+    # Step 14: Setup ssh-agent for YubiKey PIV (desktop only, after ssh stow)
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        setup_ssh_agent
+    fi
+
+    # Step 16: Build bat cache for custom themes
     info "Building bat cache..."
     bat cache --build
 
-    # Step 15: Set default shell
+    # Step 17: Set default shell
     set_default_shell
 
     info "Bootstrap complete!"

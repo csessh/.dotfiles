@@ -1,0 +1,18 @@
+[Unit]
+Description=OpenSSH Agent
+Documentation=man:ssh-agent(1)
+
+[Service]
+Type=simple
+# -P flag (PKCS11 provider whitelist) requires OpenSSH 8.9+
+# Includes: system libs, Nix store, home local lib
+ExecStart=/bin/sh -c 'if ssh-agent -h 2>&1 | grep -q "\\-P"; then \
+    exec /usr/bin/ssh-agent -D -a %t/ssh-agent.socket -P "/usr/lib*/*,/usr/local/lib*/*,/nix/store/*/lib/*,%h/.local/lib/*"; \
+  else \
+    exec /usr/bin/ssh-agent -D -a %t/ssh-agent.socket; \
+  fi'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
