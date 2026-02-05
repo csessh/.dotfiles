@@ -17,10 +17,8 @@ clipboard-read = allow
 clipboard-paste-protection = true
 clipboard-trim-trailing-spaces = true
 copy-on-select = clipboard
-selection-clear-on-copy = false
 scrollback-limit = 5000
 shell-integration = zsh
 cursor-style = block
 cursor-style-blink = true
-shell-integration-features = no-cursor, ssh-env
 keybind = shift+enter=text:\x1b\r
