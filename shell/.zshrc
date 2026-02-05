@@ -18,7 +18,10 @@ export EDITOR="nvim"
 ZSH_THEME="tdo"
 
 # Use OpenSSH ssh-agent (not gcr-ssh-agent which lacks PKCS11 support)
-export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+# Only override on local machine; preserve forwarded socket on remote servers
+if [ -z "$SSH_CONNECTION" ] && [ -S "${XDG_RUNTIME_DIR}/ssh-agent.socket" ]; then
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+fi
 
 # SSH agent to load SSH PIV public key from Yubikey
 # Only prompt if: key not loaded AND YubiKey is present
