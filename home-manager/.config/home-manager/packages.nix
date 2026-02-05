@@ -66,10 +66,6 @@ let
     pcsclite
     yubikey-manager
 
-    ############################
-    # Terminal
-    ############################
-    ghostty
   ];
 
 in {

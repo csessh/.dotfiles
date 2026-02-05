@@ -13,7 +13,7 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora an
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
 **Host type profiles** (Linux only):
-- **Desktop**: Full install with GUI apps (ghostty, 1password, claude-code, fonts, yubikey)
+- **Desktop**: Full install with GUI apps (1password, claude-code, fonts, yubikey tools); ghostty installed via native package manager for OpenGL compatibility
 - **Server**: Minimal CLI-only install (base packages only)
 
 Host type is stored in `~/.config/host-type` during bootstrap and read by flake.nix for subsequent `home-manager switch` calls.
@@ -21,6 +21,8 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 **Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
 
 **Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
+
+**Bootstrap order**: essentials → dotfiles clone → nix → stow nix config → stow home-manager → home-manager switch → system packages → oh-my-zsh → TPM → stow remaining configs
 
 **Key directories**:
 - `home-manager/.config/home-manager/` - Nix flake and package definitions
@@ -75,7 +77,7 @@ home-manager switch --impure
 
 **Formatters** (conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (TypeScript). Format-on-save with 500ms timeout.
 
-**Linters** (linters.lua): shellcheck, cpplint, jsonlint, selene, ruff, yamllint
+**Linters** (linters.lua): shellcheck, cpplint, jsonlint, ruff, yamllint
 
 **Key bindings**: `<leader>ca` code actions, `<leader>fm` format, `<leader>rn` rename
 
@@ -101,7 +103,7 @@ Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosugges
 
 **Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
 
-**Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes, `today` current date, `keychron [-u]` hidraw permissions
+**Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes, `today` current date, `keychron [-u]` hidraw permissions, `trim` strip whitespace, `rgrep` recursive grep
 
 **Keybindings**: `Ctrl+P/N` history search, `Ctrl+Z` fg
 

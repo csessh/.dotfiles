@@ -296,6 +296,34 @@ install_server_packages() {
     esac
 }
 
+# Install Ghostty terminal emulator (desktop only)
+# Using native packages to avoid Nix library conflicts with Mesa/OpenGL
+install_ghostty() {
+    info "Installing Ghostty terminal emulator..."
+
+    case "$OS" in
+        fedora)
+            # Ghostty is in official Fedora repos (41+)
+            sudo dnf install -y ghostty
+            ;;
+        ubuntu|debian)
+            # Add Ghostty apt repository
+            if [ ! -f /etc/apt/sources.list.d/ghostty.list ]; then
+                info "Adding Ghostty apt repository..."
+                sudo mkdir -p /etc/apt/keyrings
+                wget -qO- https://release.files.ghostty.org/gpg | sudo tee /etc/apt/keyrings/ghostty.gpg > /dev/null
+                echo "deb [signed-by=/etc/apt/keyrings/ghostty.gpg] https://release.files.ghostty.org/apt stable main" | sudo tee /etc/apt/sources.list.d/ghostty.list
+                sudo apt-get update
+            fi
+            sudo apt-get install -y ghostty
+            ;;
+        *)
+            warn "Unknown OS: $OS - skipping Ghostty installation"
+            warn "Please install Ghostty manually: https://ghostty.org/docs/install"
+            ;;
+    esac
+}
+
 # Enable pcscd for YubiKey/smart card support (desktop only)
 setup_smartcard_services() {
     info "Setting up smart card services for YubiKey support..."
@@ -458,21 +486,26 @@ main() {
         install_server_packages
     fi
 
-    # Step 9: Enable smart card daemon (desktop only, for YubiKey PIV)
+    # Step 9: Install Ghostty (desktop only, via native package manager for OpenGL compatibility)
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        install_ghostty
+    fi
+
+    # Step 10: Enable smart card daemon (desktop only, for YubiKey PIV)
     if [ "$HOST_TYPE" = "desktop" ]; then
         setup_smartcard_services
     fi
 
-    # Step 10: Add user to docker group
+    # Step 11: Add user to docker group
     setup_docker_group
 
-    # Step 11: Set up shell (oh-my-zsh + stow shell config)
+    # Step 12: Set up shell (oh-my-zsh + stow shell config)
     setup_shell
 
-    # Step 12: Install TPM
+    # Step 13: Install TPM
     install_tpm
 
-    # Step 13: Stow remaining configs
+    # Step 14: Stow remaining configs
     info "Stowing configuration packages..."
     STOW_PACKAGES="git nvim tmux bat fastfetch"
     if [ "$HOST_TYPE" = "desktop" ]; then
@@ -484,7 +517,7 @@ main() {
         fi
     done
 
-    # Step 14: Setup ssh-agent for YubiKey PIV (desktop only, after ssh stow)
+    # Step 15: Setup ssh-agent for YubiKey PIV (desktop only, after ssh stow)
     if [ "$HOST_TYPE" = "desktop" ]; then
         setup_ssh_agent
     fi
