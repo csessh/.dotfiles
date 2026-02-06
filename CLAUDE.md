@@ -20,6 +20,11 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 
 **Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
 
+**Native package manager exceptions**: Some packages are installed via dnf/apt instead of Nix for compatibility:
+- **ghostty**: OpenGL compatibility
+- **opensc**: ABI compatibility with system openssh (PKCS#11 module)
+- **Docker**: System integration
+
 **Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
 
 **Bootstrap order**: essentials → dotfiles clone → nix → stow nix config → stow home-manager → home-manager switch → system packages → oh-my-zsh → TPM → stow remaining configs
@@ -97,7 +102,7 @@ Prefix: `C-Space`
 
 Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosuggestions) and oh-my-zsh framework. The `cd` command is zoxide (smart directory jumper).
 
-**Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library is symlinked to `~/.local/lib/opensc-pkcs11.so` (created by bootstrap.sh).
+**Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library (installed via native dnf/apt for ABI compatibility) is symlinked to `~/.local/lib/opensc-pkcs11.so` by bootstrap.sh.
 
 **Yubikey PAM**: For FIDO2 login/sudo authentication, run `~/.dotfiles/setup-yubikey-pam.sh` (guided wizard with backup/rollback). See `Yubikey-auth.md` for manual steps.
 

@@ -186,6 +186,7 @@ install_system_packages() {
                 curl \
                 wget \
                 openssl \
+                opensc \
                 docker-ce \
                 docker-ce-cli \
                 containerd.io \
@@ -214,6 +215,7 @@ install_system_packages() {
                 curl \
                 wget \
                 openssl \
+                opensc \
                 docker-ce \
                 docker-ce-cli \
                 containerd.io \

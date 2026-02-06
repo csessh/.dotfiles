@@ -1,8 +1,5 @@
 theme = cyberdream
 font-family = CommitMono Regular
-font-feature = -liga
-font-feature = -calt
-font-feature = -dLig
 font-size = 16
 window-inherit-font-size = true
 window-decoration = false

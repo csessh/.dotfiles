@@ -60,8 +60,9 @@ let
 
     ############################
     # Security
+    # Note: opensc is installed via native package manager (dnf/apt)
+    # to ensure ABI compatibility with system openssh
     ############################
-    opensc
     pam_u2f
     pcsclite
     yubikey-manager
