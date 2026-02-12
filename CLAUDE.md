@@ -80,9 +80,9 @@ home-manager switch --impure
 
 **LSP Servers** (lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
 
-**Formatters** (conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (TypeScript). Format-on-save with 500ms timeout.
+**Formatters** (conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (.ts files only). Format-on-save with 500ms timeout.
 
-**Linters** (linters.lua): shellcheck, cpplint, jsonlint, ruff, yamllint
+**Linters** (linters.lua): bash→shellcheck, cpp→cpplint, json→jsonlint, python→ruff, yaml→yamllint
 
 **Key bindings**: `<leader>ca` code actions, `<leader>fm` format, `<leader>rn` rename
 
