@@ -1,26 +1,40 @@
-# Bat: a cat clone with wings
+# bat
 
-[bat](https://github.com/sharkdp/bat) is cat(1) clone with syntax highlighting and git integration.
+A cat clone with syntax highlighting and Git integration.
 
-It's absolutely incredible, except typing cat has already become permanent muscle memory.
+## Configuration
 
 ```bash
-alias cat='bat'
+cd ~/.dotfiles
+stow bat
 ```
 
-This alias is included in [zshrc](./shell/.oh-my-zsh/custom/alias.zsh).
+## Settings
 
-## Themes
+- **Theme**: Cyberdream
+- **Tabs**: 4 spaces
+- **Style**: snip, changes, header-filesize, grid, numbers
 
-``` bash
+## Theme
+
+Custom Cyberdream theme located in `themes/cyberdream.tmTheme`.
+
+To rebuild theme cache after changes:
+```bash
 bat cache --build
 ```
 
-If there are any custom themes placed in `~/.config/bat/`, `bat` will write them to cache.
-
-To get a list of available themes:
-``` bash
+To list available themes:
+```bash
 bat --list-themes
 ```
 
-The current theme is: `Cyberdream`.
+## Alias
+
+```bash
+cat  # aliased to bat in shell config
+```
+
+## Dependencies
+
+Installed via Nix home-manager (see `home-manager/.config/home-manager/packages.nix`).

@@ -1,40 +1,93 @@
-# Neovim 
+# nvim
 
-## dotfiles 
+Neovim configuration using Lazy.nvim plugin manager.
+
+## Configuration
 
 ```bash
 cd ~/.dotfiles
 stow nvim
 ```
 
-It's just that easy.
+## Structure
 
-## LSPs and auto-completion
-
-See [lsp.lua](./.config/nvim/lua/plugins/lsp.lua) for a complete list of required LSPs. 
-
-Find and install necessary LSPs via Mason:
-
-```bash 
-:Mason
+```
+nvim/.config/nvim/
+├── init.lua           # Entry point, loads Lazy.nvim
+├── stylua.toml        # Lua formatter config
+└── lua/
+    ├── options.lua    # Vim options
+    ├── keymaps.lua    # Key mappings
+    ├── plugins/       # Plugin configurations
+    └── snippets/      # Custom snippets
 ```
 
-## Linters and Formatters 
+## Theme
 
-See [formatter.lua](./.config/nvim/lua/plugins/formatter.lua) for a complete list of required linters and formatters. 
+Cyberdream (`plugins/scheme.lua`)
 
-Find and install necessary linters and formatters via Mason: 
+## LSP Servers
 
+Configured in `plugins/lsp.lua`:
+- bashls
+- clangd
+- docker_compose_language_service
+- dockerls
+- lua_ls (with Love2D support)
+- markdown_oxide
+- pyright
+- ruff
+- taplo
+- ts_ls
+
+Install via Mason:
 ```vim
 :Mason
 ```
 
-## Notable dependencies
+## Formatters
 
-There are a number of important integrations worth mentioning: 
+Configured in `plugins/conform.lua` with format-on-save (500ms timeout):
+- **Lua**: stylua
+- **Python**: ruff_format, ruff_organize_imports
+- **TypeScript**: eslint_d
 
-* [fzf](https://github.com/junegunn/fzf)
-* [ripgrep](https://github.com/BurntSushi/ripgrep)
-* [fd](https://github.com/sharkdp/fd) 
-* [xclip](https://github.com/astrand/xclip) or any other compatible clipboard manager
+## Linters
 
+Configured in `plugins/linters.lua`:
+- **Bash**: shellcheck
+- **C++**: cpplint
+- **JSON**: jsonlint
+- **Python**: ruff
+- **YAML**: yamllint
+
+## Key Bindings
+
+| Binding | Action |
+|---------|--------|
+| `<leader>ca` | Code actions |
+| `<leader>fm` | Format |
+| `<leader>rn` | Rename symbol |
+
+## Notable Plugins
+
+- **telescope.nvim**: Fuzzy finder
+- **neo-tree.nvim**: File explorer
+- **oil.nvim**: File manager
+- **gitsigns.nvim**: Git integration
+- **treesitter**: Syntax highlighting
+- **cmp**: Autocompletion
+- **leap.nvim**: Motion
+- **grapple.nvim**: File bookmarks
+- **tmux-nvim-navigation**: Seamless tmux/nvim pane navigation
+
+## Dependencies
+
+Installed via Nix home-manager:
+- neovim (0.11+ required)
+- fzf
+- ripgrep
+- fd
+- xclip (desktop only)
+
+See `home-manager/.config/home-manager/packages.nix`.

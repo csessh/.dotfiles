@@ -1,47 +1,80 @@
 # tmux
 
-## Configuration 
+Terminal multiplexer configuration.
+
+## Configuration
 
 ```bash
 cd ~/.dotfiles
 stow tmux
 ```
 
-## Plugin manager: TPM
+## Plugin Manager
 
-As per [TPM installation guide](https://github.com/tmux-plugins/tpm?tab=readme-ov-file#installation): 
-
-``` bash
+[TPM](https://github.com/tmux-plugins/tpm) (Tmux Plugin Manager):
+```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
 ## Plugins
 
-The most important and essential plugin is [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect).
+- **tmux-mode-indicator**: Visual mode indicator
+- **vim-tmux-navigator**: Seamless nvim/tmux navigation
+- **tmux-better-mouse-mode**: Enhanced mouse support
+- **tmux-resurrect**: Session persistence
 
-Standard keybinds apply:
+## Theme
 
-- `<prefix><C+s>` to save sessions to disk.
-- `<prefix><C+r>` to restore sessions.
+Cyberdream color palette with custom mode indicators:
+- Green: Normal
+- Yellow: Wait/Prefix
+- Yellow (bright): Copy mode
+- Red: Sync mode
 
-## Tmux - Neovim navigation
+## Prefix
 
-Navigation between panes is incredibly easy with the help of [nvim-tmux-navigation](https://github.com/alexghergh/nvim-tmux-navigation).
+`C-Space` (Ctrl+Space)
 
+## Keybindings
 
-This plugin requires setups on both Tmux and Neovim configurations:
-- [Neovim's side](../nvim/.config/nvim/lua/plugins/tmux-nvim-navigation.lua)
-- [Tmux's side](./.tmux.conf)
+### Pane Navigation
+| Binding | Action |
+|---------|--------|
+| `<prefix>h/j/k/l` | Select pane (vim-style) |
+| `<prefix>H/J/K/L` | Swap pane |
+| `M-h/j/k/l` | Resize pane (no prefix) |
+| `C-h/j/k/l` | Seamless nvim/tmux navigation |
 
+### Splits
+| Binding | Action |
+|---------|--------|
+| `<prefix>s` | Horizontal split |
+| `<prefix>v` | Vertical split |
 
-Ultimately, navigation is just this simple:
+### Session Management
+| Binding | Action |
+|---------|--------|
+| `<prefix>C-s` | Save session (resurrect) |
+| `<prefix>C-r` | Restore session (resurrect) |
 
-- `<C-h>` to navigate to the left pane
-- `<C-j>` to navigate to the pane below
-- `<C-k>` to navigate to the pane above
-- `<C-l>` to navigate to the right pane
+### Other
+| Binding | Action |
+|---------|--------|
+| `<prefix>r` | Reload config |
+| `<prefix>Enter` | Toggle synchronize-panes |
 
-## Screensaver mode
+## Settings
 
-`tmux` starts `cmatrix` after x seconds. Just because.
+- **Index**: Starts at 1
+- **Mouse**: Enabled
+- **Status bar**: Top
+- **Scroll speed**: 1 line per scroll
+- **Escape time**: 1ms (for nvim compatibility)
 
+## Screensaver
+
+After 15 minutes of inactivity, `cmatrix` runs as a screensaver.
+
+## Dependencies
+
+Installed via Nix home-manager (see `home-manager/.config/home-manager/packages.nix`).
