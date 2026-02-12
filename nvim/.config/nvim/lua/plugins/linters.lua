@@ -6,7 +6,6 @@ return {
         bash = { "shellcheck" },
         cpp = { "cpplint" },
         json = { "jsonlint" },
-        lua = { "selene" },
         python = { "ruff" },
         yaml = { "yamllint" },
       }

@@ -47,7 +47,6 @@ return {
         "eslint_d",
         "jsonlint",
         "ruff",
-        "selene",
         "shellcheck",
         "yamllint",
       },
