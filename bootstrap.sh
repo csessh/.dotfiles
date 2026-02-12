@@ -139,13 +139,13 @@ clone_dotfiles() {
     if [ -d "$DOTFILES_DIR" ]; then
         info "Dotfiles already exist, pulling latest changes..."
         git -C "$DOTFILES_DIR" pull --ff-only || warn "Could not pull latest changes"
-        return
+    else
+        info "Cloning dotfiles via HTTPS..."
+        git clone "$DOTFILES_REPO_HTTPS" "$DOTFILES_DIR"
     fi
 
-    info "Cloning dotfiles via HTTPS..."
-    git clone "$DOTFILES_REPO_HTTPS" "$DOTFILES_DIR"
-
-    info "Switching remote to SSH for future pushes..."
+    # Ensure remote is SSH for future pushes (handles both fresh clone and existing HTTPS clone)
+    info "Ensuring remote is set to SSH for future pushes..."
     git -C "$DOTFILES_DIR" remote set-url origin "$DOTFILES_REPO_SSH"
 }
 
