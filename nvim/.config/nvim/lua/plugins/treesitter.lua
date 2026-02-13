@@ -15,17 +15,17 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
-      local ts_select = require("nvim-treesitter-textobjects.select")
-      local ts_move = require("nvim-treesitter-textobjects.move")
-
-      require("nvim-treesitter-textobjects").setup {
+      require("nvim-treesitter-textobjects").setup({
         select = { lookahead = true },
         move = { set_jumps = true },
-      }
+      })
 
-      -- Select keymaps
+      local select = require("nvim-treesitter-textobjects.select")
+      local move = require("nvim-treesitter-textobjects.move")
+
       local select_keymaps = {
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
@@ -38,25 +38,24 @@ return {
       }
       for key, query in pairs(select_keymaps) do
         vim.keymap.set({ "x", "o" }, key, function()
-          ts_select.select_textobject(query)
+          select.select_textobject(query, "textobjects")
         end)
       end
 
-      -- Move keymaps
-      vim.keymap.set({ "n", "x", "o" }, "]f", function() ts_move.goto_next_start("@function.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "]c", function() ts_move.goto_next_start("@class.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "]F", function() ts_move.goto_next_end("@function.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "]C", function() ts_move.goto_next_end("@class.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "[f", function() ts_move.goto_previous_start("@function.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "[c", function() ts_move.goto_previous_start("@class.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "[F", function() ts_move.goto_previous_end("@function.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "[C", function() ts_move.goto_previous_end("@class.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "]i", function() ts_move.goto_next("@conditional.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "]l", function() ts_move.goto_next("@loop.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "]z", function() ts_move.goto_next("@fold") end)
-      vim.keymap.set({ "n", "x", "o" }, "[i", function() ts_move.goto_previous("@conditional.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "[l", function() ts_move.goto_previous("@loop.outer") end)
-      vim.keymap.set({ "n", "x", "o" }, "[z", function() ts_move.goto_previous("@fold") end)
+      vim.keymap.set({ "n", "x", "o" }, "]f", function() move.goto_next_start("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]c", function() move.goto_next_start("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]F", function() move.goto_next_end("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]C", function() move.goto_next_end("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[f", function() move.goto_previous_start("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[c", function() move.goto_previous_start("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[F", function() move.goto_previous_end("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[C", function() move.goto_previous_end("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]i", function() move.goto_next("@conditional.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]l", function() move.goto_next("@loop.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]z", function() move.goto_next("@fold", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[i", function() move.goto_previous("@conditional.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[l", function() move.goto_previous("@loop.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[z", function() move.goto_previous("@fold", "textobjects") end)
     end,
   },
 }
