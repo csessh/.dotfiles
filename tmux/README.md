@@ -31,33 +31,46 @@ Cyberdream color palette with custom mode indicators:
 - Yellow (bright): Copy mode
 - Red: Sync mode
 
-## Prefix
+## Key Bindings
 
-`C-Space` (Ctrl+Space)
-
-## Keybindings
+Prefix: `C-Space` (Ctrl+Space)
 
 ### Pane Navigation
+
 | Binding | Action |
 |---------|--------|
-| `<prefix>h/j/k/l` | Select pane (vim-style) |
-| `<prefix>H/J/K/L` | Swap pane |
-| `M-h/j/k/l` | Resize pane (no prefix) |
-| `C-h/j/k/l` | Seamless nvim/tmux navigation |
+| `<prefix>h` | Select pane left |
+| `<prefix>j` | Select pane down |
+| `<prefix>k` | Select pane up |
+| `<prefix>l` | Select pane right |
+| `C-h/j/k/l` | Seamless nvim/tmux navigation (vim-tmux-navigator) |
+
+### Pane Management
+
+| Binding | Action |
+|---------|--------|
+| `<prefix>H` | Swap pane left |
+| `<prefix>J` | Swap pane down |
+| `<prefix>K` | Swap pane up |
+| `<prefix>L` | Swap pane right |
+| `M-h/j/k/l` | Resize pane by 5 units (no prefix) |
 
 ### Splits
-| Binding | Action |
-|---------|--------|
-| `<prefix>s` | Horizontal split |
-| `<prefix>v` | Vertical split |
 
-### Session Management
 | Binding | Action |
 |---------|--------|
-| `<prefix>C-s` | Save session (resurrect) |
-| `<prefix>C-r` | Restore session (resurrect) |
+| `<prefix>s` | Horizontal split (preserves cwd) |
+| `<prefix>v` | Vertical split (preserves cwd) |
+
+### Session Management (tmux-resurrect)
+
+| Binding | Action |
+|---------|--------|
+| `<prefix>C-s` | Save session |
+| `<prefix>C-r` | Restore session |
 
 ### Other
+
 | Binding | Action |
 |---------|--------|
 | `<prefix>r` | Reload config |
