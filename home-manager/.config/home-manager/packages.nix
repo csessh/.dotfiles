@@ -89,4 +89,11 @@ in {
 
   # Ensure fonts are available (desktop only)
   fonts.fontconfig.enable = desktopEnabled;
+
+  # Vietnamese input method (desktop only)
+  i18n.inputMethod = lib.mkIf desktopEnabled {
+    enable = true;
+    type = "fcitx5";
+    fcitx5.addons = with pkgs; [ fcitx5-bamboo ];
+  };
 }
