@@ -21,6 +21,7 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 **Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
 
 **Native package manager exceptions**: Some packages are installed via dnf/apt instead of Nix for compatibility:
+- **cloudflared**: System-wide access for tunnel services and SSH proxy
 - **ghostty**: OpenGL compatibility
 - **opensc**: ABI compatibility with system openssh (PKCS#11 module)
 - **Docker**: System integration

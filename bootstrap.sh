@@ -326,6 +326,38 @@ install_ghostty() {
     esac
 }
 
+# Install cloudflared (desktop only)
+# Using native packages so the binary is available system-wide for tunnel services
+install_cloudflared() {
+    info "Installing cloudflared..."
+
+    case "$OS" in
+        fedora)
+            # Add Cloudflare repository
+            if [ ! -f /etc/yum.repos.d/cloudflared.repo ]; then
+                info "Adding Cloudflare repository..."
+                sudo dnf config-manager addrepo --from-repofile=https://pkg.cloudflare.com/cloudflared-ascii.repo
+            fi
+            sudo dnf install -y cloudflared
+            ;;
+        ubuntu|debian)
+            # Add Cloudflare apt repository
+            if [ ! -f /etc/apt/sources.list.d/cloudflared.list ]; then
+                info "Adding Cloudflare apt repository..."
+                sudo mkdir -p /etc/apt/keyrings
+                curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /etc/apt/keyrings/cloudflare.gpg > /dev/null
+                echo "deb [signed-by=/etc/apt/keyrings/cloudflare.gpg] https://pkg.cloudflare.com/cloudflared $(. /etc/os-release && echo "$VERSION_CODENAME") main" | sudo tee /etc/apt/sources.list.d/cloudflared.list
+                sudo apt-get update
+            fi
+            sudo apt-get install -y cloudflared
+            ;;
+        *)
+            warn "Unknown OS: $OS - skipping cloudflared installation"
+            warn "Please install cloudflared manually: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/"
+            ;;
+    esac
+}
+
 # Enable pcscd for YubiKey/smart card support (desktop only)
 setup_smartcard_services() {
     info "Setting up smart card services for YubiKey support..."
@@ -493,21 +525,25 @@ main() {
         install_ghostty
     fi
 
-    # Step 10: Enable smart card daemon (desktop only, for YubiKey PIV)
+    # Step 10: Install cloudflared (via native package manager for system-wide access)
+    # Needed on servers (tunnel service) and desktops (ssh proxy client)
+    install_cloudflared
+
+    # Step 11: Enable smart card daemon (desktop only, for YubiKey PIV)
     if [ "$HOST_TYPE" = "desktop" ]; then
         setup_smartcard_services
     fi
 
-    # Step 11: Add user to docker group
+    # Step 12: Add user to docker group
     setup_docker_group
 
-    # Step 12: Set up shell (oh-my-zsh + stow shell config)
+    # Step 13: Set up shell (oh-my-zsh + stow shell config)
     setup_shell
 
-    # Step 13: Install TPM
+    # Step 14: Install TPM
     install_tpm
 
-    # Step 14: Stow remaining configs
+    # Step 15: Stow remaining configs
     info "Stowing configuration packages..."
     STOW_PACKAGES="git nvim tmux bat fastfetch"
     if [ "$HOST_TYPE" = "desktop" ]; then
@@ -519,16 +555,16 @@ main() {
         fi
     done
 
-    # Step 15: Setup ssh-agent for YubiKey PIV (desktop only, after ssh stow)
+    # Step 16: Setup ssh-agent for YubiKey PIV (desktop only, after ssh stow)
     if [ "$HOST_TYPE" = "desktop" ]; then
         setup_ssh_agent
     fi
 
-    # Step 16: Build bat cache for custom themes
+    # Step 17: Build bat cache for custom themes
     info "Building bat cache..."
     bat cache --build
 
-    # Step 17: Set default shell
+    # Step 18: Set default shell
     set_default_shell
 
     info "Bootstrap complete!"

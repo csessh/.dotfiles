@@ -68,3 +68,4 @@ source <(fzf --zsh)
 source <(docker completion zsh)
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
+export PATH="$HOME/.npm-global/bin:$PATH"
