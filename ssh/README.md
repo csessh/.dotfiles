@@ -24,16 +24,6 @@ ssh/
 - **AddKeysToAgent**: yes (auto-add keys on first use)
 - **ForwardAgent**: yes (forward agent to remote hosts)
 
-### Cloudflared Tunnel
-
-Connection to home server via Cloudflare tunnel:
-```
-Host console.tdo.io.vn
-    User tdo
-    ProxyCommand cloudflared access ssh --hostname console.tdo.io.vn
-```
-
-Requires `cloudflared` client installed (via Nix home-manager).
 
 ## SSH Agent Service
 

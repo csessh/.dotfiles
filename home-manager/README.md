@@ -44,7 +44,7 @@ home-manager switch --impure
 
 ### Base (all hosts)
 
-**CLI tools**: bat, btop, cloudflared, fastfetch, fd, fzf, lazygit, ripgrep, tree, zoxide
+**CLI tools**: bat, btop, fastfetch, fd, fzf, lazygit, ripgrep, tree, zoxide
 
 **Dev tools**: delta, gcc, git, git-lfs, neovim, ngrok, tmux
 
