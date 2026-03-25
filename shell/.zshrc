@@ -69,3 +69,7 @@ source <(docker completion zsh)
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
 export PATH="$HOME/.npm-global/bin:$PATH"
+
+# Added by flyctl installer
+export FLYCTL_INSTALL="/home/tdo/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"

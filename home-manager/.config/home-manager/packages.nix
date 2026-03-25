@@ -10,8 +10,10 @@ let
     fastfetch
     fd
     fzf
+    glow
     lazygit
     ripgrep
+    tldr
     tree
     zoxide
 
