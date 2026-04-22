@@ -1,5 +1,5 @@
 return {
-  "ggandor/leap.nvim",
+  url = "https://codeberg.org/andyg/leap.nvim",
   keys = {
     { "<leader>l", "<Plug>(leap)", desc = "Bi-directional lead" },
     { "<leader>L", "<Plug>(leap-from-window)", desc = "Leap from one window to another" },
