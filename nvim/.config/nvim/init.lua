@@ -1,5 +1,6 @@
 require "options"
 require "keymaps"
+require "autocmds"
 
 -- Package manager: Lazy.nvim
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
