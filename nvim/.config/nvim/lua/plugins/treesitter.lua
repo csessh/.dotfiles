@@ -4,12 +4,27 @@ return {
     branch = "main",
     build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter").setup {
-        auto_install = true,
+      require("nvim-treesitter").setup {}
+
+      local ensure_installed = {
+        "bash", "c", "cpp", "css", "diff", "dockerfile",
+        "gitcommit", "git_config", "gitignore", "go", "html", "ini",
+        "java", "javascript", "json", "jsonc", "lua",
+        "markdown", "markdown_inline", "nix", "python", "query", "regex",
+        "ruby", "rust", "sql", "terraform", "toml",
+        "tsx", "typescript", "vim", "vimdoc", "xml", "yaml",
       }
+      require("nvim-treesitter").install(ensure_installed)
+
       vim.api.nvim_create_autocmd("FileType", {
-        callback = function()
-          pcall(vim.treesitter.start)
+        callback = function(args)
+          local ft = args.match
+          local lang = vim.treesitter.language.get_lang(ft) or ft
+          local installed = require("nvim-treesitter.config").get_installed("parsers")
+          if not vim.tbl_contains(installed, lang) then
+            pcall(require("nvim-treesitter").install, { lang })
+          end
+          pcall(vim.treesitter.start, args.buf, lang)
         end,
       })
     end,
