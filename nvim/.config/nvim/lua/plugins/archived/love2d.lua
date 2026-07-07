@@ -1,5 +1,6 @@
 return {
   "S1M0N38/love2d.nvim",
+  enabled = false,
   event = "VeryLazy",
   version = "2.*",
   opts = {},

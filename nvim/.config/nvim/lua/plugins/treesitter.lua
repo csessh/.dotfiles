@@ -20,9 +20,13 @@ return {
         callback = function(args)
           local ft = args.match
           local lang = vim.treesitter.language.get_lang(ft) or ft
+          local ts = require("nvim-treesitter")
           local installed = require("nvim-treesitter.config").get_installed("parsers")
           if not vim.tbl_contains(installed, lang) then
-            pcall(require("nvim-treesitter").install, { lang })
+            if not vim.tbl_contains(ts.get_available(), lang) then
+              return
+            end
+            pcall(ts.install, { lang })
           end
           pcall(vim.treesitter.start, args.buf, lang)
         end,
