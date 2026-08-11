@@ -27,6 +27,7 @@ let
     neovim
     ngrok
     tmux
+    gh
 
     ############################
     # Languages & toolchains
