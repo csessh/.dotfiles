@@ -43,6 +43,7 @@ let
     ############################
     # Dev tools
     ############################
+    codegraph
     delta  # git-delta
     gcc
     git
