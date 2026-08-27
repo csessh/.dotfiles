@@ -7,12 +7,37 @@ return {
       require("nvim-treesitter").setup {}
 
       local ensure_installed = {
-        "bash", "c", "cpp", "css", "diff", "dockerfile",
-        "gitcommit", "git_config", "gitignore", "go", "html", "ini",
-        "java", "javascript", "json", "jsonc", "lua",
-        "markdown", "markdown_inline", "nix", "python", "query", "regex",
-        "ruby", "rust", "sql", "terraform", "toml",
-        "tsx", "typescript", "vim", "vimdoc", "xml", "yaml",
+        "bash",
+        "c",
+        "cpp",
+        "css",
+        "diff",
+        "dockerfile",
+        "gitcommit",
+        "git_config",
+        "gitignore",
+        "go",
+        "html",
+        "ini",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "nix",
+        "python",
+        "query",
+        "regex",
+        "ruby",
+        "rust",
+        "sql",
+        "toml",
+        "tsx",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "xml",
+        "yaml",
       }
       require("nvim-treesitter").install(ensure_installed)
 
@@ -20,8 +45,8 @@ return {
         callback = function(args)
           local ft = args.match
           local lang = vim.treesitter.language.get_lang(ft) or ft
-          local ts = require("nvim-treesitter")
-          local installed = require("nvim-treesitter.config").get_installed("parsers")
+          local ts = require "nvim-treesitter"
+          local installed = require("nvim-treesitter.config").get_installed "parsers"
           if not vim.tbl_contains(installed, lang) then
             if not vim.tbl_contains(ts.get_available(), lang) then
               return
@@ -38,13 +63,13 @@ return {
     branch = "main",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
-      require("nvim-treesitter-textobjects").setup({
+      require("nvim-treesitter-textobjects").setup {
         select = { lookahead = true },
         move = { set_jumps = true },
-      })
+      }
 
-      local select = require("nvim-treesitter-textobjects.select")
-      local move = require("nvim-treesitter-textobjects.move")
+      local select = require "nvim-treesitter-textobjects.select"
+      local move = require "nvim-treesitter-textobjects.move"
 
       local select_keymaps = {
         ["ac"] = "@class.outer",
@@ -62,20 +87,48 @@ return {
         end)
       end
 
-      vim.keymap.set({ "n", "x", "o" }, "]f", function() move.goto_next_start("@function.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]c", function() move.goto_next_start("@class.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]F", function() move.goto_next_end("@function.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]C", function() move.goto_next_end("@class.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[f", function() move.goto_previous_start("@function.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[c", function() move.goto_previous_start("@class.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[F", function() move.goto_previous_end("@function.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[C", function() move.goto_previous_end("@class.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]i", function() move.goto_next("@conditional.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]l", function() move.goto_next("@loop.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]z", function() move.goto_next("@fold", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[i", function() move.goto_previous("@conditional.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[l", function() move.goto_previous("@loop.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[z", function() move.goto_previous("@fold", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]f", function()
+        move.goto_next_start("@function.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "]c", function()
+        move.goto_next_start("@class.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "]F", function()
+        move.goto_next_end("@function.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "]C", function()
+        move.goto_next_end("@class.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[f", function()
+        move.goto_previous_start("@function.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[c", function()
+        move.goto_previous_start("@class.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[F", function()
+        move.goto_previous_end("@function.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[C", function()
+        move.goto_previous_end("@class.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "]i", function()
+        move.goto_next("@conditional.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "]l", function()
+        move.goto_next("@loop.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "]z", function()
+        move.goto_next("@fold", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[i", function()
+        move.goto_previous("@conditional.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[l", function()
+        move.goto_previous("@loop.outer", "textobjects")
+      end)
+      vim.keymap.set({ "n", "x", "o" }, "[z", function()
+        move.goto_previous("@fold", "textobjects")
+      end)
     end,
   },
 }
