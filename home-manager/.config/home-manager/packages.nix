@@ -46,12 +46,12 @@ let
     codegraph
     delta  # git-delta
     gcc
+    gh
     git
     git-lfs
+    localtunnel
     neovim
-    ngrok
     tmux
-    gh
 
     ############################
     # Languages & toolchains
