@@ -73,3 +73,4 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # Added by flyctl installer
 export FLYCTL_INSTALL="/home/tdo/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
+export PATH="$HOME/.foundry/bin:$PATH"
