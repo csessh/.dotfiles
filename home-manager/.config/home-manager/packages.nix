@@ -44,6 +44,7 @@ let
     # Dev tools
     ############################
     codegraph
+    dblab
     delta  # git-delta
     gcc
     gh
