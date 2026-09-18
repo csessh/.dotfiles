@@ -13,8 +13,8 @@ return {
         "css",
         "diff",
         "dockerfile",
-        "gitcommit",
         "git_config",
+        "gitcommit",
         "gitignore",
         "go",
         "html",
@@ -78,9 +78,10 @@ return {
         ["if"] = "@function.inner",
         ["ai"] = "@conditional.outer",
         ["ii"] = "@conditional.inner",
-        ["al"] = "@loop.outer",
-        ["il"] = "@loop.inner",
+        ["ao"] = "@loop.outer",
+        ["io"] = "@loop.inner",
       }
+
       for key, query in pairs(select_keymaps) do
         vim.keymap.set({ "x", "o" }, key, function()
           select.select_textobject(query, "textobjects")
@@ -114,7 +115,7 @@ return {
       vim.keymap.set({ "n", "x", "o" }, "]i", function()
         move.goto_next("@conditional.outer", "textobjects")
       end)
-      vim.keymap.set({ "n", "x", "o" }, "]l", function()
+      vim.keymap.set({ "n", "x", "o" }, "]o", function()
         move.goto_next("@loop.outer", "textobjects")
       end)
       vim.keymap.set({ "n", "x", "o" }, "]z", function()
@@ -123,7 +124,7 @@ return {
       vim.keymap.set({ "n", "x", "o" }, "[i", function()
         move.goto_previous("@conditional.outer", "textobjects")
       end)
-      vim.keymap.set({ "n", "x", "o" }, "[l", function()
+      vim.keymap.set({ "n", "x", "o" }, "[o", function()
         move.goto_previous("@loop.outer", "textobjects")
       end)
       vim.keymap.set({ "n", "x", "o" }, "[z", function()
