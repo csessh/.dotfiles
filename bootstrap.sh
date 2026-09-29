@@ -326,6 +326,43 @@ install_ghostty() {
     esac
 }
 
+# Install Funput IBus (Vietnamese input method, desktop only)
+install_funput_ibus() {
+    info "Installing Funput IBus..."
+
+    case "$OS" in
+        fedora)
+            if [ ! -f /etc/yum.repos.d/funput.repo ]; then
+                info "Adding Funput dnf repository..."
+                sudo curl -fsSL https://repo.funput.app/funput.repo -o /etc/yum.repos.d/funput.repo
+            fi
+            sudo dnf install -y funput-ibus
+            ;;
+        ubuntu|debian)
+            if [ ! -f /etc/apt/sources.list.d/funput.sources ]; then
+                info "Adding Funput apt repository..."
+                sudo install -d /usr/share/keyrings
+                curl -fsSL https://repo.funput.app/funput.asc | sudo tee /usr/share/keyrings/funput.asc > /dev/null
+                sudo tee /etc/apt/sources.list.d/funput.sources > /dev/null <<'REPO'
+Types: deb
+URIs: https://repo.funput.app/deb
+Suites: ./
+Signed-By: /usr/share/keyrings/funput.asc
+REPO
+                sudo apt-get update
+            fi
+            sudo apt-get install -y funput-ibus
+            ;;
+        *)
+            warn "Unknown OS: $OS - skipping Funput IBus installation"
+            warn "Please install manually: https://docs.funput.app/docs/install/linux/ibus"
+            ;;
+    esac
+
+    ibus restart || warn "Could not restart ibus; log out/in for Funput to appear"
+    info "To enable: Settings -> Keyboard -> Input Sources -> + -> Vietnamese -> Funput"
+}
+
 # Enable pcscd for YubiKey/smart card support (desktop only)
 setup_smartcard_services() {
     info "Setting up smart card services for YubiKey support..."
@@ -491,6 +528,11 @@ main() {
     # Step 9: Install Ghostty (desktop only, via native package manager for OpenGL compatibility)
     if [ "$HOST_TYPE" = "desktop" ]; then
         install_ghostty
+    fi
+
+    # Step 9b: Install Funput IBus (desktop only, Vietnamese input method)
+    if [ "$HOST_TYPE" = "desktop" ]; then
+        install_funput_ibus
     fi
 
     # Step 10: Enable smart card daemon (desktop only, for YubiKey PIV)
