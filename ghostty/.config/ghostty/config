@@ -1,5 +1,5 @@
 theme = cyberdream
-font-family = CommitMono Regular
+font-family = CommitMono
 font-size = 16
 term = xterm-256color
 window-inherit-font-size = true
