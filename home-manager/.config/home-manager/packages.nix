@@ -77,7 +77,7 @@ let
     ############################
     # Fonts
     ############################
-    nerd-fonts.commit-mono
+    nerd-fonts.terminess-ttf
 
     ############################
     # Utilities

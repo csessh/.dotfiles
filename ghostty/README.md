@@ -16,7 +16,7 @@ stow ghostty
 | Setting | Value |
 |---------|-------|
 | Theme | Cyberdream |
-| Font | CommitMono Regular, 16pt |
+| Font | Terminess Nerd Font, 16pt |
 | Term | xterm-256color |
 | Cursor | Block, blinking |
 | Scrollback | 5000 lines |
