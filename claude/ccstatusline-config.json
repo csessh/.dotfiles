@@ -1,0 +1,90 @@
+{
+  "version": 4,
+  "lines": [
+    [
+      {
+        "id": "32c306c6-cc1a-478a-8eb5-291453c9635e",
+        "type": "reset-timer",
+        "color": "brightGreen"
+      },
+      {
+        "id": "015e0da5-e2de-40c3-87c0-894ea377ca46",
+        "type": "separator"
+      },
+      {
+        "id": "ef3a9b03-f976-43c7-b729-6e6b353ca72f",
+        "type": "weekly-reset-timer",
+        "color": "brightGreen"
+      },
+      {
+        "id": "cb59fdb5-8dff-498d-a029-2d5c695b0c53",
+        "type": "separator"
+      },
+      {
+        "id": "dc99068d-98e4-47c7-86c7-44b767069051",
+        "type": "session-usage",
+        "color": "brightGreen"
+      },
+      {
+        "id": "f924854d-e7d7-4ff2-a1d5-51cad7cd244a",
+        "type": "flex-separator"
+      },
+      {
+        "id": "667157c9-dc81-47da-bb50-f421321dec15",
+        "type": "context-bar",
+        "color": "brightWhite"
+      },
+      {
+        "id": "57b1cf84-70cf-43ea-9a46-29df7d2bd9e0",
+        "type": "flex-separator"
+      },
+      {
+        "id": "15775010-6b08-4969-9a58-b3ab60d305f7",
+        "type": "git-origin-owner-repo",
+        "color": "brightYellow"
+      },
+      {
+        "id": "4e500a1a-0a7c-4175-b930-bb8a235308ba",
+        "type": "separator"
+      },
+      {
+        "id": "4586ed22-909b-4600-b757-0ddbc35d7924",
+        "type": "git-branch",
+        "color": "brightYellow"
+      },
+      {
+        "id": "b6be7db0-be32-4199-8632-0c375dfdfc6c",
+        "type": "separator"
+      },
+      {
+        "id": "2df67e22-07f2-488a-af76-ebe0657eba65",
+        "type": "git-ahead-behind",
+        "color": "brightYellow"
+      }
+    ]
+  ],
+  "flexMode": "full-until-compact",
+  "compactThreshold": 60,
+  "colorLevel": 2,
+  "defaultPaddingSide": "both",
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "gitCacheTtlSeconds": 5,
+  "terminalWidthCacheTtlSeconds": 5,
+  "customCommandCacheTtlSeconds": 0,
+  "minimalistMode": false,
+  "powerline": {
+    "enabled": false,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [],
+    "endCaps": [],
+    "autoAlign": false,
+    "continueThemeAcrossLines": false
+  },
+  "exportedBy": "2.2.30"
+}
