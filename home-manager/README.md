@@ -56,7 +56,7 @@ home-manager switch --impure
 
 **Desktop apps**: 1password-gui
 
-**Fonts**: Terminess (Terminus Nerd Font)
+**Fonts**: Obel Mono
 
 **Utilities**: xclip
 

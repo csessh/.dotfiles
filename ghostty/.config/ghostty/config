@@ -1,5 +1,5 @@
 theme = cyberdream
-font-family = Terminess Nerd Font
+font-family = Obel Mono
 font-size = 16
 term = xterm-256color
 window-inherit-font-size = true

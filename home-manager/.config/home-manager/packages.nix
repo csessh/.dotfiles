@@ -22,6 +22,26 @@ let
     };
   };
 
+  obel-mono = pkgs.stdenvNoCC.mkDerivation rec {
+    pname = "obel-mono";
+    version = "1.001";
+
+    src = pkgs.fetchzip {
+      url = "https://typographic.systems/download/ObelMono-${version}-ttf.zip";
+      hash = "sha256-uIzVk/r0lMpA+wk4zZWFHRu8zptAYv2/RJxfjAsjYiM=";
+    };
+
+    installPhase = ''
+      install -Dm644 variable/*.ttf -t $out/share/fonts/truetype
+    '';
+
+    meta = with pkgs.lib; {
+      description = "Variable monospace typeface for code and terminals";
+      homepage = "https://typographic.systems/obel-mono";
+      license = licenses.ofl;
+    };
+  };
+
   basePackages = with pkgs; [
     ############################
     # CLI tools
@@ -77,7 +97,7 @@ let
     ############################
     # Fonts
     ############################
-    nerd-fonts.terminess-ttf
+    obel-mono
 
     ############################
     # Utilities
