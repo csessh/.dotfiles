@@ -62,7 +62,7 @@ filesize() {
 }
 
 dockerps() {
-    docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
+    docker ps -a --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
 }
 
 box() {
