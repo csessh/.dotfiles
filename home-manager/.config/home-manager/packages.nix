@@ -46,6 +46,7 @@ let
     ############################
     # CLI tools
     ############################
+    cmatrix
     bat
     btop
     fastfetch
