@@ -98,11 +98,13 @@ deploy_and_check() {
     done
 
     # Day-to-day update on a server: the default ${USER} config must stay server-only.
-    info "$os: home-manager switch --impure, then check.sh"
-    vm_ssh "$port" '. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh &&
-        PATH="$HOME/.nix-profile/bin:$PATH" home-manager switch --impure' \
-        >"$LOG_DIR/$os-hm-switch.log" 2>&1 || fail "$os: home-manager switch failed"
-    vm_ssh "$port" .dotfiles/tests/check.sh || check_failures=$((check_failures + 1))
+    if [ "$os" != nixos ]; then
+        info "$os: home-manager switch --impure, then check.sh"
+        vm_ssh "$port" '. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh &&
+            PATH="$HOME/.nix-profile/bin:$PATH" home-manager switch --impure' \
+            >"$LOG_DIR/$os-hm-switch.log" 2>&1 || fail "$os: home-manager switch failed"
+        vm_ssh "$port" .dotfiles/tests/check.sh || check_failures=$((check_failures + 1))
+    fi
 
     [ "$check_failures" -eq 0 ] || fail "$os: check.sh failed in $check_failures round(s)"
 }
@@ -168,7 +170,6 @@ stage_nixos() {
     rm -rf "$shared_dir" "$disk_image"
     mkdir -p "$shared_dir"
     cp "$KEY_FILE.pub" "$shared_dir/authorized_keys"
-    snapshot_repo "$shared_dir/dotfiles.tar.gz"
 
     info "nixos: booting (console log: $LOG_DIR/nixos.log)"
     SHARED_DIR="$shared_dir" NIX_DISK_IMAGE="$disk_image" \
@@ -188,6 +189,8 @@ stage_nixos() {
         running | degraded) ;;
         *) fail "nixos: unexpected system state '$system_state'" ;;
     esac
+    snapshot_repo "$CACHE_DIR/dotfiles.tar.gz"
+    deploy_and_check nixos "$port" "$CACHE_DIR/dotfiles.tar.gz"
     stop_vm
     info "nixos: passed"
 }

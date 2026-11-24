@@ -12,9 +12,11 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 1. **Nix home-manager** - Installs packages declaratively (CLI tools, dev tools, languages)
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
-**Servers** get `basePackages` only (CLI tools, dev tools, languages). `desktopPackages` belong to the workstation.
+**Hosts:**
+- **Workstation (`fw13`)**: NixOS. `nixosConfigurations.fw13` in the flake, system config in `home-manager/.config/home-manager/nixos/`, home-manager runs as a NixOS module with `desktopEnabled = true`. `bootstrap.sh` only does user-level steps there (oh-my-zsh, TPM, stow incl. ghostty/ssh/claude, bat cache).
+- **Servers (Fedora/Ubuntu)**: standalone home-manager (`linux-server`, `linux-arm-server`, or the `$USER` default), `basePackages` only, nvim with `NVIM_PROFILE=server`.
 
-**Why `--impure` flag**: The server configs read `$USER` and `$HOME` at runtime.
+**Why `--impure` flag**: The server configs read `$USER` and `$HOME` at runtime. `nixosConfigurations.fw13` is pure.
 
 **Native package manager exception**: Docker is installed via dnf/apt for system integration.
 
@@ -54,6 +56,20 @@ home-manager switch --rollback
 # Garbage collection
 nix-collect-garbage -d
 ```
+
+### NixOS Workstation
+```bash
+sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#fw13
+nix flake update --flake ~/.dotfiles/home-manager/.config/home-manager   # then rebuild
+sudo nixos-rebuild switch --rollback
+```
+
+### VM Tests
+```bash
+tests/vm.sh all        # build + ubuntu + nixos; also: build | ubuntu | fedora | nixos
+VM_KEEP=1 tests/vm.sh ubuntu   # keep the VM for debugging
+```
+New files must be `git add`ed before nix sees them.
 
 ### GNU Stow
 ```bash

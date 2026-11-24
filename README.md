@@ -2,7 +2,7 @@
 
 Personal development configuration files managed with GNU Stow and Nix + home-manager.
 
-`bootstrap.sh` sets up Fedora and Ubuntu **servers**.
+`bootstrap.sh` sets up Fedora and Ubuntu **servers**. The workstation (`fw13`) runs **NixOS**, declared in `home-manager/.config/home-manager/nixos/` (see [NixOS Workstation](#nixos-workstation)).
 
 ## Quick Start
 
@@ -47,6 +47,70 @@ Servers run nvim without LSP/completion/format/lint plugins (`NVIM_PROFILE=serve
 nvim --headless "+Lazy! clean" +qa
 rm -rf ~/.local/share/nvim/mason
 ```
+
+## NixOS Workstation
+
+The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) with home-manager as a NixOS module (user). One rebuild applies both. `bootstrap.sh` detects NixOS and only does the user-level steps (oh-my-zsh, TPM, stow, bat cache).
+
+### Install
+
+1. Back up `/home`.
+2. In the firmware setup (F2), **disable Secure Boot**; the NixOS installer is not signed for it.
+3. Write the graphical ISO to a USB stick (Fedora Media Writer, GNOME Disks "Restore Disk Image", or `dd`) and boot it. Any recent ISO works: the flake pins the exact nixpkgs.
+4. Partition and mount (EFI + btrfs root), either by hand or with the installer's partitioning step, then generate the hardware config and use it in the repo:
+
+   ```bash
+   sudo nixos-generate-config --root /mnt
+   sudo git clone https://github.com/csessh/.dotfiles.git /mnt/home/csessh/.dotfiles   # add -b exp/nixos until merged
+   sudo cp /mnt/etc/nixos/hardware-configuration.nix \
+      /mnt/home/csessh/.dotfiles/home-manager/.config/home-manager/nixos/
+   cd /mnt/home/csessh/.dotfiles && sudo git add -A   # flakes only see tracked files
+   sudo nixos-install --flake ./home-manager/.config/home-manager#fw13
+   sudo nixos-enter --root /mnt -c 'passwd csessh'   # the config sets no user password
+   ```
+
+   No `git` on the ISO? Run `nix-shell -p git` first.
+
+5. Reboot, log in, then:
+
+   ```bash
+   sudo chown -R csessh:users ~/.dotfiles
+   ~/.dotfiles/bootstrap.sh
+   fprintd-enroll                 # one or more fingers
+   sudo -k && sudo true           # fingerprint or password
+   ```
+
+   Commit the generated `hardware-configuration.nix`.
+
+### Update and roll back
+
+```bash
+nix flake update --flake ~/.dotfiles/home-manager/.config/home-manager
+sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#fw13
+
+sudo nixos-rebuild switch --rollback   # or pick an older generation in the boot menu
+```
+
+Update regularly: every package, Chrome included, only moves when `flake.lock` does.
+
+### Login and keys
+
+- Login, lock screen and sudo accept the **fingerprint or password**. A fingerprint login leaves GNOME Keyring locked until its first use asks for the password.
+- The **Yubikey** is for SSH only (PIV via opensc + the NixOS ssh-agent).
+
+## Running the VM Tests
+
+`tests/vm.sh` boots throwaway VMs, deploys the current working tree (including uncommitted changes) with `bootstrap.sh`, and runs `tests/check.sh` inside:
+
+```bash
+tests/vm.sh build    # build every flake config (seconds once cached)
+tests/vm.sh ubuntu   # Ubuntu 24.04 server: bootstrap twice, then home-manager switch
+tests/vm.sh nixos    # fw13 config in a build-vm VM: bootstrap twice
+tests/vm.sh fedora   # Fedora 43 server (not part of `all`)
+tests/vm.sh all      # build + ubuntu + nixos
+```
+
+Needs KVM, qemu and Nix. Images, logs and the throwaway SSH key live in `~/.cache/dotfiles-vm-tests` (set `DOTFILES_VM_CACHE` to move it; allow ~20 GB). `VM_KEEP=1` leaves the VM running after the test for debugging.
 
 ## Package Management
 

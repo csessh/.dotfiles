@@ -31,6 +31,7 @@ detect_os() {
         . /etc/os-release
         case "$ID" in
             ubuntu) echo "ubuntu" ;;
+            nixos) echo "nixos" ;;
             debian) echo "debian" ;;
             *) echo "linux" ;;
         esac
@@ -258,9 +259,37 @@ set_default_shell() {
     sudo chsh -s "$(command -v zsh)" "$USER"
 }
 
+# NixOS declares packages, services and the login shell (home-manager/.config/home-manager/nixos/),
+# so only the user-level steps run there.
+bootstrap_nixos() {
+    clone_dotfiles
+    setup_shell
+    install_tpm
+
+    # Pre-create so stow links files into them; a folded directory would put secrets in the repo
+    mkdir -p "$HOME/.claude" "$HOME/.config/ccstatusline"
+    mkdir -p "$HOME/.ssh"
+    chmod 700 "$HOME/.ssh"
+
+    info "Stowing configuration packages..."
+    for pkg in git nvim tmux bat fastfetch ghostty ssh claude; do
+        stow_package "$pkg"
+    done
+
+    info "Building bat cache..."
+    bat cache --build
+
+    info "Bootstrap complete!"
+}
+
 # Main
 main() {
     info "Starting bootstrap..."
+
+    if [ "$OS" = "nixos" ]; then
+        bootstrap_nixos
+        return
+    fi
 
     # Step 1: Upgrade system packages
     upgrade_system

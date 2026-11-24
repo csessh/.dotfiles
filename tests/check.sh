@@ -94,6 +94,115 @@ no_dev_plugins() {
     [ -z "$found" ] || { echo "installed:$found"; return 1; }
 }
 
+hm_activation() {
+    local result
+    result=$(systemctl show -p Result home-manager-csessh.service)
+    [ "$result" = "Result=success" ] || { echo "$result"; return 1; }
+}
+
+MASON_PACKAGES="bash-language-server clangd docker-compose-language-service dockerfile-language-server
+lua-language-server markdown-oxide pyright ruff taplo typescript-language-server
+cpplint eslint_d jsonlint shellcheck yamllint"
+
+# Mason installs on startup, but a headless +qa earlier (nvim_starts) aborts those installs and
+# mason-nvim-lint may not re-queue them; queue whatever is missing and not already installing.
+# Then every Mason binary must start: prebuilt ones need nix-ld on NixOS.
+mason_binaries() {
+    local expected wait_lua binary output exit_code broken=""
+    expected=$(printf '"%s",' $MASON_PACKAGES)
+    wait_lua="local ok, registry = pcall(require, 'mason-registry')
+if not ok then vim.cmd('cquit 2') end
+local expected = { ${expected} }
+local done = vim.wait(1200000, function()
+  for _, name in ipairs(expected) do
+    local ok, package = pcall(registry.get_package, name)
+    if not ok then return false end
+    if not package:is_installed() and not package:is_installing() then package:install() end
+    if package:is_installing() or not package:is_installed() then return false end
+  end
+  return true
+end, 5000)
+if not done then
+  local missing = {}
+  for _, name in ipairs(expected) do
+    local found, package = pcall(registry.get_package, name)
+    if not found or not package:is_installed() then table.insert(missing, name) end
+  end
+  io.stdout:write('MASON_MISSING=' .. table.concat(missing, ' ') .. '\\n')
+  vim.cmd('cquit 1')
+end"
+    local started=$SECONDS wait_output
+    wait_output=$(nvim --headless -c "lua $wait_lua" -c qa 2>&1) || {
+        echo "Mason not ready after $((SECONDS - started))s (exit $?): $(grep -o 'MASON_MISSING=.*' <<<"$wait_output")"
+        tail -3 "$HOME/.local/state/nvim/mason.log" 2>/dev/null
+        return 1
+    }
+    compgen -G "$HOME/.local/share/nvim/mason/bin/*" >/dev/null || { echo "no Mason binaries"; return 1; }
+    for binary in "$HOME"/.local/share/nvim/mason/bin/*; do
+        output=$(timeout 10 "$binary" --version </dev/null 2>&1)
+        exit_code=$?
+        if [ "$exit_code" -eq 126 ] || [ "$exit_code" -eq 127 ] ||
+            grep -qE "Could not start dynamically linked executable|No such file or directory" <<<"$output"; then
+            broken="$broken $(basename "$binary")($exit_code)"
+        fi
+    done
+    [ -z "$broken" ] || { echo "cannot start:$broken"; return 1; }
+}
+
+pcscd_active() {
+    systemctl is-active --quiet pcscd.socket || systemctl is-active --quiet pcscd.service ||
+        { echo "pcscd inactive"; return 1; }
+}
+
+ssh_agent() {
+    systemctl --user is-active --quiet ssh-agent || { echo "ssh-agent user service inactive"; return 1; }
+    local socket
+    socket=$(zsh -i -c 'printf "\nSSH_AUTH_SOCK=%s" "$SSH_AUTH_SOCK"' 2>/dev/null </dev/null | sed -n 's/^SSH_AUTH_SOCK=//p')
+    [ -n "$socket" ] || { echo "SSH_AUTH_SOCK empty in zsh"; return 1; }
+}
+
+stow_links_workstation() {
+    links_into_dotfiles ~/.config/ghostty/config ~/.ssh/config \
+        ~/.claude/CLAUDE.md ~/.claude/RTK.md ~/.config/ccstatusline/settings.json
+}
+
+# Stow folds a missing target dir into a symlink to the repo; for these, secrets would land in the repo.
+private_dirs_real() {
+    local dir
+    for dir in "$HOME/.claude" "$HOME/.ssh"; do
+        [ -d "$dir" ] && [ ! -L "$dir" ] || { echo "$dir is a symlink or missing"; return 1; }
+    done
+}
+
+# The workstation must not also carry the server home-manager profile.
+no_server_profile() {
+    local profile
+    profile=$(zsh -i -c 'printf "\nNVIM_PROFILE=%s" "$NVIM_PROFILE"' 2>/dev/null </dev/null | sed -n 's/^NVIM_PROFILE=//p')
+    [ -z "$profile" ] || { echo "NVIM_PROFILE='$profile'"; return 1; }
+}
+
+apps_on_path() {
+    local app missing=""
+    for app in ghostty obsidian google-chrome-stable postman dbeaver localsend_app yubioath-flutter claude rtk; do
+        command -v "$app" >/dev/null || missing="$missing $app"
+    done
+    [ -z "$missing" ] || { echo "missing:$missing"; return 1; }
+}
+
+ghostty_version() {
+    ghostty --version >/dev/null
+}
+
+ibus_bamboo() {
+    [ -e /run/current-system/sw/share/ibus/component/bamboo.xml ] || { echo "bamboo.xml missing"; return 1; }
+}
+
+fingerprint_pam() {
+    systemctl cat fprintd.service >/dev/null 2>&1 || { echo "no fprintd.service"; return 1; }
+    grep -q pam_fprintd.so /etc/pam.d/sudo || { echo "sudo PAM lacks pam_fprintd"; return 1; }
+    ! grep -rq pam_u2f /etc/pam.d || { echo "pam_u2f still configured"; return 1; }
+}
+
 check zsh_starts
 check stow_links
 check nvim_starts
@@ -108,7 +217,17 @@ case "$OS_ID" in
         check repo_lock_clean
         ;;
     nixos)
-        # Filled in by the NixOS checks (plan Task 6).
+        check hm_activation
+        check no_server_profile
+        check private_dirs_real
+        check stow_links_workstation
+        check apps_on_path
+        check ghostty_version
+        check ibus_bamboo
+        check pcscd_active
+        check ssh_agent
+        check fingerprint_pam
+        check mason_binaries
         ;;
     *)
         echo "FAIL os: unsupported ID=$OS_ID"
