@@ -39,6 +39,15 @@ Re-running it on an existing server is safe.
 
 After bootstrap, log out and back in for all changes to take effect.
 
+### Upgrading an existing server
+
+Servers run nvim without LSP/completion/format/lint plugins (`NVIM_PROFILE=server`). After pulling this change and re-running `bootstrap.sh` (or `home-manager switch --impure`), open a new shell and free the old plugins once:
+
+```bash
+nvim --headless "+Lazy! clean" +qa
+rm -rf ~/.local/share/nvim/mason
+```
+
 ## Package Management
 
 ### Adding a new package

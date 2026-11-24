@@ -96,6 +96,14 @@ deploy_and_check() {
         info "$os: check.sh round $round"
         vm_ssh "$port" .dotfiles/tests/check.sh || check_failures=$((check_failures + 1))
     done
+
+    # Day-to-day update on a server: the default ${USER} config must stay server-only.
+    info "$os: home-manager switch --impure, then check.sh"
+    vm_ssh "$port" '. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh &&
+        PATH="$HOME/.nix-profile/bin:$PATH" home-manager switch --impure' \
+        >"$LOG_DIR/$os-hm-switch.log" 2>&1 || fail "$os: home-manager switch failed"
+    vm_ssh "$port" .dotfiles/tests/check.sh || check_failures=$((check_failures + 1))
+
     [ "$check_failures" -eq 0 ] || fail "$os: check.sh failed in $check_failures round(s)"
 }
 

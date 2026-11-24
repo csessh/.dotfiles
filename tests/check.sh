@@ -51,11 +51,12 @@ stow_links() {
     links_into_dotfiles ~/.zshrc ~/.tmux.conf ~/.gitconfig ~/.config/nvim/init.lua ~/.config/bat/config
 }
 
+# Config errors only: headless +qa interrupts async parser/Mason installs, whose noise is not a config fault.
 nvim_starts() {
     local output
     output=$(nvim --headless "+Lazy! sync" +qa 2>&1) || { echo "exit $?: $output"; return 1; }
-    if grep -q "Error" <<<"$output"; then
-        grep -m3 "Error" <<<"$output"
+    if grep -qE "Failed to load|Error detected while processing|Error in .*init\.lua|E5113" <<<"$output"; then
+        grep -m3 -E -A2 "Failed to load|Error detected while processing|Error in .*init\.lua|E5113" <<<"$output"
         return 1
     fi
 }

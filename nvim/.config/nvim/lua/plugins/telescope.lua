@@ -6,22 +6,22 @@ return {
     keys = {
       {
         "<leader>ff",
-        require("telescope.builtin").find_files,
+        function() require("telescope.builtin").find_files() end,
         desc = "Telescope find files",
       },
       {
         "<leader>gr",
-        require("telescope.builtin").live_grep,
+        function() require("telescope.builtin").live_grep() end,
         desc = "Telescope live grep",
       },
       {
         "<leader>gw",
-        require("telescope.builtin").grep_string,
+        function() require("telescope.builtin").grep_string() end,
         desc = "Telescope grep string under cursor",
       },
       {
         "<leader>bf",
-        require("telescope.builtin").buffers,
+        function() require("telescope.builtin").buffers() end,
         desc = "Telescope show available buffers",
       },
     },

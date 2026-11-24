@@ -16,7 +16,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins", {
+-- Servers skip LSP/completion/format/lint plugins (lua/plugins/dev)
+local is_server = vim.env.NVIM_PROFILE == "server"
+require("lazy").setup({
+  spec = {
+    { import = "plugins" },
+    { import = "plugins.dev", enabled = not is_server },
+  },
   change_detection = {
     notify = false,
   },

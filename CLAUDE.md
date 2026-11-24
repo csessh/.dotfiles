@@ -64,11 +64,13 @@ stow -R nvim    # Restow
 
 ## Neovim
 
-**LSP Servers** (lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
+**Server profile**: LSP, completion, format and lint plugins live in `lua/plugins/dev/`. `init.lua` skips that folder when `NVIM_PROFILE=server`, which the server home-manager config sets; the workstation loads everything.
 
-**Formatters** (conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (.ts files only). Format-on-save with 500ms timeout.
+**LSP Servers** (dev/lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
 
-**Linters** (linters.lua): bash→shellcheck, cpp→cpplint, json→jsonlint, python→ruff, yaml→yamllint
+**Formatters** (dev/conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (.ts files only). Format-on-save with 500ms timeout.
+
+**Linters** (dev/linters.lua): bash→shellcheck, cpp→cpplint, json→jsonlint, python→ruff, yaml→yamllint
 
 **Key bindings**: `<leader>ca` code actions, `<leader>fm` format, `<leader>rn` rename
 
