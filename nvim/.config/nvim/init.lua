@@ -18,12 +18,27 @@ end
 vim.opt.rtp:prepend(lazypath)
 -- Servers skip LSP/completion/format/lint plugins (lua/plugins/dev)
 local is_server = vim.env.NVIM_PROFILE == "server"
-require("lazy").setup({
-  spec = {
-    { import = "plugins" },
-    { import = "plugins.dev", enabled = not is_server },
-  },
+local lazy_opts = {
   change_detection = {
     notify = false,
   },
-})
+}
+
+-- lazy.nvim rewrites its lockfile without disabled plugins; keep the server's copy out of the repo,
+-- seeded from (and refreshed by) the repo's pins
+if is_server then
+  local repo_lockfile = vim.fn.stdpath "config" .. "/lazy-lock.json"
+  local server_lockfile = vim.fn.stdpath "data" .. "/lazy-lock.json"
+  local repo_stat = vim.uv.fs_stat(repo_lockfile)
+  local server_stat = vim.uv.fs_stat(server_lockfile)
+  if repo_stat and (not server_stat or repo_stat.mtime.sec > server_stat.mtime.sec) then
+    vim.fn.mkdir(vim.fn.stdpath "data", "p")
+    vim.uv.fs_copyfile(repo_lockfile, server_lockfile)
+  end
+  lazy_opts.lockfile = server_lockfile
+end
+
+require("lazy").setup({
+  { import = "plugins" },
+  { import = "plugins.dev", enabled = not is_server },
+}, lazy_opts)

@@ -54,7 +54,7 @@ stow_links() {
 # Config errors only: headless +qa interrupts async parser/Mason installs, whose noise is not a config fault.
 nvim_starts() {
     local output
-    output=$(nvim --headless "+Lazy! sync" +qa 2>&1) || { echo "exit $?: $output"; return 1; }
+    output=$(nvim --headless "+Lazy! restore" +qa 2>&1) || { echo "exit $?: $output"; return 1; }
     if grep -qE "Failed to load|Error detected while processing|Error in .*init\.lua|E5113" <<<"$output"; then
         grep -m3 -E -A2 "Failed to load|Error detected while processing|Error in .*init\.lua|E5113" <<<"$output"
         return 1
@@ -79,6 +79,12 @@ no_mason() {
     [ ! -e ~/.local/share/nvim/mason ] || { echo "mason data dir exists"; return 1; }
 }
 
+# lazy.nvim rewrites its lockfile without disabled plugins; servers must not dirty the repo's copy.
+repo_lock_clean() {
+    git -C "$HOME/.dotfiles" diff --quiet -- nvim/.config/nvim/lazy-lock.json ||
+        { git -C "$HOME/.dotfiles" diff --stat -- nvim/.config/nvim/lazy-lock.json; return 1; }
+}
+
 no_dev_plugins() {
     local plugin found=""
     for plugin in mason.nvim nvim-cmp conform.nvim nvim-lint LuaSnip outline.nvim eagle.nvim \
@@ -99,6 +105,7 @@ case "$OS_ID" in
         check nvim_profile_server
         check no_mason
         check no_dev_plugins
+        check repo_lock_clean
         ;;
     nixos)
         # Filled in by the NixOS checks (plan Task 6).
