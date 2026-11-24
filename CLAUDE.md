@@ -44,6 +44,7 @@ git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/boo
 # Add package: edit home-manager/.config/home-manager/packages.nix
 # - basePackages: all hosts
 # - desktopPackages: workstation only
+# - serverPackages: servers only (e.g. cloudflared)
 home-manager switch --impure
 
 # Update all packages

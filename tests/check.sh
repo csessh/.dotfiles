@@ -87,6 +87,10 @@ no_mason() {
     [ ! -e ~/.local/share/nvim/mason ] || { echo "mason data dir exists"; return 1; }
 }
 
+cloudflared_present() {
+    command -v cloudflared >/dev/null || { echo "cloudflared missing"; return 1; }
+}
+
 # lazy.nvim rewrites its lockfile without disabled plugins; servers must not dirty the repo's copy.
 repo_lock_clean() {
     git -C "$HOME/.dotfiles" diff --quiet -- nvim/.config/nvim/lazy-lock.json ||
@@ -226,6 +230,7 @@ case "$OS_ID" in
         check no_mason
         check no_dev_plugins
         check repo_lock_clean
+        check cloudflared_present
         ;;
     nixos)
         check hm_activation

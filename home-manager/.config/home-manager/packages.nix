@@ -85,6 +85,10 @@ let
     uv
   ];
 
+  serverPackages = with pkgs; [
+    cloudflared
+  ];
+
   desktopPackages = with pkgs; [
     ############################
     # AI tools
@@ -132,7 +136,7 @@ in {
     }
   ];
 
-  home.packages = basePackages ++ (if desktopEnabled then desktopPackages else []);
+  home.packages = basePackages ++ (if desktopEnabled then desktopPackages else serverPackages);
 
   # Ensure fonts are available (desktop only)
   fonts.fontconfig.enable = desktopEnabled;
