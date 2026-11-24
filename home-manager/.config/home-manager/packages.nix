@@ -90,6 +90,7 @@ let
     # AI tools
     ############################
     claude-code
+    rtk  # token-saving CLI proxy; Claude's PreToolUse hook runs `rtk hook claude`
 
     ############################
     # Fonts

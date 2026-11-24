@@ -1,3 +1,4 @@
 .aider*
 .claude/
 codegraph/
+!claude/.claude/
