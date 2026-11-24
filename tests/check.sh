@@ -96,7 +96,7 @@ no_dev_plugins() {
 
 hm_activation() {
     local result
-    result=$(systemctl show -p Result home-manager-csessh.service)
+    result=$(systemctl show -p Result "home-manager-$USER.service")
     [ "$result" = "Result=success" ] || { echo "$result"; return 1; }
 }
 

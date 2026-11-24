@@ -40,7 +40,7 @@
 
   programs._1password-gui = {
     enable = true;
-    polkitPolicyOwners = [ "csessh" ];
+    polkitPolicyOwners = [ "tdo" ];
   };
   programs._1password.enable = true;
 
@@ -49,7 +49,7 @@
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;
 
-  users.users.csessh = {
+  users.users.tdo = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" ];
     shell = pkgs.zsh;

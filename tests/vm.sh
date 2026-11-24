@@ -9,6 +9,7 @@ CACHE_DIR=${DOTFILES_VM_CACHE:-$HOME/.cache/dotfiles-vm-tests}
 LOG_DIR="$CACHE_DIR/logs"
 KEY_FILE="$CACHE_DIR/id_ed25519"
 SSH_WAIT_SECONDS=300
+VM_USER=tdo
 
 declare -A IMAGE_URLS=(
     [ubuntu]="https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
@@ -33,7 +34,7 @@ stop_vm() {
 }
 on_exit() {
     if [ "${VM_KEEP:-0}" = 1 ] && [ -n "$QEMU_PID" ]; then
-        info "VM kept (pid $QEMU_PID): ssh -i $KEY_FILE -p $VM_PORT csessh@127.0.0.1"
+        info "VM kept (pid $QEMU_PID): ssh -i $KEY_FILE -p $VM_PORT $VM_USER@127.0.0.1"
     else
         stop_vm
     fi
@@ -49,7 +50,7 @@ vm_ssh() {
     local port=$1
     shift
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
-        -o ConnectTimeout=5 -i "$KEY_FILE" -p "$port" csessh@127.0.0.1 "$@"
+        -o ConnectTimeout=5 -i "$KEY_FILE" -p "$port" "$VM_USER@127.0.0.1" "$@"
 }
 
 wait_for_ssh() {

@@ -82,12 +82,12 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
 
    ```bash
    sudo nixos-generate-config --root /mnt
-   sudo git clone https://github.com/csessh/.dotfiles.git /mnt/home/csessh/.dotfiles   # add -b exp/nixos until merged
+   sudo git clone https://github.com/csessh/.dotfiles.git /mnt/home/tdo/.dotfiles   # add -b exp/nixos until merged
    sudo cp /mnt/etc/nixos/hardware-configuration.nix \
-      /mnt/home/csessh/.dotfiles/home-manager/.config/home-manager/nixos/
-   cd /mnt/home/csessh/.dotfiles && sudo git add -A   # flakes only see tracked files
+      /mnt/home/tdo/.dotfiles/home-manager/.config/home-manager/nixos/
+   cd /mnt/home/tdo/.dotfiles && sudo git add -A   # flakes only see tracked files
    sudo nixos-install --flake ./home-manager/.config/home-manager#fw13
-   sudo nixos-enter --root /mnt -c 'passwd csessh'   # the config sets no user password
+   sudo nixos-enter --root /mnt -c 'passwd tdo'   # the config sets no user password
    ```
 
    No `git` on the ISO? Run `nix-shell -p git` first.
@@ -95,7 +95,7 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
 5. Reboot, log in, then:
 
    ```bash
-   sudo chown -R csessh:users ~/.dotfiles
+   sudo chown -R tdo:users ~/.dotfiles
    ~/.dotfiles/bootstrap.sh
    fprintd-enroll                 # one or more fingers
    sudo -k && sudo true           # fingerprint or password

@@ -1,6 +1,6 @@
 #cloud-config
 users:
-  - name: csessh
+  - name: tdo
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: true

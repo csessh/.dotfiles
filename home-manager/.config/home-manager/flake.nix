@@ -49,11 +49,11 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              username = "csessh";
-              homeDir = "/home/csessh";
+              username = "tdo";
+              homeDir = "/home/tdo";
               desktopEnabled = true;
             };
-            home-manager.users.csessh = { pkgs, ... }: {
+            home-manager.users.tdo = { pkgs, ... }: {
               imports = [ ./home.nix ];
               home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so";
             };
