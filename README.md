@@ -54,9 +54,9 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
 
 ### Install
 
-1. Back up `/home`.
+1. Back up what isn't synced elsewhere (documents, unpushed repos, `~/.ssh`, `~/.gnupg`, Docker volumes). The NVMe is wiped, and the new home is `/home/tdo`.
 2. In the firmware setup (F2), **disable Secure Boot**; the NixOS installer is not signed for it.
-3. Write the graphical ISO to a USB stick (Fedora Media Writer, GNOME Disks "Restore Disk Image", or `dd`) and boot it. Any recent ISO works: the flake pins the exact nixpkgs.
+3. Write the graphical ISO to a USB stick (Fedora Media Writer, GNOME Disks "Restore Disk Image", or `dd`) and boot it. Any recent ISO works: the flake pins the exact nixpkgs. Already have a [test install on a stick](#test-on-a-usb-stick-first)? Boot that instead: it has the installer tools and every package in its store, so the install below barely downloads anything.
 4. Partition, format and mount by hand (don't use the graphical installer's wizard: it runs a full install of its own). This **erases the disk**; check the device name with `lsblk` first:
 
    ```bash
@@ -96,12 +96,32 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
 
    ```bash
    sudo chown -R tdo:users ~/.dotfiles
-   ~/.dotfiles/bootstrap.sh
+   ~/.dotfiles/bootstrap.sh       # then log out and back in
    fprintd-enroll                 # one or more fingers
    sudo -k && sudo true           # fingerprint or password
+   sudo tailscale up
+   ~/.dotfiles/tests/check.sh
    ```
 
-   Commit the generated `hardware-configuration.nix`.
+6. Commit and push the generated `hardware-configuration.nix`, then switch the checkout to `main` once this branch is merged:
+
+   ```bash
+   cd ~/.dotfiles
+   git remote set-url origin git@github.com:csessh/.dotfiles.git
+   git add home-manager/.config/home-manager/nixos/hardware-configuration.nix
+   git commit -m "nixos: fw13 hardware configuration" && git push
+   ```
+
+### Test on a USB stick first
+
+The real config can run from a USB stick without touching the NVMe, which tests the hardware (fingerprint, Wi-Fi, suspend, Yubikey) before Fedora is wiped:
+
+1. Run install step 4 from the current OS against the stick (`DISK=/dev/sdX`, partitions `1`/`2`; on a non-NixOS host get the tools with `nix shell nixpkgs#nixos-install-tools`), with two changes:
+   - Install a host that extends `fw13` with `boot.loader.efi.canTouchEfiVariables = lib.mkForce false;`, so the laptop's boot order stays untouched, plus a temporary `users.users.tdo.initialPassword`.
+   - Keep that host and the stick's `hardware-configuration.nix` on a local branch; neither belongs in `main`.
+2. Boot the stick from the F12 menu, then run `bootstrap.sh` and `tests/check.sh`.
+
+Expect USB 2.0 sticks to be slow (boot, first app launches, Mason installs). Hardware behaviour is what this test is for. The stick can then serve as the installer for the real install (step 3).
 
 ### Update and roll back
 
