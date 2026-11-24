@@ -117,7 +117,7 @@ install_nix() {
                 ;;
             *)
                 # Use official installer for other distros
-                curl -L https://nixos.org/nix/install | sh -s -- --daemon
+                curl -L https://nixos.org/nix/install | sh -s -- --daemon --yes
                 ;;
         esac
     fi
@@ -428,7 +428,7 @@ setup_shell() {
     # Step 1: Install oh-my-zsh if not present
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
         info "Installing oh-my-zsh..."
-        RUNZSH=no CHSH=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     else
         info "oh-my-zsh is already installed"
     fi
@@ -462,7 +462,7 @@ set_default_shell() {
     fi
 
     info "Changing default shell to zsh..."
-    chsh -s "$(which zsh)"
+    sudo chsh -s "$(command -v zsh)" "$USER"
 }
 
 # Main

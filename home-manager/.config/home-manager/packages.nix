@@ -73,6 +73,7 @@ let
     localtunnel
     neovim
     tmux
+    tree-sitter  # nvim-treesitter main builds parsers with this CLI
 
     ############################
     # Languages & toolchains

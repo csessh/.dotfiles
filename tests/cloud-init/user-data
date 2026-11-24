@@ -1,0 +1,15 @@
+#cloud-config
+users:
+  - name: csessh
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - "@PUBKEY@"
+packages:
+  - git
+  - tar
+growpart:
+  mode: auto
+  devices: ["/"]
+resize_rootfs: true
