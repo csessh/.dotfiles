@@ -54,24 +54,6 @@ detect_arch() {
 ARCH=$(detect_arch)
 info "Detected architecture: $ARCH"
 
-# Prompt for host type
-HOST_TYPE="desktop"
-echo ""
-echo "What type of host is this?"
-echo "  1) Desktop (full install with GUI apps)"
-echo "  2) Server (minimal install, CLI only)"
-read -p "Select [1/2] (default: 1): " choice
-case "$choice" in
-    2) HOST_TYPE="server" ;;
-    *) HOST_TYPE="desktop" ;;
-esac
-info "Host type: $HOST_TYPE"
-
-# Store host type for subsequent home-manager switch calls
-mkdir -p "$HOME/.config"
-echo "$HOST_TYPE" > "$HOME/.config/host-type"
-info "Host type saved to ~/.config/host-type"
-
 # Upgrade system packages
 upgrade_system() {
     info "Upgrading system packages..."
@@ -157,82 +139,6 @@ stow_package() {
     stow -R "$package" 2>/dev/null || stow "$package"
 }
 
-# Install home-manager (flake-based, no channel install needed)
-install_home_manager() {
-    if command -v home-manager &> /dev/null; then
-        info "home-manager is already installed"
-        return
-    fi
-
-    info "home-manager will be installed via flake on first switch"
-}
-
-# Install system packages based on OS
-install_system_packages() {
-    info "Installing system packages for $OS..."
-
-    case "$OS" in
-        fedora)
-            # Add Docker repository
-            if ! sudo dnf repolist | grep -q docker-ce; then
-                info "Adding Docker repository..."
-                sudo dnf -y install dnf-plugins-core
-                sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
-            fi
-
-            # Install packages
-            sudo dnf install -y \
-                ca-certificates \
-                curl \
-                wget \
-                openssl \
-                opensc \
-                docker-ce \
-                docker-ce-cli \
-                containerd.io \
-                docker-buildx-plugin \
-                docker-compose-plugin
-
-            # Enable and start Docker
-            sudo systemctl enable --now docker
-            ;;
-
-        ubuntu|debian)
-            # Add Docker repository
-            if ! apt-cache policy | grep -q docker; then
-                info "Adding Docker repository..."
-                sudo apt-get update
-                sudo apt-get install -y ca-certificates curl gnupg
-                sudo install -m 0755 -d /etc/apt/keyrings
-                curl -fsSL https://download.docker.com/linux/$OS/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-                sudo chmod a+r /etc/apt/keyrings/docker.gpg
-                echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$OS $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-            fi
-
-            sudo apt-get update
-            sudo apt-get install -y \
-                ca-certificates \
-                curl \
-                wget \
-                openssl \
-                opensc \
-                docker-ce \
-                docker-ce-cli \
-                containerd.io \
-                docker-buildx-plugin \
-                docker-compose-plugin
-
-            # Enable and start Docker
-            sudo systemctl enable --now docker
-            ;;
-
-        *)
-            warn "Unknown OS: $OS - skipping system package installation"
-            warn "Please install Docker and other system packages manually"
-            ;;
-    esac
-}
-
 # Install server packages (Docker only, no GUI apps)
 install_server_packages() {
     info "Installing server packages for $OS..."
@@ -296,119 +202,6 @@ install_server_packages() {
             warn "Please install Docker manually"
             ;;
     esac
-}
-
-# Install Ghostty terminal emulator (desktop only)
-# Using native packages to avoid Nix library conflicts with Mesa/OpenGL
-install_ghostty() {
-    info "Installing Ghostty terminal emulator..."
-
-    case "$OS" in
-        fedora)
-            # Ghostty is in official Fedora repos (41+)
-            sudo dnf install -y ghostty
-            ;;
-        ubuntu|debian)
-            # Add Ghostty apt repository
-            if [ ! -f /etc/apt/sources.list.d/ghostty.list ]; then
-                info "Adding Ghostty apt repository..."
-                sudo mkdir -p /etc/apt/keyrings
-                wget -qO- https://release.files.ghostty.org/gpg | sudo tee /etc/apt/keyrings/ghostty.gpg > /dev/null
-                echo "deb [signed-by=/etc/apt/keyrings/ghostty.gpg] https://release.files.ghostty.org/apt stable main" | sudo tee /etc/apt/sources.list.d/ghostty.list
-                sudo apt-get update
-            fi
-            sudo apt-get install -y ghostty
-            ;;
-        *)
-            warn "Unknown OS: $OS - skipping Ghostty installation"
-            warn "Please install Ghostty manually: https://ghostty.org/docs/install"
-            ;;
-    esac
-}
-
-# Install Funput IBus (Vietnamese input method, desktop only)
-install_funput_ibus() {
-    info "Installing Funput IBus..."
-
-    case "$OS" in
-        fedora)
-            if [ ! -f /etc/yum.repos.d/funput.repo ]; then
-                info "Adding Funput dnf repository..."
-                sudo curl -fsSL https://repo.funput.app/funput.repo -o /etc/yum.repos.d/funput.repo
-            fi
-            sudo dnf install -y funput-ibus
-            ;;
-        ubuntu|debian)
-            if [ ! -f /etc/apt/sources.list.d/funput.sources ]; then
-                info "Adding Funput apt repository..."
-                sudo install -d /usr/share/keyrings
-                curl -fsSL https://repo.funput.app/funput.asc | sudo tee /usr/share/keyrings/funput.asc > /dev/null
-                sudo tee /etc/apt/sources.list.d/funput.sources > /dev/null <<'REPO'
-Types: deb
-URIs: https://repo.funput.app/deb
-Suites: ./
-Signed-By: /usr/share/keyrings/funput.asc
-REPO
-                sudo apt-get update
-            fi
-            sudo apt-get install -y funput-ibus
-            ;;
-        *)
-            warn "Unknown OS: $OS - skipping Funput IBus installation"
-            warn "Please install manually: https://docs.funput.app/docs/install/linux/ibus"
-            ;;
-    esac
-
-    ibus restart || warn "Could not restart ibus; log out/in for Funput to appear"
-    info "To enable: Settings -> Keyboard -> Input Sources -> + -> Vietnamese -> Funput"
-}
-
-# Enable pcscd for YubiKey/smart card support (desktop only)
-setup_smartcard_services() {
-    info "Setting up smart card services for YubiKey support..."
-
-    # Create symlink to opensc PKCS#11 library at a consistent path
-    # SSH config uses ~/.local/lib/opensc-pkcs11.so
-    mkdir -p "$HOME/.local/lib"
-    OPENSC_LIB=""
-    for lib in \
-        "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
-        "/usr/lib64/opensc-pkcs11.so" \
-        "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
-        "/usr/lib/aarch64-linux-gnu/opensc-pkcs11.so"; do
-        if [ -f "$lib" ]; then
-            OPENSC_LIB="$lib"
-            break
-        fi
-    done
-    if [ -n "$OPENSC_LIB" ]; then
-        ln -sf "$OPENSC_LIB" "$HOME/.local/lib/opensc-pkcs11.so"
-        info "Linked opensc PKCS#11 library: $OPENSC_LIB -> ~/.local/lib/opensc-pkcs11.so"
-    else
-        warn "Could not find opensc-pkcs11.so library"
-    fi
-
-    # Enable pcscd daemon
-    info "Enabling PC/SC smart card daemon..."
-    sudo systemctl enable --now pcscd
-}
-
-# Setup OpenSSH ssh-agent for YubiKey PIV (desktop only)
-# GNOME's gcr-ssh-agent doesn't support PKCS11, so we use OpenSSH's ssh-agent
-setup_ssh_agent() {
-    info "Setting up OpenSSH ssh-agent for YubiKey PIV..."
-
-    # Mask gcr-ssh-agent if present (GNOME hijacks SSH_AUTH_SOCK with limited agent)
-    if systemctl --user list-unit-files gcr-ssh-agent.socket >/dev/null 2>&1; then
-        info "Masking GNOME gcr-ssh-agent (lacks PKCS11 support)..."
-        systemctl --user stop gcr-ssh-agent.socket gcr-ssh-agent.service 2>/dev/null || true
-        systemctl --user mask gcr-ssh-agent.socket gcr-ssh-agent.service 2>/dev/null || true
-    fi
-
-    # Enable OpenSSH ssh-agent service (stowed from ssh/.config/systemd/user/)
-    systemctl --user daemon-reload
-    systemctl --user enable --now ssh-agent.service
-    info "OpenSSH ssh-agent enabled"
 }
 
 # Add user to docker group for rootless docker commands
@@ -492,19 +285,10 @@ main() {
     stow_package "home-manager"
 
     # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
-    # Select config based on architecture and host type
     if [ "$ARCH" = "aarch64" ]; then
-        if [ "$HOST_TYPE" = "server" ]; then
-            HM_CONFIG="linux-arm-server"
-        else
-            HM_CONFIG="linux-arm"
-        fi
+        HM_CONFIG="linux-arm-server"
     else
-        if [ "$HOST_TYPE" = "server" ]; then
-            HM_CONFIG="linux-server"
-        else
-            HM_CONFIG="linux"
-        fi
+        HM_CONFIG="linux-server"
     fi
     info "Applying home-manager configuration ($HM_CONFIG)..."
     nix run home-manager -- switch --impure --flake "$DOTFILES_DIR/home-manager/.config/home-manager#$HM_CONFIG"
@@ -518,69 +302,33 @@ main() {
     fi
     export PATH="$HOME/.nix-profile/bin:$PATH"
 
-    # Step 8: Install system packages
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        install_system_packages
-    else
-        install_server_packages
-    fi
+    # Step 8: Install system packages (Docker)
+    install_server_packages
 
-    # Step 9: Install Ghostty (desktop only, via native package manager for OpenGL compatibility)
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        install_ghostty
-    fi
-
-    # Step 9b: Install Funput IBus (desktop only, Vietnamese input method)
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        install_funput_ibus
-    fi
-
-    # Step 10: Enable smart card daemon (desktop only, for YubiKey PIV)
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        setup_smartcard_services
-    fi
-
-    # Step 11: Add user to docker group
+    # Step 9: Add user to docker group
     setup_docker_group
 
-    # Step 12: Set up shell (oh-my-zsh + stow shell config)
+    # Step 10: Set up shell (oh-my-zsh + stow shell config)
     setup_shell
 
-    # Step 13: Install TPM
+    # Step 11: Install TPM
     install_tpm
 
-    # Step 14: Stow remaining configs
+    # Step 12: Stow remaining configs
     info "Stowing configuration packages..."
-    STOW_PACKAGES="git nvim tmux bat fastfetch"
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        STOW_PACKAGES="$STOW_PACKAGES ghostty ssh claude"
-    fi
-    for pkg in $STOW_PACKAGES; do
-        if [ -d "$DOTFILES_DIR/$pkg" ]; then
-            stow_package "$pkg"
-        fi
+    for pkg in git nvim tmux bat fastfetch; do
+        stow_package "$pkg"
     done
 
-    # Step 15: Setup ssh-agent for YubiKey PIV (desktop only, after ssh stow)
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        setup_ssh_agent
-    fi
-
-    # Step 16: Build bat cache for custom themes
+    # Step 13: Build bat cache for custom themes
     info "Building bat cache..."
     bat cache --build
 
-    # Step 17: Set default shell
+    # Step 14: Set default shell
     set_default_shell
 
     info "Bootstrap complete!"
     warn "Please log out and back in for all changes to take effect."
-
-    if [ "$HOST_TYPE" = "desktop" ]; then
-        echo ""
-        info "Optional: Configure YubiKey PAM authentication (login/sudo)"
-        echo "  Run: ~/.dotfiles/setup-yubikey-pam.sh"
-    fi
 }
 
 main "$@"

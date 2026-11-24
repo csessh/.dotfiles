@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora and Ubuntu with **desktop** and **server** host type profiles.
+Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` sets up Fedora and Ubuntu **servers**.
 
 ## Architecture
 
@@ -12,22 +12,15 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. Supports Fedora an
 1. **Nix home-manager** - Installs packages declaratively (CLI tools, dev tools, languages)
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
-**Host type profiles** (Linux only):
-- **Desktop**: Full install with GUI apps (1password, claude-code, fonts, yubikey tools); ghostty installed via native package manager for OpenGL compatibility
-- **Server**: Minimal CLI-only install (base packages only)
-
-Host type is stored in `~/.config/host-type` during bootstrap and read by flake.nix for subsequent `home-manager switch` calls.
+**Servers** get `basePackages` only (CLI tools, dev tools, languages). `desktopPackages` belong to the workstation.
 
 **Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
 
-**Native package manager exceptions**: Some packages are installed via dnf/apt instead of Nix for compatibility:
-- **ghostty**: OpenGL compatibility
-- **opensc**: ABI compatibility with system openssh (PKCS#11 module)
-- **Docker**: System integration
+**Native package manager exception**: Docker is installed via dnf/apt for system integration.
 
-**Stow packages**: bat, claude (desktop), fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
+**Stow packages**: bat, claude (workstation), fastfetch, ghostty (workstation), git, home-manager, lazygit, nix, nvim, shell, ssh (workstation), tmux
 
-**Bootstrap order**: essentials → dotfiles clone → nix → stow nix config → stow home-manager → home-manager switch → system packages → oh-my-zsh → TPM → stow remaining configs
+**Bootstrap order**: system upgrade → essentials → dotfiles clone → nix → stow nix config → stow home-manager → home-manager switch → Docker → docker group → oh-my-zsh → TPM → stow remaining configs → bat cache → zsh as login shell. Safe to re-run.
 
 **Key directories**:
 - `home-manager/.config/home-manager/` - Nix flake and package definitions
@@ -43,13 +36,12 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 ```bash
 git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/bootstrap.sh
 ```
-Bootstrap prompts for host type (desktop/server).
 
 ### Nix Package Management
 ```bash
 # Add package: edit home-manager/.config/home-manager/packages.nix
 # - basePackages: all hosts
-# - desktopPackages: desktop only
+# - desktopPackages: workstation only
 home-manager switch --impure
 
 # Update all packages
@@ -68,12 +60,6 @@ nix-collect-garbage -d
 stow nvim       # Deploy
 stow -D nvim    # Remove
 stow -R nvim    # Restow
-```
-
-### Change Host Type
-```bash
-echo "server" > ~/.config/host-type  # or "desktop"
-home-manager switch --impure
 ```
 
 ## Neovim
@@ -102,9 +88,7 @@ Prefix: `C-Space`
 
 Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosuggestions) and oh-my-zsh framework. The `cd` command is zoxide (smart directory jumper).
 
-**Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library (installed via native dnf/apt for ABI compatibility) is symlinked to `~/.local/lib/opensc-pkcs11.so` by bootstrap.sh.
-
-**Yubikey PAM**: For FIDO2 login/sudo authentication, run `~/.dotfiles/setup-yubikey-pam.sh` (guided wizard with backup/rollback). See `Yubikey-auth.md` for manual steps.
+**Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library is linked at `~/.local/lib/opensc-pkcs11.so` on the workstation.
 
 **Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
 

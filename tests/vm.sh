@@ -74,19 +74,29 @@ UNPACK_SNAPSHOT='rm -rf ~/.dotfiles && mkdir ~/.dotfiles && tar -xzf - -C ~/.dot
     git -c user.name=vm-test -c user.email=vm@test commit -qm snapshot &&
     git remote add origin https://github.com/csessh/.dotfiles.git'
 
+run_bootstrap() {
+    local os=$1 port=$2 round=$3
+    local log="$LOG_DIR/$os-bootstrap-$round.log"
+    info "$os: bootstrap.sh round $round (log: $log)"
+    if ! vm_ssh "$port" .dotfiles/bootstrap.sh </dev/null >"$log" 2>&1; then
+        tail -20 "$log"
+        fail "$os: bootstrap.sh round $round failed"
+    fi
+}
+
+# Two rounds: a fresh install, then a re-run over the result (existing hosts re-run bootstrap).
 deploy_and_check() {
-    local os=$1 port=$2 tarball=$3
+    local os=$1 port=$2 tarball=$3 round check_failures=0
     info "$os: deploying snapshot"
     vm_ssh "$port" "$UNPACK_SNAPSHOT" <"$tarball"
+    vm_ssh "$port" 'mkdir -p ~/.config && echo desktop > ~/.config/host-type'
 
-    info "$os: running bootstrap.sh (log: $LOG_DIR/$os-bootstrap.log)"
-    if ! vm_ssh "$port" "printf '2\n' | ~/.dotfiles/bootstrap.sh" >"$LOG_DIR/$os-bootstrap.log" 2>&1; then
-        tail -20 "$LOG_DIR/$os-bootstrap.log"
-        fail "$os: bootstrap.sh failed"
-    fi
-
-    info "$os: running check.sh"
-    vm_ssh "$port" .dotfiles/tests/check.sh
+    for round in 1 2; do
+        run_bootstrap "$os" "$port" "$round"
+        info "$os: check.sh round $round"
+        vm_ssh "$port" .dotfiles/tests/check.sh || check_failures=$((check_failures + 1))
+    done
+    [ "$check_failures" -eq 0 ] || fail "$os: check.sh failed in $check_failures round(s)"
 }
 
 stage_build() {

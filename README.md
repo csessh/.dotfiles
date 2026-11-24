@@ -2,7 +2,7 @@
 
 Personal development configuration files managed with GNU Stow and Nix + home-manager.
 
-Supports Fedora and Ubuntu with **desktop** and **server** profiles.
+`bootstrap.sh` sets up Fedora and Ubuntu **servers**.
 
 ## Quick Start
 
@@ -24,35 +24,20 @@ git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles
 
 The bootstrap script will:
 
-1. Prompt for host type (desktop/server)
+1. Upgrade system packages and install essentials (git, stow, curl, zsh)
 2. Install Nix (Fedora: native package, others: official installer)
 3. Enable flakes via stow
-4. Save host type to `~/.config/host-type`
-5. Install home-manager and apply configuration
-6. Install system packages (Docker)
-7. Add user to docker group
-8. Install oh-my-zsh, remove stock .zshrc, stow shell config
-9. Install TPM (Tmux Plugin Manager)
-10. Stow configuration packages (desktop-only: ghostty, ssh, claude)
-11. Set zsh as default shell
+4. Install home-manager and apply the server configuration
+5. Install system packages (Docker)
+6. Add user to docker group
+7. Install oh-my-zsh, remove stock .zshrc, stow shell config
+8. Install TPM (Tmux Plugin Manager)
+9. Stow configuration packages (git, nvim, tmux, bat, fastfetch)
+10. Set zsh as default shell
+
+Re-running it on an existing server is safe.
 
 After bootstrap, log out and back in for all changes to take effect.
-
-## Host Type Profiles
-
-Bootstrap prompts for host type:
-
-| Profile | Packages | Stow |
-|---------|----------|------|
-| **Desktop** | Base + 1password, claude-code, fonts, xclip, pam_u2f, yubikey-manager | All packages + ghostty, ssh, Yubico |
-| **Server** | Base only (CLI tools, dev tools, languages) | Core packages only |
-
-To change host type after bootstrap:
-
-```bash
-echo "server" > ~/.config/host-type  # or "desktop"
-home-manager switch --impure
-```
 
 ## Package Management
 
@@ -126,7 +111,7 @@ stow -R nvim
 
 ## Stow Packages
 
-| Package | Description | Desktop Only |
+| Package | Description | Workstation Only |
 |---------|-------------|--------------|
 | [bat](./bat/README.md) | cat replacement with syntax highlighting | |
 | [claude](./claude/README.md) | Claude Code statusline (ccstatusline) | Yes |
@@ -145,24 +130,6 @@ stow -R nvim
 | CLI tools (ripgrep, fd, fzf, bat, etc.) | Nix | Declarative, reproducible |
 | Dev tools (neovim, tmux, git) | Nix | Same versions across machines |
 | Languages (nodejs, python, go) | Nix | Consistent toolchain |
-| Desktop apps (1password) | Nix | Desktop profile only |
-| Ghostty | System (dnf/apt) | OpenGL compatibility |
-| Docker | System (dnf/apt/brew) | System integration |
+| Docker | System (dnf/apt) | System integration |
 | oh-my-zsh | curl installer | Shell framework |
 | Configs | Stow | Symlinked from dotfiles |
-
-## YubiKey Authentication (Desktop)
-
-Bootstrap configures YubiKey for **SSH** (PIV smart card) automatically. For **PAM authentication** (login/sudo with FIDO2), run the setup wizard:
-
-```bash
-~/.dotfiles/setup-yubikey-pam.sh
-```
-
-The wizard guides you through:
-1. FIDO2 PIN setup (skippable if already set)
-2. Key registration (primary + backup keys)
-3. PAM file configuration with backup and test-after-each
-4. Optional fingerprint reader disable
-
-See [Yubikey-auth.md](./Yubikey-auth.md) for manual steps and recovery instructions.
