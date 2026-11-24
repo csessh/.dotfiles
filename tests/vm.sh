@@ -110,6 +110,8 @@ deploy_and_check() {
 stage_build() {
     info "build: homeConfigurations.linux-server"
     nix build --no-link --impure "$FLAKE_DIR#homeConfigurations.linux-server.activationPackage"
+    info "build: nixosConfigurations.fw13"
+    nix build --no-link "$FLAKE_DIR#nixosConfigurations.fw13.config.system.build.toplevel"
 }
 
 stage_cloud() {
@@ -153,8 +155,41 @@ stage_cloud() {
     info "$os: passed"
 }
 
+# build-vm shares the host /nix/store; SHARED_DIR appears in the guest as /tmp/shared.
 stage_nixos() {
-    fail "nixos: not implemented"
+    local port=${SSH_PORTS[nixos]}
+    local vm_link="$CACHE_DIR/nixos-vm"
+    local shared_dir="$CACHE_DIR/nixos-shared"
+    local disk_image="$CACHE_DIR/nixos.qcow2"
+    ensure_key
+
+    info "nixos: building VM"
+    nix build --out-link "$vm_link" "$FLAKE_DIR#nixosConfigurations.fw13.config.system.build.vm"
+    rm -rf "$shared_dir" "$disk_image"
+    mkdir -p "$shared_dir"
+    cp "$KEY_FILE.pub" "$shared_dir/authorized_keys"
+    snapshot_repo "$shared_dir/dotfiles.tar.gz"
+
+    info "nixos: booting (console log: $LOG_DIR/nixos.log)"
+    SHARED_DIR="$shared_dir" NIX_DISK_IMAGE="$disk_image" \
+        QEMU_NET_OPTS="hostfwd=tcp:127.0.0.1:$port-:22" QEMU_OPTS="-display none" \
+        "$vm_link/bin/run-fw13-vm" >"$LOG_DIR/nixos.log" 2>&1 &
+    QEMU_PID=$!
+    VM_PORT=$port
+
+    wait_for_ssh "$port"
+    local system_state
+    system_state=$(vm_ssh "$port" 'systemctl is-system-running --wait' || true)
+    info "nixos: system state: $system_state"
+    if [ "$system_state" = degraded ]; then
+        vm_ssh "$port" 'systemctl --failed --no-legend' || true
+    fi
+    case "$system_state" in
+        running | degraded) ;;
+        *) fail "nixos: unexpected system state '$system_state'" ;;
+    esac
+    stop_vm
+    info "nixos: passed"
 }
 
 run_stage() {
@@ -167,7 +202,8 @@ run_stage() {
 
 case "${1:-}" in
     build | ubuntu | fedora | nixos) run_stage "$1" ;;
-    all) for stage in build ubuntu fedora nixos; do run_stage "$stage"; done ;;
+    # Fedora is opt-in (tests/vm.sh fedora); assumed equivalent to Ubuntu.
+    all) for stage in build ubuntu nixos; do run_stage "$stage"; done ;;
     *)
         echo "Usage: $0 {build|ubuntu|fedora|nixos|all}" >&2
         exit 2
