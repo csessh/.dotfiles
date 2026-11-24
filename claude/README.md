@@ -1,5 +1,14 @@
 # claude
 
+Claude Code user config. `stow claude` links:
+
+- `~/.claude/CLAUDE.md` and `~/.claude/RTK.md`: global instructions
+- `~/.config/ccstatusline/settings.json`: status line
+
+`~/.claude/settings.json` is deliberately not tracked: it holds machine- and employer-specific settings.
+
+## Status line
+
 [ccstatusline](https://github.com/sirmalloc/ccstatusline) config for the Claude Code status line.
 
 `stow claude` links `~/.config/ccstatusline/settings.json` here. Changes made in ccstatusline's settings UI are written through the symlink (it resolves symlinks and writes atomically next to the target), so they land in this repo.

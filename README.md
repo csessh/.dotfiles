@@ -123,7 +123,7 @@ stow -R nvim
 | Package | Description | Workstation Only |
 |---------|-------------|--------------|
 | [bat](./bat/README.md) | cat replacement with syntax highlighting | |
-| [claude](./claude/README.md) | Claude Code statusline (ccstatusline) | Yes |
+| [claude](./claude/README.md) | Claude Code global instructions and statusline | Yes |
 | [fastfetch](./fastfetch/README.md) | system information tool | |
 | [ghostty](./ghostty/README.md) | terminal emulator | Yes |
 | [git](./git/README.md) | git and lazygit configuration | |
