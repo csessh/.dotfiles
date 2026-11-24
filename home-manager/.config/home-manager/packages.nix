@@ -92,11 +92,6 @@ let
     claude-code
 
     ############################
-    # Desktop apps
-    ############################
-    _1password-gui
-
-    ############################
     # Fonts
     ############################
     obel-mono
@@ -108,10 +103,7 @@ let
 
     ############################
     # Security
-    # Note: opensc is installed via native package manager (dnf/apt)
-    # to ensure ABI compatibility with system openssh
     ############################
-    pam_u2f
     pcsclite
     yubikey-manager
 

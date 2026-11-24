@@ -14,7 +14,7 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 
 **Servers** get `basePackages` only (CLI tools, dev tools, languages). `desktopPackages` belong to the workstation.
 
-**Why `--impure` flag**: The flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime to determine configuration.
+**Why `--impure` flag**: The server configs read `$USER` and `$HOME` at runtime.
 
 **Native package manager exception**: Docker is installed via dnf/apt for system integration.
 

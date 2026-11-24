@@ -15,14 +15,6 @@
       username = builtins.getEnv "USER";
       homeDir = builtins.getEnv "HOME";
 
-      # Read host type from file (defaults to "desktop" if not found)
-      hostTypeFile = "${homeDir}/.config/host-type";
-      hostType =
-        if builtins.pathExists hostTypeFile
-        then builtins.replaceStrings ["\n"] [""] (builtins.readFile hostTypeFile)
-        else "desktop";
-      isDesktop = hostType == "desktop";
-
       # Detect current system (requires --impure)
       currentSystem = builtins.currentSystem;
 
@@ -38,12 +30,8 @@
         };
     in {
       homeConfigurations = {
-        # Default config uses current system and reads host type from file
-        "${username}" = mkHomeConfig currentSystem isDesktop;
-
-        # Desktop configs (full install with GUI apps)
-        "linux" = mkHomeConfig "x86_64-linux" true;
-        "linux-arm" = mkHomeConfig "aarch64-linux" true;
+        # Default config for `home-manager switch --impure` on the current system
+        "${username}" = mkHomeConfig currentSystem false;
 
         # Server configs (minimal CLI-only install)
         "linux-server" = mkHomeConfig "x86_64-linux" false;
