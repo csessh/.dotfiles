@@ -44,6 +44,7 @@
   };
   programs._1password.enable = true;
 
+  services.tailscale.enable = true;
   virtualisation.docker.enable = true;
   # Mason's prebuilt LSP binaries expect a standard dynamic loader
   programs.nix-ld.enable = true;

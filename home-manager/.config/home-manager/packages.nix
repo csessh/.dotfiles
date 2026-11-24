@@ -81,7 +81,7 @@ let
     go
     lua5_4
     nodejs
-    python3
+    (python3.withPackages (ps: [ ps.pynvim ]))  # pynvim must live in the python3 nvim finds
     uv
   ];
 
@@ -91,6 +91,12 @@ let
     ############################
     claude-code
     rtk  # token-saving CLI proxy; Claude's PreToolUse hook runs `rtk hook claude`
+
+    ############################
+    # Cloud
+    ############################
+    awscli2
+    ssm-session-manager-plugin  # `aws ssm start-session`
 
     ############################
     # Fonts
