@@ -553,7 +553,7 @@ main() {
     info "Stowing configuration packages..."
     STOW_PACKAGES="git nvim tmux bat fastfetch"
     if [ "$HOST_TYPE" = "desktop" ]; then
-        STOW_PACKAGES="$STOW_PACKAGES ghostty ssh"
+        STOW_PACKAGES="$STOW_PACKAGES ghostty ssh claude"
     fi
     for pkg in $STOW_PACKAGES; do
         if [ -d "$DOTFILES_DIR/$pkg" ]; then

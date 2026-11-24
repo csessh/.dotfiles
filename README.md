@@ -33,7 +33,7 @@ The bootstrap script will:
 7. Add user to docker group
 8. Install oh-my-zsh, remove stock .zshrc, stow shell config
 9. Install TPM (Tmux Plugin Manager)
-10. Stow configuration packages (desktop-only: ghostty, ssh)
+10. Stow configuration packages (desktop-only: ghostty, ssh, claude)
 11. Set zsh as default shell
 
 After bootstrap, log out and back in for all changes to take effect.
@@ -129,6 +129,7 @@ stow -R nvim
 | Package | Description | Desktop Only |
 |---------|-------------|--------------|
 | [bat](./bat/README.md) | cat replacement with syntax highlighting | |
+| [claude](./claude/README.md) | Claude Code statusline (ccstatusline) | Yes |
 | [fastfetch](./fastfetch/README.md) | system information tool | |
 | [ghostty](./ghostty/README.md) | terminal emulator | Yes |
 | [git](./git/README.md) | git and lazygit configuration | |

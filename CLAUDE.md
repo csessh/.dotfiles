@@ -25,7 +25,7 @@ Host type is stored in `~/.config/host-type` during bootstrap and read by flake.
 - **opensc**: ABI compatibility with system openssh (PKCS#11 module)
 - **Docker**: System integration
 
-**Stow packages**: bat, fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
+**Stow packages**: bat, claude (desktop), fastfetch, ghostty (desktop), git, home-manager, lazygit, nix, nvim, shell, ssh (desktop), tmux
 
 **Bootstrap order**: essentials → dotfiles clone → nix → stow nix config → stow home-manager → home-manager switch → system packages → oh-my-zsh → TPM → stow remaining configs
 
