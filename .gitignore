@@ -1,4 +1,8 @@
 .aider*
 .claude/
 codegraph/
+# Only the tracked Claude files; if ~/.claude ever gets folded into the repo, credentials and history stay ignored
 !claude/.claude/
+claude/.claude/*
+!claude/.claude/CLAUDE.md
+!claude/.claude/RTK.md

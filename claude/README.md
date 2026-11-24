@@ -5,6 +5,8 @@ Claude Code user config. `stow claude` links:
 - `~/.claude/CLAUDE.md` and `~/.claude/RTK.md`: global instructions
 - `~/.config/ccstatusline/settings.json`: status line
 
+Run `mkdir -p ~/.claude ~/.config/ccstatusline` before a manual `stow claude` (`bootstrap.sh` does this on NixOS). If `~/.claude` doesn't exist, stow links the whole directory into this repo and Claude Code's credentials and history would be written here.
+
 `~/.claude/settings.json` is deliberately not tracked: it holds machine- and employer-specific settings.
 
 ## Status line

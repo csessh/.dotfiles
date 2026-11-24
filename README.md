@@ -57,7 +57,28 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
 1. Back up `/home`.
 2. In the firmware setup (F2), **disable Secure Boot**; the NixOS installer is not signed for it.
 3. Write the graphical ISO to a USB stick (Fedora Media Writer, GNOME Disks "Restore Disk Image", or `dd`) and boot it. Any recent ISO works: the flake pins the exact nixpkgs.
-4. Partition and mount (EFI + btrfs root), either by hand or with the installer's partitioning step, then generate the hardware config and use it in the repo:
+4. Partition, format and mount by hand (don't use the graphical installer's wizard: it runs a full install of its own). This **erases the disk**; check the device name with `lsblk` first:
+
+   ```bash
+   DISK=/dev/nvme0n1
+   sudo parted "$DISK" -- mklabel gpt
+   sudo parted "$DISK" -- mkpart ESP fat32 1MiB 1GiB
+   sudo parted "$DISK" -- set 1 esp on
+   sudo parted "$DISK" -- mkpart root btrfs 1GiB 100%
+   sudo mkfs.fat -F 32 -n boot "${DISK}p1"
+   sudo mkfs.btrfs -L nixos "${DISK}p2"
+
+   sudo mount "${DISK}p2" /mnt
+   sudo btrfs subvolume create /mnt/@
+   sudo btrfs subvolume create /mnt/@home
+   sudo umount /mnt
+   sudo mount -o subvol=@ "${DISK}p2" /mnt
+   sudo mkdir -p /mnt/home /mnt/boot
+   sudo mount -o subvol=@home "${DISK}p2" /mnt/home
+   sudo mount -o umask=0077 "${DISK}p1" /mnt/boot   # systemd-boot expects the ESP at /boot, not /boot/efi
+   ```
+
+   Then generate the hardware config (it records the subvolumes) and install from the repo:
 
    ```bash
    sudo nixos-generate-config --root /mnt
