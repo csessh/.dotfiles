@@ -80,7 +80,7 @@ stow -R nvim    # Restow
 
 ## Neovim
 
-**Server profile**: LSP, completion, format and lint plugins live in `lua/plugins/dev/`. `init.lua` skips that folder when `NVIM_PROFILE=server`, which the server home-manager config sets; the workstation loads everything.
+**Server profile**: LSP, completion, format and lint plugins, plus neo-tree, markdown rendering, helpview and scratch, live in `lua/plugins/dev/`. `init.lua` skips that folder when `NVIM_PROFILE=server`, which the server home-manager config sets; the workstation loads everything.
 
 **LSP Servers** (dev/lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
 

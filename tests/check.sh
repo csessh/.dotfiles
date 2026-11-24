@@ -61,6 +61,14 @@ nvim_starts() {
     fi
 }
 
+python_pynvim() {
+    python3 -c 'import pynvim' || { echo "python3 cannot import pynvim"; return 1; }
+}
+
+tailscale_active() {
+    systemctl is-active --quiet tailscaled || { echo "tailscaled inactive"; return 1; }
+}
+
 docker_works() {
     docker info >/dev/null
 }
@@ -88,7 +96,8 @@ repo_lock_clean() {
 no_dev_plugins() {
     local plugin found=""
     for plugin in mason.nvim nvim-cmp conform.nvim nvim-lint LuaSnip outline.nvim eagle.nvim \
-        glance.nvim symbol-usage.nvim trouble.nvim tiny-code-action.nvim; do
+        glance.nvim symbol-usage.nvim trouble.nvim tiny-code-action.nvim \
+        neo-tree.nvim render-markdown.nvim nvim-toc helpview.nvim scratch.nvim; do
         [ -e ~/.local/share/nvim/lazy/"$plugin" ] && found="$found $plugin"
     done
     [ -z "$found" ] || { echo "installed:$found"; return 1; }
@@ -183,7 +192,8 @@ no_server_profile() {
 
 apps_on_path() {
     local app missing=""
-    for app in ghostty obsidian google-chrome-stable postman dbeaver localsend_app yubioath-flutter claude rtk; do
+    for app in ghostty obsidian google-chrome-stable postman dbeaver localsend_app yubioath-flutter claude rtk \
+        aws session-manager-plugin tailscale; do
         command -v "$app" >/dev/null || missing="$missing $app"
     done
     [ -z "$missing" ] || { echo "missing:$missing"; return 1; }
@@ -207,6 +217,7 @@ check zsh_starts
 check stow_links
 check nvim_starts
 check docker_works
+check python_pynvim
 
 case "$OS_ID" in
     ubuntu|fedora)
@@ -225,6 +236,7 @@ case "$OS_ID" in
         check ghostty_version
         check ibus_bamboo
         check pcscd_active
+        check tailscale_active
         check ssh_agent
         check fingerprint_pam
         check mason_binaries
