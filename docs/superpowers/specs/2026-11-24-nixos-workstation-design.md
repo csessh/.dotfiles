@@ -105,7 +105,7 @@ deleted: setup-yubikey-pam.sh, Yubikey-auth.md,
 ### Flake
 
 - New input `nixos-hardware` for `framework-13-7040-amd` (AMD Phoenix GPU, power, fwupd).
-- `nixosConfigurations.fw13`: `nixpkgs.lib.nixosSystem` with `./nixos/configuration.nix`, the nixos-hardware module, and `home-manager.nixosModules.home-manager` importing the existing `./home.nix` with `extraSpecialArgs = { username = "csessh"; homeDir = "/home/csessh"; desktopEnabled = true; }`. `desktopEnabled = true` now only happens here.
+- `nixosConfigurations.fw13`: `nixpkgs.lib.nixosSystem` with `./nixos/configuration.nix`, the nixos-hardware module, and `home-manager.nixosModules.home-manager` importing the existing `./home.nix` with `extraSpecialArgs = { username = "tdo"; homeDir = "/home/tdo"; desktopEnabled = true; }`. `desktopEnabled = true` now only happens here.
 - `homeConfigurations`: keep `linux-server`, `linux-arm-server` and the default `${username}` config, which becomes server-only (`desktopEnabled = false`). Delete the desktop `linux` / `linux-arm` configs and the `~/.config/host-type` read. A leftover `host-type` file on existing servers is ignored.
 - `nixosConfigurations` must evaluate without `--impure` (no `getEnv`); the `let` block's impure reads stay confined to `homeConfigurations`.
 
@@ -123,8 +123,8 @@ Mapping from `bootstrap.sh` steps:
 | `setup_smartcard_services` (pcscd) | `services.pcscd.enable` |
 | `setup_smartcard_services` (opensc symlink) | home-manager `home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so"`, NixOS only |
 | `setup_ssh_agent` + stowed `ssh-agent.service` | `programs.ssh.startAgent = true`; `programs.ssh.agentPKCS11Whitelist = "/nix/store/*"`; `services.gnome.gcr-ssh-agent.enable = false` |
-| `setup_docker_group` | `users.users.csessh.extraGroups = [ "wheel" "docker" ]` |
-| `set_default_shell` | `users.users.csessh.shell = pkgs.zsh` |
+| `setup_docker_group` | `users.users.tdo.extraGroups = [ "wheel" "docker" ]` |
+| `set_default_shell` | `users.users.tdo.shell = pkgs.zsh` |
 | `setup-yubikey-pam.sh` (sudo, gdm-password) | replaced by fingerprint: `services.fprintd.enable = true` |
 
 Plus:
@@ -133,11 +133,11 @@ Plus:
 - Desktop: `services.desktopManager.gnome.enable`, `services.displayManager.gdm.enable` (Wayland default).
 - `hardware.graphics.enable`.
 - `programs.nix-ld.enable` (Mason).
-- `programs._1password-gui = { enable = true; polkitPolicyOwners = [ "csessh" ]; }` and `programs._1password.enable` (CLI).
+- `programs._1password-gui = { enable = true; polkitPolicyOwners = [ "tdo" ]; }` and `programs._1password.enable` (CLI).
 - `environment.sessionVariables.NIXOS_OZONE_WL = "1"` (native Wayland for Electron apps).
 - `environment.systemPackages` / user packages: obsidian, google-chrome, postman, dbeaver-bin, localsend, yubioath-flutter, ghostty.
 - `nixpkgs.config.allowUnfree = true`.
-- Hostname `fw13`, user `csessh`, timezone and locale copied from the current Fedora install.
+- Hostname `fw13`, user `tdo`, timezone and locale copied from the current Fedora install.
 
 Authentication on NixOS: fingerprint (Goodix `27c6:609c`, libfprint 1.94.100 in the pinned nixpkgs, same version as Fedora today) replaces Yubikey U2F. `services.fprintd.enable = true` is set explicitly even though the nixos-hardware Framework module defaults it on. NixOS then adds `pam_fprintd` as `sufficient` to PAM services by default (`fprintAuth`), so sudo accepts fingerprint **or** password; GDM offers fingerprint through its own `gdm-fingerprint` stack. Known behaviour, accepted: logging in to GDM by fingerprint does not unlock GNOME Keyring, so the first keyring use in that session (e.g. Chrome) prompts for the password. Logging in by password avoids it.
 
@@ -165,7 +165,7 @@ The Yubikey stays for SSH only: pcscd, opensc, ssh-agent PIV, Yubico Authenticat
 
 0. Fast gate for every run: `nix build` of `nixosConfigurations.fw13.config.system.build.toplevel` and `homeConfigurations.linux-server.activationPackage` (impure). Fails in seconds on eval errors.
 1. **nixos**: build `nixosConfigurations.fw13.config.system.build.vm`. A `virtualisation.vmVariant` block (VM builds only) sets disk ≥ 16 GB, memory ≥ 4 GB, enables openssh with the host user's public key, sets `security.sudo.wheelNeedsPassword = false` (unattended sudo for the test run), and forwards a host port to guest 22. Boot headless, wait for SSH, copy the working tree (including `.git`) to `~/.dotfiles`, run `~/.dotfiles/bootstrap.sh` (NixOS branch), then `check.sh`.
-2. **ubuntu** (24.04 LTS cloud image) / **fedora** (43 cloud image): download once into a cache dir outside the repo (gitignored), create a qcow2 overlay resized to ≥ 20 GB, cloud-init seed with user `csessh`, passwordless sudo, host public key. Boot headless, wait for SSH, copy the working tree (including `.git`) to `~/.dotfiles`, run `~/.dotfiles/bootstrap.sh`, then `check.sh`. If `chsh` (in `set_default_shell` or the oh-my-zsh installer) blocks on a password prompt, fix it in `bootstrap.sh` in a way that still works on real servers (e.g. `sudo chsh -s "$(which zsh)" "$USER"`).
+2. **ubuntu** (24.04 LTS cloud image) / **fedora** (43 cloud image): download once into a cache dir outside the repo (gitignored), create a qcow2 overlay resized to ≥ 20 GB, cloud-init seed with user `tdo`, passwordless sudo, host public key. Boot headless, wait for SSH, copy the working tree (including `.git`) to `~/.dotfiles`, run `~/.dotfiles/bootstrap.sh`, then `check.sh`. If `chsh` (in `set_default_shell` or the oh-my-zsh installer) blocks on a password prompt, fix it in `bootstrap.sh` in a way that still works on real servers (e.g. `sudo chsh -s "$(which zsh)" "$USER"`).
 3. Tear down the VM; keep logs under the cache dir on failure.
 
 `tests/check.sh` (same script on all OSes, run in a fresh login shell):
@@ -175,7 +175,7 @@ The Yubikey stays for SSH only: pcscd, opensc, ssh-agent PIV, Yubico Authenticat
 - Workstation (NixOS): Mason `ensure_installed` completes and every binary in `~/.local/share/nvim/mason/bin` runs `--version` (the nix-ld proof).
 - Servers (Ubuntu/Fedora): `NVIM_PROFILE=server` in the login environment, `~/.local/share/nvim/mason` does not exist after startup, and none of the `dev/` plugins are under `~/.local/share/nvim/lazy`.
 - `docker info` succeeds as the user.
-- Home-manager activation succeeded: `home-manager generations` non-empty on Ubuntu/Fedora; `systemctl is-active home-manager-csessh` (oneshot, check result) on NixOS.
+- Home-manager activation succeeded: `home-manager generations` non-empty on Ubuntu/Fedora; `systemctl is-active home-manager-$USER` (oneshot, check result) on NixOS.
 - NixOS only: `systemctl is-active pcscd`, `ssh-agent` user service active and `SSH_AUTH_SOCK` points at it, `ghostty --version`, `obsidian`/`google-chrome-stable` present on PATH, ibus bamboo engine listed, `fprintd.service` unit present and enabled, `/etc/pam.d/sudo` contains `pam_fprintd.so`, no `pam_u2f.so` anywhere in `/etc/pam.d` (no reader in the VM, so this checks config only).
 
 GUI rendering is not tested; checks stop at "binary present and starts".

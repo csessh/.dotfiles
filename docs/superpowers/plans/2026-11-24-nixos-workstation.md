@@ -18,7 +18,7 @@
 - Shared files must keep working on Fedora/Ubuntu servers: `flake.nix`, `home.nix`, `packages.nix`, every Stow package, `bootstrap.sh`.
 - `nixosConfigurations.fw13` must evaluate without `--impure`.
 - No secrets or per-device material in git (fingerprints, SSH keys, VM test keys).
-- User `csessh`, hostname `fw13`, timezone `Asia/Ho_Chi_Minh`, locale `en_AU.UTF-8` (plus `en_US.UTF-8`, which `bootstrap.sh` exports as `LC_ALL`), console keymap `us`, xkb layout `au`.
+- User `tdo`, hostname `fw13`, timezone `Asia/Ho_Chi_Minh`, locale `en_AU.UTF-8` (plus `en_US.UTF-8`, which `bootstrap.sh` exports as `LC_ALL`), console keymap `us`, xkb layout `au`.
 - `system.stateVersion = "26.11"` (the pinned nixpkgs `lib.trivial.release`).
 - Commit messages end with `Claude-Session: https://claude.ai/code/session_01CNaQCi3d2MSrEP8a6LgfG6`.
 
@@ -40,7 +40,7 @@
 
 **Interfaces:**
 - Produces: `tests/vm.sh {build|ubuntu|fedora|nixos|all}` — exit 0 only if every selected stage passes. `nixos` is a stub that prints `not implemented` and exits 1 until Task 5.
-- Produces: `tests/check.sh` — run inside a VM as `csessh` from `~/.dotfiles`; prints `PASS <name>` / `FAIL <name>: <reason>` per check, exits 1 if any FAIL. Detects OS from `/etc/os-release` `ID` (`ubuntu`, `fedora`, `nixos`).
+- Produces: `tests/check.sh` — run inside a VM as `tdo` from `~/.dotfiles`; prints `PASS <name>` / `FAIL <name>: <reason>` per check, exits 1 if any FAIL. Detects OS from `/etc/os-release` `ID` (`ubuntu`, `fedora`, `nixos`).
 - Produces: cache dir `${DOTFILES_VM_CACHE:-$HOME/.cache/dotfiles-vm-tests}` holding images, overlays, the throwaway key `id_ed25519`, and `logs/<os>.log`.
 
 - [ ] **Step 1: Write `tests/check.sh` with the common and server checks**
@@ -61,7 +61,7 @@ Leave a clearly marked `nixos)` branch that Task 6 fills.
 
 - [ ] **Step 2: Write `tests/cloud-init/user-data`**
 
-`#cloud-config` with: user `csessh`, `sudo: ALL=(ALL) NOPASSWD:ALL`, `shell: /bin/bash`, `lock_passwd: true`, `ssh_authorized_keys: [ "@PUBKEY@" ]` (vm.sh substitutes), `growpart`/`resize_rootfs` enabled.
+`#cloud-config` with: user `tdo`, `sudo: ALL=(ALL) NOPASSWD:ALL`, `shell: /bin/bash`, `lock_passwd: true`, `ssh_authorized_keys: [ "@PUBKEY@" ]` (vm.sh substitutes), `growpart`/`resize_rootfs` enabled.
 
 - [ ] **Step 3: Write `tests/vm.sh` stages `build`, `ubuntu`, `fedora`**
 
@@ -71,7 +71,7 @@ Leave a clearly marked `nixos)` branch that Task 6 fills.
   - fedora: `https://download.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-43-1.6.x86_64.qcow2`
 - Per run: fresh qcow2 overlay backed by the image, resized to 20G; seed ISO from `nix run nixpkgs#cloud-utils -- ...` (`cloud-localds`); key from `ssh-keygen -t ed25519 -N ''` if missing.
 - qemu: `-enable-kvm -m 4096 -smp 4 -display none`, virtio disk + seed, `-netdev user,hostfwd=tcp::<port>-:22`; ports ubuntu `2221`, fedora `2222`, nixos `2223`. Run in background, record PID, `trap` kills it on exit; serial console to `logs/<os>.log`.
-- `wait_for_ssh`: retry `ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i <key> -p <port> csessh@127.0.0.1 true` every 5 s, give up after 300 s.
+- `wait_for_ssh`: retry `ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i <key> -p <port> tdo@127.0.0.1 true` every 5 s, give up after 300 s.
 - Repo snapshot (shared helper, reused by Task 5): `git ls-files -co --exclude-standard -z | tar --null -T - -cz` piped over SSH into `~/.dotfiles`, then inside the VM: `git init -q`, `git add -A`, commit as `vm-test <vm@test>`, `git remote add origin https://github.com/csessh/.dotfiles.git`. (The worktree's `.git` is a pointer file and must not be copied; bootstrap's `git pull --ff-only` then fails harmlessly with a warning, and `remote set-url origin` succeeds.)
 - Run `printf '2\n' | ~/.dotfiles/bootstrap.sh` over SSH (Task 2 removes the `printf`), then `~/.dotfiles/tests/check.sh` over a **new** SSH connection.
 - `all` = `build ubuntu fedora nixos`, stops at first failure.
@@ -253,7 +253,7 @@ Add to `tests/vm.sh build`: `nix build --no-link home-manager/.config/home-manag
 
 - [ ] **Step 2: Flake**
 
-Input `nixos-hardware.url = "github:NixOS/nixos-hardware";` then `nix flake lock`. `nixosConfigurations.fw13 = nixpkgs.lib.nixosSystem` (no `system` argument — `nixpkgs.hostPlatform` in the hardware config sets it, as the real generated file will) with modules: `./nixos/configuration.nix`, `nixos-hardware.nixosModules.framework-13-7040-amd`, `home-manager.nixosModules.home-manager`, and an inline module setting `home-manager.useGlobalPkgs = true`, `home-manager.useUserPackages = true`, `home-manager.extraSpecialArgs = { username = "csessh"; homeDir = "/home/csessh"; desktopEnabled = true; }`, `home-manager.users.csessh = { pkgs, ... }: { imports = [ ./home.nix ]; home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so"; }`.
+Input `nixos-hardware.url = "github:NixOS/nixos-hardware";` then `nix flake lock`. `nixosConfigurations.fw13 = nixpkgs.lib.nixosSystem` (no `system` argument — `nixpkgs.hostPlatform` in the hardware config sets it, as the real generated file will) with modules: `./nixos/configuration.nix`, `nixos-hardware.nixosModules.framework-13-7040-amd`, `home-manager.nixosModules.home-manager`, and an inline module setting `home-manager.useGlobalPkgs = true`, `home-manager.useUserPackages = true`, `home-manager.extraSpecialArgs = { username = "tdo"; homeDir = "/home/tdo"; desktopEnabled = true; }`, `home-manager.users.tdo = { pkgs, ... }: { imports = [ ./home.nix ]; home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so"; }`.
 
 - [ ] **Step 3: `nixos/hardware-configuration.nix` placeholder**
 
@@ -269,10 +269,10 @@ Every row of the spec's "NixOS system config" table and its "Plus" list, with th
 - `services.desktopManager.gnome.enable = true; services.displayManager.gdm.enable = true; hardware.graphics.enable = true;`
 - `services.fprintd.enable = true;` (no PAM overrides — NixOS default `sufficient`)
 - `services.pcscd.enable = true; programs.ssh.startAgent = true; programs.ssh.agentPKCS11Whitelist = "/nix/store/*"; services.gnome.gcr-ssh-agent.enable = false;`
-- `programs._1password-gui = { enable = true; polkitPolicyOwners = [ "csessh" ]; }; programs._1password.enable = true;`
+- `programs._1password-gui = { enable = true; polkitPolicyOwners = [ "tdo" ]; }; programs._1password.enable = true;`
 - `i18n.inputMethod = { enable = true; type = "ibus"; ibus.engines = with pkgs.ibus-engines; [ bamboo ]; };`
 - `virtualisation.docker.enable = true; programs.nix-ld.enable = true; programs.zsh.enable = true; zramSwap.enable = true;`
-- `users.users.csessh = { isNormalUser = true; extraGroups = [ "wheel" "docker" "networkmanager" ]; shell = pkgs.zsh; };`
+- `users.users.tdo = { isNormalUser = true; extraGroups = [ "wheel" "docker" "networkmanager" ]; shell = pkgs.zsh; };`
 - `environment.systemPackages = with pkgs; [ git stow curl unzip make opensc ghostty obsidian google-chrome postman dbeaver-bin localsend yubioath-flutter ];`
 - `environment.sessionVariables.NIXOS_OZONE_WL = "1"; nixpkgs.config.allowUnfree = true; nix.settings.experimental-features = [ "nix-command" "flakes" ]; system.stateVersion = "26.11";`
 - `virtualisation.vmVariant = { virtualisation.diskSize = 16384; virtualisation.memorySize = 4096; virtualisation.cores = 4; services.openssh.enable = true; services.openssh.authorizedKeysFiles = [ "/tmp/shared/authorized_keys" ]; services.openssh.settings.StrictModes = false; security.sudo.wheelNeedsPassword = false; };` (`StrictModes = false` because sshd rejects key files under world-writable `/tmp`; VM only)
@@ -310,7 +310,7 @@ git commit -m "nixos: fw13 system config with home-manager module"
 - [ ] **Step 1: Write the NixOS checks in `tests/check.sh`**
 
 `nixos)` branch:
-- `hm_activation`: `systemctl show -p Result home-manager-csessh.service` is `Result=success`.
+- `hm_activation`: `systemctl show -p Result home-manager-$USER.service` is `Result=success`.
 - `mason_binaries`: `nvim --headless -c "MasonInstall bash-language-server clangd docker-compose-language-service dockerfile-language-server lua-language-server markdown-oxide pyright ruff taplo typescript-language-server cpplint eslint_d jsonlint shellcheck yamllint" -c qa` exits 0; then every file in `~/.local/share/nvim/mason/bin/` run with `--version </dev/null` under `timeout 10` must not exit 126/127 and its output must not contain `Could not start dynamically linked executable` or `No such file or directory` (the nix-ld proof; other non-zero exits are fine).
 - `pcscd_active`: `systemctl is-active pcscd.socket` or `pcscd.service` is `active`.
 - `ssh_agent`: `systemctl --user is-active ssh-agent` is `active` and `$SSH_AUTH_SOCK` in `zsh -i` is non-empty.
