@@ -18,6 +18,12 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 
 **Why `--impure` flag**: The server configs read `$USER` and `$HOME` at runtime. `nixosConfigurations.fw13` is pure.
 
+**Flake files** (`home-manager/.config/home-manager/`):
+- `flake.nix`: `unstableOverlay` swaps individual packages for their nixos-unstable versions (servers and fw13). Drop an override once stable catches up.
+- `packages.nix`: `basePackages` everywhere, `desktopPackages` only when `desktopEnabled`.
+- `home.nix`: `desktopEnabled` also gates GNOME `dconf.settings` (keyboard input sources etc.) and fonts; when false it writes `~/.config/nvim-profile`.
+- `nixos/configuration.nix`: system level for fw13 (GNOME/GDM, ibus input method, fprintd, PIV).
+
 **Native package manager exception**: Docker is installed via dnf/apt for system integration.
 
 **Stow packages**: bat, claude (workstation), fastfetch, ghostty (workstation), git, home-manager (servers), lazygit, nix (servers), nvim, shell, ssh (workstation), tmux
@@ -72,6 +78,7 @@ sudo nixos-rebuild switch --rollback
 tests/vm.sh all        # build + ubuntu + nixos; also: build | ubuntu | fedora | nixos
 VM_KEEP=1 tests/vm.sh ubuntu   # keep the VM for debugging
 ```
+`build` only nix-builds `linux-server` and `fw13` (no VM), the quick check after flake edits. Fedora is opt-in, not part of `all`. Inside each VM, `tests/check.sh` runs the assertions.
 New files must be `git add`ed before nix sees them.
 
 ### GNU Stow
@@ -83,7 +90,9 @@ stow -R nvim    # Restow
 
 ## Neovim
 
-**Server profile**: LSP, completion, format and lint plugins, plus neo-tree, markdown rendering, helpview and scratch, live in `lua/plugins/dev/`. `init.lua` skips that folder when `~/.config/nvim-profile` reads `server`, which the server home-manager config writes; the workstation loads everything. A file rather than an env var so nvim launched outside zsh gets it too.
+**Server profile**: LSP, completion, format and lint plugins, plus neo-tree, markdown rendering, helpview and scratch, live in `lua/plugins/dev/`. `init.lua` skips that folder when `~/.config/nvim-profile` reads `server`, which the server home-manager config writes; the workstation loads everything. A file rather than an env var so nvim launched outside zsh gets it too. Servers keep lazy.nvim's lockfile in `stdpath("data")`, seeded from the repo's `lazy-lock.json`, so only the workstation updates the tracked lockfile.
+
+LSP, formatter and linter binaries come from Mason, not Nix. `lua/plugins/archived/` is not imported.
 
 **LSP Servers** (dev/lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
 
@@ -111,9 +120,9 @@ Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosugges
 
 **Yubikey PIV**: On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library is linked at `~/.local/lib/opensc-pkcs11.so` on the workstation.
 
-**Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow
+**Aliases**: `cat`→bat, `vim`/`v`→nvim, `lazy`→lazygit, `tmx`→tmux, `stwo`→stow, `dps`→dockerps
 
-**Functions** (scripts.zsh): `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes, `today` current date, `keychron [-u]` hidraw permissions, `trim` strip whitespace, `rgrep` recursive grep
+**Functions** (scripts.zsh): `box A|B|F|P` look up an EC2 box by name, `nah [-f]` git reset, `snipe` kill process via fzf, `activate` source venv, `zeload` reload zshrc, `mkd` mkdir+cd, `paths` list PATH, `dockerps` formatted docker ps, `filesize` sorted file sizes, `today` current date, `keychron [-u]` hidraw permissions, `trim` strip whitespace, `rgrep` recursive grep
 
 **Keybindings**: `Ctrl+P/N` history search, `Ctrl+Z` fg
 

@@ -1,6 +1,8 @@
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
 export PATH=/home/linuxbrew/.linuxbrew/bin/:$PATH
+export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.foundry/bin:$PATH"
 
 # Nix
 if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
@@ -14,6 +16,7 @@ export PATH="$HOME/.nix-profile/bin:$PATH"
 export UPDATE_ZSH_DAYS=28
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
+export F="$HOME/.dotfiles/home-manager/.config/home-manager/"
 
 ZSH_THEME="tdo"
 
@@ -47,8 +50,5 @@ source $HOME/.oh-my-zsh/oh-my-zsh.sh
 # Shell integrations
 source <(fzf --zsh)
 source <(docker completion zsh)
-eval "$(zoxide init --cmd cd zsh)"
 eval "$(uv generate-shell-completion zsh)"
-export PATH="$HOME/.npm-global/bin:$PATH"
-
-export PATH="$HOME/.foundry/bin:$PATH"
+eval "$(zoxide init --cmd cd zsh)"
