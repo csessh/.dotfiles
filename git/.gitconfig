@@ -38,3 +38,5 @@
     smudge = git-lfs smudge -- %f
 [rebase]
     autoStash = true
+[safe]
+    directory = /home/tdo/.dotfiles
