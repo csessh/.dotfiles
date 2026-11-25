@@ -28,7 +28,7 @@ let
 
     src = pkgs.fetchzip {
       url = "https://typographic.systems/download/ObelMono-${version}-ttf.zip";
-      hash = "sha256-uIzVk/r0lMpA+wk4zZWFHRu8zptAYv2/RJxfjAsjYiM=";
+      hash = "sha256-9rnpFs9QKpBF9BpItYAEoGqXSlTSBOGx/w3Co3zT9yg=";
     };
 
     installPhase = ''
