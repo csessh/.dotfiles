@@ -32,6 +32,10 @@
         in {
           codegraph = unstablePkgs.codegraph;
           claude-code = unstablePkgs.claude-code;
+          # 0.8.4-rc6 panics looking for data/ next to the binary, which crashes ibus-daemon
+          ibus-engines = prev.ibus-engines // {
+            bamboo = unstablePkgs.ibus-engines.bamboo;
+          };
         };
 
       # Helper to create home configuration for a system
