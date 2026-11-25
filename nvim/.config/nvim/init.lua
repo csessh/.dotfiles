@@ -16,8 +16,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
--- Servers skip LSP/completion/format/lint plugins (lua/plugins/dev)
-local is_server = vim.env.NVIM_PROFILE == "server"
+-- Servers skip LSP/completion/format/lint plugins (lua/plugins/dev); the server home-manager config writes this file
+local profile_path = vim.env.HOME .. "/.config/nvim-profile"
+local is_server = vim.fn.filereadable(profile_path) == 1 and vim.fn.readfile(profile_path, "", 1)[1] == "server"
 local lazy_opts = {
   change_detection = {
     notify = false,

@@ -14,7 +14,7 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 
 **Hosts:**
 - **Workstation (`fw13`)**: NixOS. `nixosConfigurations.fw13` in the flake, system config in `home-manager/.config/home-manager/nixos/`, home-manager runs as a NixOS module with `desktopEnabled = true`. `bootstrap.sh` only does user-level steps there (oh-my-zsh, TPM, stow incl. ghostty/ssh/claude, bat cache).
-- **Servers (Fedora/Ubuntu)**: standalone home-manager (`linux-server`, `linux-arm-server`, or the `$USER` default), `basePackages` only, nvim with `NVIM_PROFILE=server`.
+- **Servers (Fedora/Ubuntu)**: standalone home-manager (`linux-server`, `linux-arm-server`, or the `$USER` default), `basePackages` only, nvim server profile via `~/.config/nvim-profile`.
 
 **Why `--impure` flag**: The server configs read `$USER` and `$HOME` at runtime. `nixosConfigurations.fw13` is pure.
 
@@ -80,7 +80,7 @@ stow -R nvim    # Restow
 
 ## Neovim
 
-**Server profile**: LSP, completion, format and lint plugins, plus neo-tree, markdown rendering, helpview and scratch, live in `lua/plugins/dev/`. `init.lua` skips that folder when `NVIM_PROFILE=server`, which the server home-manager config sets; the workstation loads everything.
+**Server profile**: LSP, completion, format and lint plugins, plus neo-tree, markdown rendering, helpview and scratch, live in `lua/plugins/dev/`. `init.lua` skips that folder when `~/.config/nvim-profile` reads `server`, which the server home-manager config writes; the workstation loads everything. A file rather than an env var so nvim launched outside zsh gets it too.
 
 **LSP Servers** (dev/lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
 

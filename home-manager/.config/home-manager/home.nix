@@ -13,8 +13,9 @@
   # introduces backwards incompatible changes.
   home.stateVersion = "24.11";
 
-  # nvim skips its LSP plugins on servers (see nvim/.config/nvim/init.lua)
-  home.sessionVariables = lib.mkIf (!desktopEnabled) { NVIM_PROFILE = "server"; };
+  # nvim skips its LSP plugins on servers (see nvim/.config/nvim/init.lua). A file, not a session
+  # variable: nvim started outside zsh (`ssh host nvim`, git from bash) never sources hm-session-vars.
+  xdg.configFile."nvim-profile" = lib.mkIf (!desktopEnabled) { text = "server\n"; };
 
   dconf.settings = lib.mkIf desktopEnabled {
     "org/gnome/desktop/interface" = {

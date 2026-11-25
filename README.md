@@ -41,7 +41,7 @@ After bootstrap, log out and back in for all changes to take effect.
 
 ### Upgrading an existing server
 
-Servers run nvim without LSP/completion/format/lint plugins (`NVIM_PROFILE=server`). After pulling this change and re-running `bootstrap.sh` (or `home-manager switch --impure`), open a new shell and free the old plugins once:
+Servers run nvim without LSP/completion/format/lint plugins (home-manager writes `~/.config/nvim-profile`). After pulling this change and re-running `bootstrap.sh` (or `home-manager switch --impure`), free the old plugins once:
 
 ```bash
 nvim --headless "+Lazy! clean" +qa

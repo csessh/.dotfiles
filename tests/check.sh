@@ -79,8 +79,8 @@ hm_generation() {
 
 nvim_profile_server() {
     local profile
-    profile=$(zsh -i -c 'printf "\nNVIM_PROFILE=%s" "$NVIM_PROFILE"' 2>/dev/null </dev/null | sed -n 's/^NVIM_PROFILE=//p')
-    [ "$profile" = "server" ] || { echo "NVIM_PROFILE='$profile'"; return 1; }
+    profile=$(cat ~/.config/nvim-profile 2>/dev/null)
+    [ "$profile" = "server" ] || { echo "nvim-profile='$profile'"; return 1; }
 }
 
 no_mason() {
@@ -185,9 +185,7 @@ private_dirs_real() {
 
 # The workstation must not also carry the server home-manager profile.
 no_server_profile() {
-    local profile
-    profile=$(zsh -i -c 'printf "\nNVIM_PROFILE=%s" "$NVIM_PROFILE"' 2>/dev/null </dev/null | sed -n 's/^NVIM_PROFILE=//p')
-    [ -z "$profile" ] || { echo "NVIM_PROFILE='$profile'"; return 1; }
+    [ ! -e ~/.config/nvim-profile ] || { echo "nvim-profile: $(cat ~/.config/nvim-profile)"; return 1; }
 }
 
 apps_on_path() {
