@@ -206,7 +206,7 @@ ibus_bamboo() {
 }
 
 fingerprint_pam() {
-    systemctl cat fprintd.service >/dev/null 2>&1 || { echo "no fprintd.service"; return 1; }
+    systemctl --no-pager cat fprintd.service >/dev/null 2>&1 || { echo "no fprintd.service"; return 1; }
     grep -q pam_fprintd.so /etc/pam.d/sudo || { echo "sudo PAM lacks pam_fprintd"; return 1; }
     ! grep -rq pam_u2f /etc/pam.d || { echo "pam_u2f still configured"; return 1; }
 }
