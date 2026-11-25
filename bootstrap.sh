@@ -220,9 +220,26 @@ setup_docker_group() {
 # Install oh-my-zsh and set up shell config
 setup_shell() {
     # Step 1: Install oh-my-zsh if not present
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    if [ ! -f "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]; then
+        # A failed install leaves ~/.oh-my-zsh holding only the stowed custom/ (or folded into a symlink
+        # to it), and the installer refuses to run over an existing directory
+        if [ -e "$HOME/.oh-my-zsh" ]; then
+            info "Clearing incomplete oh-my-zsh..."
+            (cd "$DOTFILES_DIR" && stow -D shell)
+            if [ -d "$HOME/.oh-my-zsh" ]; then
+                find "$HOME/.oh-my-zsh" -depth -type d -empty -delete
+            fi
+            if [ -e "$HOME/.oh-my-zsh" ]; then
+                error "$HOME/.oh-my-zsh has no oh-my-zsh.sh but holds files stow doesn't own; move it aside and re-run"
+            fi
+        fi
+
         info "Installing oh-my-zsh..."
-        RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        local installer
+        installer=$(mktemp)
+        curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -o "$installer"
+        RUNZSH=no CHSH=no sh "$installer"
+        rm -f "$installer"
     else
         info "oh-my-zsh is already installed"
     fi
