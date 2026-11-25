@@ -23,9 +23,16 @@
       workstationUser = "tdo";
 
       # Not yet in the stable channel
-      unstableOverlay = final: prev: {
-        codegraph = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.codegraph;
-      };
+      unstableOverlay = final: prev:
+        let
+          unstablePkgs = import nixpkgs-unstable {
+            inherit (prev.stdenv.hostPlatform) system;
+            config.allowUnfree = true;
+          };
+        in {
+          codegraph = unstablePkgs.codegraph;
+          claude-code = unstablePkgs.claude-code;
+        };
 
       # Helper to create home configuration for a system
       mkHomeConfig = system: desktopEnabled:

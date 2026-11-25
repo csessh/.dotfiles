@@ -65,6 +65,7 @@
     unzip
 
     dbeaver-bin
+    discord
     ghostty
     google-chrome
     localsend
