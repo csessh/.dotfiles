@@ -70,7 +70,6 @@ let
     gh
     git
     git-lfs
-    localtunnel
     neovim
     tmux
     tree-sitter  # nvim-treesitter main builds parsers with this CLI
@@ -78,15 +77,10 @@ let
     ############################
     # Languages & toolchains
     ############################
-    go
     lua5_4
     nodejs
     (python3.withPackages (ps: [ ps.pynvim ]))  # pynvim must live in the python3 nvim finds
     uv
-  ];
-
-  serverPackages = with pkgs; [
-    cloudflared
   ];
 
   desktopPackages = with pkgs; [
@@ -94,13 +88,13 @@ let
     # AI tools
     ############################
     claude-code
-    rtk  # token-saving CLI proxy; Claude's PreToolUse hook runs `rtk hook claude`
+    rtk
 
     ############################
     # Cloud
     ############################
     awscli2
-    ssm-session-manager-plugin  # `aws ssm start-session`
+    ssm-session-manager-plugin
 
     ############################
     # Fonts
@@ -136,7 +130,7 @@ in {
     }
   ];
 
-  home.packages = basePackages ++ (if desktopEnabled then desktopPackages else serverPackages);
+  home.packages = basePackages ++ lib.optionals desktopEnabled desktopPackages;
 
   # Ensure fonts are available (desktop only)
   fonts.fontconfig.enable = desktopEnabled;
