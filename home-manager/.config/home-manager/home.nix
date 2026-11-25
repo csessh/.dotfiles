@@ -35,6 +35,18 @@
       monospace-font-name = "Obel Mono 11";
     };
     "org/gnome/desktop/wm/preferences".titlebar-font = "Obel Mono Bold 11";
+
+    "org/gnome/desktop/input-sources" = {
+      sources = [
+        (lib.hm.gvariant.mkTuple [ "xkb" "au" ])
+        (lib.hm.gvariant.mkTuple [ "ibus" "Bamboo" ])
+      ];
+      xkb-options = [ "ctrl:nocaps" ];
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-input-source = [ "<Control>grave" ];
+      switch-input-source-backward = [ "<Shift><Control>grave" ];
+    };
   };
 
   # Let home-manager install and manage itself
