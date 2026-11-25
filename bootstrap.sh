@@ -313,6 +313,10 @@ main() {
     fi
     stow_package "home-manager"
 
+    # The old bootstrap's host-type file (it defaulted to desktop); home-manager refuses to switch while
+    # it says desktop, and running this server-only bootstrap is the consent to drop it
+    rm -f "$HOME/.config/host-type"
+
     # Step 7: Apply home-manager configuration via nix run (--impure to read $USER/$HOME)
     if [ "$ARCH" = "aarch64" ]; then
         HM_CONFIG="linux-arm-server"

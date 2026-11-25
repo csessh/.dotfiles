@@ -90,6 +90,7 @@ deploy_and_check() {
     local os=$1 port=$2 tarball=$3 round check_failures=0
     info "$os: deploying snapshot"
     vm_ssh "$port" "$UNPACK_SNAPSHOT" <"$tarball"
+    # Servers set up by the old bootstrap may carry host-type=desktop (its default answer)
     vm_ssh "$port" 'mkdir -p ~/.config && echo desktop > ~/.config/host-type'
 
     for round in 1 2; do
@@ -100,11 +101,19 @@ deploy_and_check() {
 
     # Day-to-day update on a server: the default ${USER} config must stay server-only.
     if [ "$os" != nixos ]; then
+        local hm_switch='. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh &&
+            PATH="$HOME/.nix-profile/bin:$PATH" home-manager switch --impure'
+        local hm_log="$LOG_DIR/$os-hm-switch.log"
         info "$os: home-manager switch --impure, then check.sh"
-        vm_ssh "$port" '. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh &&
-            PATH="$HOME/.nix-profile/bin:$PATH" home-manager switch --impure' \
-            >"$LOG_DIR/$os-hm-switch.log" 2>&1 || fail "$os: home-manager switch failed"
+        vm_ssh "$port" "$hm_switch" >"$hm_log" 2>&1 || fail "$os: home-manager switch failed"
         vm_ssh "$port" .dotfiles/tests/check.sh || check_failures=$((check_failures + 1))
+
+        info "$os: home-manager switch must refuse host-type=desktop"
+        vm_ssh "$port" 'echo desktop > ~/.config/host-type'
+        if vm_ssh "$port" "$hm_switch" >>"$hm_log" 2>&1; then
+            fail "$os: home-manager switch applied the server profile over host-type=desktop"
+        fi
+        vm_ssh "$port" 'rm ~/.config/host-type'
     fi
 
     [ "$check_failures" -eq 0 ] || fail "$os: check.sh failed in $check_failures round(s)"

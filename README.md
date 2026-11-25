@@ -41,12 +41,25 @@ After bootstrap, log out and back in for all changes to take effect.
 
 ### Upgrading an existing server
 
-Servers run nvim without LSP/completion/format/lint plugins (home-manager writes `~/.config/nvim-profile`). After pulling this change and re-running `bootstrap.sh` (or `home-manager switch --impure`), free the old plugins once:
+Servers run nvim without LSP/completion/format/lint plugins (home-manager writes `~/.config/nvim-profile`). Once, after the NixOS-workstation merge:
 
 ```bash
+git -C ~/.dotfiles pull
+~/.dotfiles/bootstrap.sh        # removes the old ~/.config/host-type, applies the server profile
+
 nvim --headless "+Lazy! clean" +qa
 rm -rf ~/.local/share/nvim/mason
+nix-collect-garbage -d          # optional: frees the old desktop packages
 ```
+
+The old bootstrap defaulted to `desktop`, which also stowed `ghostty`, `ssh` and `claude` and enabled a user ssh-agent unit. On such a server, remove what the merge left dangling:
+
+```bash
+find ~ -maxdepth 5 -xtype l -lname '*.dotfiles/*' -print -delete   # broken links into the repo only
+systemctl --user daemon-reload
+```
+
+Plain `home-manager switch --impure` without bootstrap stops with an error while `~/.config/host-type` says `desktop`; delete that file to proceed.
 
 ## NixOS Workstation
 
