@@ -55,9 +55,9 @@ vm_ssh() {
 
 wait_for_ssh() {
     local port=$1
-    local deadline=$((SECONDS + SSH_WAIT_SECONDS))
+    local deadline_seconds=$((SECONDS + SSH_WAIT_SECONDS))
     until vm_ssh "$port" true 2>/dev/null; do
-        [ "$SECONDS" -lt "$deadline" ] || fail "no SSH on port $port after ${SSH_WAIT_SECONDS}s"
+        [ "$SECONDS" -lt "$deadline_seconds" ] || fail "no SSH on port $port after ${SSH_WAIT_SECONDS}s"
         sleep 5
     done
 }

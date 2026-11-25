@@ -140,9 +140,9 @@ if not done then
   io.stdout:write('MASON_MISSING=' .. table.concat(missing, ' ') .. '\\n')
   vim.cmd('cquit 1')
 end"
-    local started=$SECONDS wait_output
+    local started_seconds=$SECONDS wait_output
     wait_output=$(nvim --headless -c "lua $wait_lua" -c qa 2>&1) || {
-        echo "Mason not ready after $((SECONDS - started))s (exit $?): $(grep -o 'MASON_MISSING=.*' <<<"$wait_output")"
+        echo "Mason not ready after $((SECONDS - started_seconds))s (exit $?): $(grep -o 'MASON_MISSING=.*' <<<"$wait_output")"
         tail -3 "$HOME/.local/state/nvim/mason.log" 2>/dev/null
         return 1
     }
