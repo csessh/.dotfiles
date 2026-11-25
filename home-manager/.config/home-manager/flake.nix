@@ -19,6 +19,8 @@
       # Detect current system (requires --impure)
       currentSystem = builtins.currentSystem;
 
+      workstationUser = "tdo";
+
       # Helper to create home configuration for a system
       mkHomeConfig = system: desktopEnabled:
         home-manager.lib.homeManagerConfiguration {
@@ -41,23 +43,24 @@
 
       # Workstation: NixOS with home-manager as a module (pure, no --impure needed)
       nixosConfigurations.fw13 = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit workstationUser; };
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-13-7040-amd
           home-manager.nixosModules.home-manager
-          {
+          ({ config, ... }: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              username = "tdo";
-              homeDir = "/home/tdo";
+              username = workstationUser;
+              homeDir = config.users.users.${workstationUser}.home;
               desktopEnabled = true;
             };
-            home-manager.users.tdo = { pkgs, ... }: {
+            home-manager.users.${workstationUser} = { pkgs, ... }: {
               imports = [ ./home.nix ];
               home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so";
             };
-          }
+          })
         ];
       };
     };

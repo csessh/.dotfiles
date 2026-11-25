@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, workstationUser, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -40,7 +40,7 @@
 
   programs._1password-gui = {
     enable = true;
-    polkitPolicyOwners = [ "tdo" ];
+    polkitPolicyOwners = [ workstationUser ];
   };
   programs._1password.enable = true;
 
@@ -50,7 +50,7 @@
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;
 
-  users.users.tdo = {
+  users.users.${workstationUser} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" ];
     shell = pkgs.zsh;
