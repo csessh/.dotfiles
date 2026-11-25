@@ -1,6 +1,6 @@
 # home-manager
 
-Nix home-manager configuration for declarative package management.
+Nix flake for the whole setup: standalone home-manager configs for servers, and `nixosConfigurations.fw13` for the NixOS workstation (home-manager runs there as a NixOS module).
 
 ## Configuration
 
@@ -12,7 +12,7 @@ stow home-manager
 ## Usage
 
 ```bash
-# Apply configuration
+# Servers: apply configuration
 home-manager switch --impure
 
 # Update all packages
@@ -24,43 +24,41 @@ home-manager switch --rollback
 
 # Garbage collection
 nix-collect-garbage -d
+
+# Workstation
+sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#fw13
 ```
 
-**Note**: The `--impure` flag is required because the flake reads `$USER`, `$HOME`, and `~/.config/host-type` at runtime.
+**Note**: The `--impure` flag is required because the server configs read `$USER` and `$HOME` at runtime. `fw13` is pure.
 
-## Host Types
+## Profiles
 
-Host type is stored in `~/.config/host-type`:
-- **desktop**: Full install with GUI apps
-- **server**: Minimal CLI-only install
+- **Servers** (`linux-server`, `linux-arm-server`, or the `$USER` default): `basePackages` only, and `~/.config/nvim-profile` so nvim skips its dev plugins.
+- **Workstation** (`fw13`): `basePackages` + `desktopPackages`; GUI apps and services come from `nixos/configuration.nix`.
 
-```bash
-# Change host type
-echo "server" > ~/.config/host-type
-home-manager switch --impure
-```
+`~/.config/host-type` is no longer read. While it says `desktop`, the server configs refuse to switch so an old desktop is not stripped; delete it to proceed.
 
 ## Packages
 
 ### Base (all hosts)
 
-**CLI tools**: bat, btop, fastfetch, fd, fzf, lazygit, ripgrep, tree, zoxide
+**CLI tools**: bat, btop, cmatrix, fastfetch, fd, fzf, glow, lazygit, lsoff, pv, ripgrep, tldr, tree, zoxide
 
-**Dev tools**: delta, gcc, git, git-lfs, neovim, ngrok, tmux
+**Dev tools**: codegraph, delta, gcc, gh, git, git-lfs, neovim, tmux, tree-sitter
 
-**Languages**: go, lua5_4, nodejs, python3, uv
+**Languages**: lua5_4, nodejs, python3 (with pynvim), uv
 
-### Desktop only
+### Workstation only
 
-**AI tools**: claude-code
+**AI tools**: claude-code, rtk
 
-**Desktop apps**: 1password-gui
+**Cloud**: awscli2, ssm-session-manager-plugin
 
 **Fonts**: Obel Mono
 
 **Utilities**: xclip
 
-**Security**: pam_u2f, pcsclite, yubikey-manager
+**Security**: pcsclite, yubikey-manager
 
 ## Version Requirements
 

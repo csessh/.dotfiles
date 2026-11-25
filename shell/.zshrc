@@ -17,31 +17,12 @@ export EDITOR="nvim"
 
 ZSH_THEME="tdo"
 
-# Use OpenSSH ssh-agent (not gcr-ssh-agent which lacks PKCS11 support)
-# Only override on local machine; preserve forwarded socket on remote servers
-if [ -z "$SSH_CONNECTION" ] && [ -S "${XDG_RUNTIME_DIR}/ssh-agent.socket" ]; then
-    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
-fi
-
-# SSH agent to load SSH PIV public key from Yubikey
-# Only prompt if: key not loaded AND YubiKey is present
-if ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey"; then
-    OPENSC_PKCS11=""
-    for lib in \
-        "$HOME/.local/lib/opensc-pkcs11.so" \
-        "$HOME/.nix-profile/lib/opensc-pkcs11.so" \
-        "/usr/lib64/opensc-pkcs11.so" \
-        "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so" \
-        "/usr/lib/aarch64-linux-gnu/opensc-pkcs11.so"; do
-        if [ -f "$lib" ]; then
-            OPENSC_PKCS11="$lib"
-            break
-        fi
-    done
-    # Only attempt if library exists and YubiKey is present (has PIV slots)
-    if [ -n "$OPENSC_PKCS11" ] && pkcs11-tool --module "$OPENSC_PKCS11" --list-slots 2>/dev/null | grep -q "Slot"; then
-        ssh-add -s "$OPENSC_PKCS11"
-    fi
+# Load the Yubikey PIV key into ssh-agent when the key is plugged in and not loaded yet.
+# The workstation's home-manager links opensc here; servers have no opensc and skip this.
+OPENSC_PKCS11="$HOME/.local/lib/opensc-pkcs11.so"
+if [ -f "$OPENSC_PKCS11" ] && ! ssh-add -l 2>/dev/null | grep -q "PIV AUTH pubkey" &&
+    pkcs11-tool --module "$OPENSC_PKCS11" --list-slots 2>/dev/null | grep -q "Slot"; then
+    ssh-add -s "$OPENSC_PKCS11"
 fi
 
 # Plugins and snippets
