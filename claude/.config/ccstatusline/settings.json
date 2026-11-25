@@ -56,5 +56,9 @@
     "endCaps": [],
     "autoAlign": false,
     "continueThemeAcrossLines": false
+  },
+  "installation": {
+    "method": "auto-update",
+    "packageManager": "npm"
   }
 }
