@@ -22,17 +22,15 @@ let
     };
   };
 
-  obel-mono = pkgs.stdenvNoCC.mkDerivation rec {
+  # Vendored: upstream re-uploaded 1.001 under the same URL, breaking the fetchzip hash.
+  obel-mono = pkgs.stdenvNoCC.mkDerivation {
     pname = "obel-mono";
     version = "1.001";
 
-    src = pkgs.fetchzip {
-      url = "https://typographic.systems/download/ObelMono-${version}-ttf.zip";
-      hash = "sha256-uIzVk/r0lMpA+wk4zZWFHRu8zptAYv2/RJxfjAsjYiM=";
-    };
+    src = ./fonts/obel-mono;
 
     installPhase = ''
-      install -Dm644 variable/*.ttf -t $out/share/fonts/truetype
+      install -Dm644 *.ttf -t $out/share/fonts/truetype
     '';
 
     meta = with pkgs.lib; {
