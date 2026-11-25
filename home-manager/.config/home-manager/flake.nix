@@ -2,15 +2,16 @@
   description = "Home Manager and NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = { nixpkgs, home-manager, nixos-hardware, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }:
     let
       # Read from environment (requires --impure flag)
       username = builtins.getEnv "USER";
@@ -21,12 +22,18 @@
 
       workstationUser = "tdo";
 
+      # Not yet in the stable channel
+      unstableOverlay = final: prev: {
+        codegraph = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.codegraph;
+      };
+
       # Helper to create home configuration for a system
       mkHomeConfig = system: desktopEnabled:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
+            overlays = [ unstableOverlay ];
           };
           extraSpecialArgs = { inherit username homeDir desktopEnabled; };
           modules = [ ./home.nix ];
@@ -46,6 +53,7 @@
         specialArgs = { inherit workstationUser; };
         modules = [
           ./nixos/configuration.nix
+          { nixpkgs.overlays = [ unstableOverlay ]; }
           nixos-hardware.nixosModules.framework-13-7040-amd
           home-manager.nixosModules.home-manager
           ({ config, ... }: {
