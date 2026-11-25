@@ -68,9 +68,9 @@ dockerps() {
 box() {
   [[ $1 == [AaBbFfPp] ]] || { echo "usage: box A|B|F|P" >&2; return 1; }
   local name="box-${(L)1}" id
-  id=$(aws ec2 describe-instances --profile hyperprop-prod --region ap-northeast-1 \
+  id=$(aws ec2 describe-instances --profile A3 --region ap-northeast-1 \
     --filters "Name=tag:Name,Values=$name" "Name=tag:Project,Values=hyperprop" "Name=instance-state-name,Values=running" \
     --query 'Reservations[].Instances[].InstanceId' --output text) || return
   [[ -n $id ]] || { echo "no running $name" >&2; return 1; }
-  aws ssm start-session --profile hyperprop-prod --region ap-northeast-1 --target "$id"
+  aws ssm start-session --profile A3 --region ap-northeast-1 --target "$id"
 }
