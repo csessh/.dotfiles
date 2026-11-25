@@ -20,7 +20,9 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 
 **Native package manager exception**: Docker is installed via dnf/apt for system integration.
 
-**Stow packages**: bat, claude (workstation), fastfetch, ghostty (workstation), git, home-manager, lazygit, nix, nvim, shell, ssh (workstation), tmux
+**Stow packages**: bat, claude (workstation), fastfetch, ghostty (workstation), git, home-manager (servers), lazygit, nix (servers), nvim, shell, ssh (workstation), tmux
+
+**Flake location**: servers stow `home-manager`, so the flake is at `~/.config/home-manager`. The workstation does not stow it (`~/.config/home-manager` does not exist there); `nixos-rebuild` reads the flake directly from `~/.dotfiles/home-manager/.config/home-manager`.
 
 **Bootstrap order**: system upgrade → essentials → dotfiles clone → nix → stow nix config → stow home-manager → home-manager switch → Docker → docker group → oh-my-zsh → TPM → stow remaining configs → bat cache → zsh as login shell. Safe to re-run.
 
@@ -39,7 +41,8 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/bootstrap.sh
 ```
 
-### Nix Package Management
+### Nix Package Management (servers)
+On the workstation, edit the same `packages.nix` and apply with `nixos-rebuild` (see NixOS Workstation below).
 ```bash
 # Add package: edit home-manager/.config/home-manager/packages.nix
 # - basePackages: all hosts
