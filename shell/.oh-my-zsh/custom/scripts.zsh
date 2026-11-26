@@ -72,5 +72,8 @@ box() {
     --filters "Name=tag:Name,Values=$name" "Name=tag:Project,Values=hyperprop" "Name=instance-state-name,Values=running" \
     --query 'Reservations[].Instances[].InstanceId' --output text) || return
   [[ -n $id ]] || { echo "no running $name" >&2; return 1; }
-  aws ssm start-session --profile A3 --region ap-northeast-1 --target "$id"
+  # session-manager-plugin cannot resolve `aws login` profiles; hand it exported credentials
+  eval "$(aws configure export-credentials --profile A3 --format env)" || return
+  aws ssm start-session --region ap-northeast-1 --target "$id"
+  unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_CREDENTIAL_EXPIRATION
 }
