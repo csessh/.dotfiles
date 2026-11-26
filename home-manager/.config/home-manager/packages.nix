@@ -55,10 +55,10 @@ let
     glow
     lazygit
     lsoff
-    pv
     ripgrep
-    tldr
     tree
+    websocat
+    wget
     zoxide
 
     ############################
@@ -105,6 +105,7 @@ let
     # Utilities
     ############################
     xclip
+    cargo
 
     ############################
     # Security

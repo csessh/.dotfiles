@@ -12,7 +12,6 @@
 
   time.timeZone = "Asia/Ho_Chi_Minh";
   i18n.defaultLocale = "en_AU.UTF-8";
-  # bootstrap.sh exports LC_ALL=en_US.UTF-8
   i18n.extraLocales = [ "en_US.UTF-8/UTF-8" ];
   console.keyMap = "us";
   services.xserver.xkb.layout = "au";
@@ -20,7 +19,6 @@
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
   hardware.graphics.enable = true;
-  # Native Wayland for Electron apps (Obsidian, 1Password, ...)
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   i18n.inputMethod = {
@@ -29,7 +27,6 @@
     ibus.engines = with pkgs.ibus-engines; [ bamboo ];
   };
 
-  # Fingerprint for login and sudo (pam_fprintd, sufficient: fingerprint or password)
   services.fprintd.enable = true;
 
   # Yubikey PIV for SSH; GNOME's gcr agent lacks PKCS#11 support
@@ -46,6 +43,7 @@
 
   services.tailscale.enable = true;
   virtualisation.docker.enable = true;
+
   # Mason's prebuilt LSP binaries expect a standard dynamic loader
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;

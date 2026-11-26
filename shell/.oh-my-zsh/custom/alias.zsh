@@ -2,14 +2,15 @@
 #  ALIAS
 ####################################################################
 
-alias tmx="tmux"
 alias cat="bat"
-alias tree='tree -Cap -I ".git"'
-alias vim=" nvim"
-alias v=" nvim"
+alias ckear=" clear"
 alias claer=" clear"
 alias clear=" clear"
-alias ckear=" clear"
+alias dps="dockerps"
 alias lazy=" lazygit"
 alias stwo="stow"
-alias dps="dockerps"
+alias tmx="tmux"
+alias tree='tree -Cap -I ".git"'
+alias v=" nvim"
+alias vim=" nvim"
+alias wscat="websocat"

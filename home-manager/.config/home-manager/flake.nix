@@ -13,16 +13,11 @@
 
   outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }:
     let
-      # Read from environment (requires --impure flag)
       username = builtins.getEnv "USER";
       homeDir = builtins.getEnv "HOME";
-
-      # Detect current system (requires --impure)
       currentSystem = builtins.currentSystem;
-
       workstationUser = "tdo";
 
-      # Not yet in the stable channel
       unstableOverlay = final: prev:
         let
           unstablePkgs = import nixpkgs-unstable {
@@ -51,10 +46,7 @@
         };
     in {
       homeConfigurations = {
-        # Default config for `home-manager switch --impure` on the current system
         "${username}" = mkHomeConfig currentSystem false;
-
-        # Server configs (minimal CLI-only install)
         "linux-server" = mkHomeConfig "x86_64-linux" false;
         "linux-arm-server" = mkHomeConfig "aarch64-linux" false;
       };
@@ -75,6 +67,7 @@
               homeDir = config.users.users.${workstationUser}.home;
               desktopEnabled = true;
             };
+
             home-manager.users.${workstationUser} = { pkgs, ... }: {
               imports = [ ./home.nix ];
               home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so";
