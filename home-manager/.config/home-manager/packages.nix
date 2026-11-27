@@ -55,6 +55,7 @@ let
     glow
     lazygit
     lsoff
+    openssl
     ripgrep
     tree
     websocat
@@ -72,11 +73,12 @@ let
     git-lfs
     neovim
     tmux
-    tree-sitter  # nvim-treesitter main builds parsers with this CLI
+    tree-sitter
 
     ############################
     # Languages & toolchains
     ############################
+    go
     lua5_4
     nodejs
     (python3.withPackages (ps: [ ps.pynvim ]))  # pynvim must live in the python3 nvim finds
