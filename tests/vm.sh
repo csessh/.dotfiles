@@ -101,7 +101,9 @@ deploy_and_check() {
 
     # Day-to-day update on a server: the default ${USER} config must stay server-only.
     if [ "$os" != nixos ]; then
-        local hm_switch='. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh &&
+        # Fedora's dnf nix ships no nix-daemon.sh; nix is already on PATH there
+        local hm_switch='nix_daemon_profile=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh;
+            if [ -e "$nix_daemon_profile" ]; then . "$nix_daemon_profile"; fi;
             PATH="$HOME/.nix-profile/bin:$PATH" home-manager switch --impure'
         local hm_log="$LOG_DIR/$os-hm-switch.log"
         info "$os: home-manager switch --impure, then check.sh"
