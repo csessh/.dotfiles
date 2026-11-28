@@ -22,7 +22,7 @@ nix flake update ~/.config/home-manager && home-manager switch --impure
 home-manager generations  # list
 home-manager switch --rollback
 
-# Garbage collection
+# Garbage collection (servers; fw13 runs nix.gc weekly)
 nix-collect-garbage -d
 
 # Workstation
@@ -36,7 +36,7 @@ sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#
 Each host imports the `home/` modules it needs:
 
 - **Servers** (`linux-server`, `linux-arm-server`, or the `$USER` default): `home/common.nix` + `home/server.nix`, which writes `~/.config/nvim-profile` so nvim skips its dev plugins.
-- **Workstation** (`fw13`): `home/common.nix` + `home/desktop.nix`; system services and root-level tools come from `nixos/` (`configuration.nix`, `gnome.nix`, `yubikey.nix`).
+- **Workstation** (`fw13`): `home/common.nix` + `home/desktop.nix`; system services and root-level tools come from `nixos/` (`configuration.nix`, `gnome.nix`, `system-integrated-application.nix`, `yubikey.nix`).
 
 Custom packages live in `pkgs/` and are added to `pkgs` through `overlays.nix`, e.g. `nix build .#nixosConfigurations.fw13.pkgs.lsoff`.
 

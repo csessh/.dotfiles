@@ -19,3 +19,5 @@ stow ssh
 ## Yubikey PIV
 
 NixOS runs the agent (`programs.ssh.startAgent`, PKCS#11 whitelist `/nix/store/*`) and `pcscd`; GNOME's gcr agent is disabled because it lacks PKCS#11 support. home-manager links opensc at `~/.local/lib/opensc-pkcs11.so`, and `.zshrc` runs `ssh-add -s` with it when the Yubikey is plugged in and its key is not loaded yet.
+
+The agent logs into the card once. If pcscd restarts or the card is unplugged, signing fails (`C_Sign failed: 5` in the journal, "agent refused operation" in ssh) until `piv` restarts the agent and reloads the key. `pcscd.restartIfChanged = false` keeps `nixos-rebuild switch` from causing that.

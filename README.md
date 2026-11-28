@@ -95,7 +95,7 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
 
    ```bash
    sudo nixos-generate-config --root /mnt
-   sudo git clone https://github.com/csessh/.dotfiles.git /mnt/home/tdo/.dotfiles   # add -b exp/nixos until merged
+   sudo git clone https://github.com/csessh/.dotfiles.git /mnt/home/tdo/.dotfiles
    sudo cp /mnt/etc/nixos/hardware-configuration.nix \
       /mnt/home/tdo/.dotfiles/home-manager/.config/home-manager/nixos/
    cd /mnt/home/tdo/.dotfiles && sudo git add -A   # flakes only see tracked files
@@ -116,7 +116,7 @@ The whole machine is declared in the flake: `nixosConfigurations.fw13` (system) 
    ~/.dotfiles/tests/check.sh
    ```
 
-6. Commit and push the generated `hardware-configuration.nix`, then switch the checkout to `main` once this branch is merged:
+6. Commit and push the generated `hardware-configuration.nix`:
 
    ```bash
    cd ~/.dotfiles
@@ -147,10 +147,12 @@ sudo nixos-rebuild switch --rollback   # or pick an older generation in the boot
 
 Update regularly: every package, Chrome included, only moves when `flake.lock` does.
 
+The boot menu keeps the last 5 generations, and a weekly `nix.gc` deletes generations older than 7 days, so rollbacks reach back about a week. `nix.settings.auto-optimise-store` hard-links duplicate store files.
+
 ### Login and keys
 
 - Login, lock screen and sudo accept the **fingerprint or password**. A fingerprint login leaves GNOME Keyring locked until its first use asks for the password.
-- The **Yubikey** is for SSH only (PIV via opensc + the NixOS ssh-agent).
+- The **Yubikey** is for SSH only (PIV via opensc + the NixOS ssh-agent). If SSH starts failing with "agent refused operation", the agent's card session went stale (Yubikey unplugged, or pcscd restarted); run `piv` to restart the agent and reload the key.
 
 ## Running the VM Tests
 
@@ -164,32 +166,27 @@ tests/vm.sh fedora   # Fedora 43 server (not part of `all`)
 tests/vm.sh all      # build + ubuntu + nixos
 ```
 
-Needs KVM, qemu and Nix. Images, logs and the throwaway SSH key live in `~/.cache/dotfiles-vm-tests` (set `DOTFILES_VM_CACHE` to move it; allow ~20 GB). `VM_KEEP=1` leaves the VM running after the test for debugging.
+Needs KVM, Nix, `qemu` and `cloud-utils` (on fw13 both come from `home/desktop.nix`). Images, logs and the throwaway SSH key live in `~/.cache/dotfiles-vm-tests` (set `DOTFILES_VM_CACHE` to move it; allow ~20 GB). `VM_KEEP=1` leaves the VM running after the test for debugging.
 
 ## Package Management
 
 ### Adding a new package
 
-Edit `~/.dotfiles/home-manager/.config/home-manager/packages.nix`:
+Under `~/.dotfiles/home-manager/.config/home-manager/`, add it to `home.packages` in:
 
-```nix
-let
-  basePackages = with pkgs; [
-    # Packages for all hosts
-    newpackage
-  ];
+| File | Hosts |
+|------|-------|
+| `home/common.nix` | all hosts |
+| `home/desktop.nix` | workstation only, GUI apps included |
+| `nixos/system-integrated-application.nix` | workstation apps that need a service, firewall port, polkit or setuid (prefer their `programs.*.enable` module) |
 
-  desktopPackages = with pkgs; [
-    # Desktop-only packages
-    gui-app
-  ];
-in { ... }
-```
+Packages missing from nixpkgs go in `pkgs/<name>.nix` and are added to `pkgs` in `overlays.nix`. New files must be `git add`ed before Nix sees them.
 
 Then apply:
 
 ```bash
-home-manager switch --impure
+home-manager switch --impure                                                  # servers
+sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#fw13   # workstation
 ```
 
 ### Updating packages
@@ -203,6 +200,8 @@ home-manager switch --impure
 ```
 
 ### Garbage collection
+
+Automatic on the workstation (weekly). On servers:
 
 ```bash
 # Remove old generations
@@ -244,7 +243,10 @@ stow -R nvim
 | [claude](./claude/README.md) | Claude Code global instructions and statusline | Yes |
 | [fastfetch](./fastfetch/README.md) | system information tool | |
 | [ghostty](./ghostty/README.md) | terminal emulator | Yes |
-| [git](./git/README.md) | git and lazygit configuration | |
+| [git](./git/README.md) | git configuration | |
+| [home-manager](./home-manager/README.md) | Nix flake (servers stow it; fw13 rebuilds from the repo) | |
+| [lazygit](./lazygit/README.md) | lazygit configuration | |
+| [nix](./nix/README.md) | enables flakes (servers only; NixOS sets it in the flake) | |
 | [nvim](./nvim/README.md) | neovim configuration | |
 | [shell](./shell/README.md) | zsh configuration (requires oh-my-zsh) | |
 | [ssh](./ssh/README.md) | SSH configuration | Yes |
@@ -257,6 +259,7 @@ stow -R nvim
 | CLI tools (ripgrep, fd, fzf, bat, etc.) | Nix | Declarative, reproducible |
 | Dev tools (neovim, tmux, git) | Nix | Same versions across machines |
 | Languages (nodejs, python, go) | Nix | Consistent toolchain |
-| Docker | System (dnf/apt) | System integration |
+| GUI apps | Nix (workstation) | `home/desktop.nix`; system-integrated ones in `nixos/` |
+| Docker | dnf/apt (servers), NixOS (fw13) | System integration |
 | oh-my-zsh | curl installer | Shell framework |
 | Configs | Stow | Symlinked from dotfiles |

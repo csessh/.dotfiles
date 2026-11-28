@@ -51,22 +51,24 @@ shell/
 | `lazy` | lazygit |
 | `tmx` | tmux |
 | `stwo` | stow |
+| `dps` | dockerps |
+| `wscat` | websocat |
 | `tree` | tree -Cap -I ".git" |
 
 ## Functions
 
 | Function | Description |
 |----------|-------------|
+| `box A\|B\|F\|P` | Look up an EC2 box by name |
 | `nah [-f]` | Git reset (with -f: clean untracked) |
 | `snipe` | Kill process via fzf |
-| `activate` | Source .venv/bin/activate |
+| `piv` | Restart ssh-agent and reload the Yubikey PIV key |
 | `zeload` | Reload zshrc |
 | `mkd <dir>` | mkdir + cd |
 | `paths` | List PATH entries |
 | `dockerps` | Formatted docker ps |
 | `filesize` | Sorted file sizes |
 | `today` | Current date |
-| `keychron [-u]` | Set hidraw permissions |
 | `trim` | Strip whitespace |
 | `rgrep` | Recursive grep |
 
@@ -87,7 +89,7 @@ shell/
 
 ## Yubikey PIV
 
-On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`. The opensc library is installed via native package manager for ABI compatibility.
+On shell startup, `.zshrc` loads the Yubikey PIV key into ssh-agent via `ssh-add -s`, unless it is already loaded. It uses the opensc library that the workstation's home-manager links at `~/.local/lib/opensc-pkcs11.so`; servers have none and skip this. If SSH fails with "agent refused operation", run `piv`.
 
 ## Dependencies
 

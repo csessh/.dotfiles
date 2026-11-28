@@ -28,13 +28,15 @@ Cyberdream (`plugins/scheme.lua`)
 
 ## LSP Servers
 
-Configured in `plugins/lsp.lua`:
+Configured in `plugins/dev/lsp.lua` (workstation only; servers skip `plugins/dev/`):
 - bashls
 - clangd
 - docker_compose_language_service
 - dockerls
+- gopls
 - lua_ls (with Love2D support)
 - markdown_oxide
+- nil_ls (Nix, formats with nixpkgs-fmt)
 - pyright
 - ruff
 - taplo
@@ -47,14 +49,15 @@ Install via Mason:
 
 ## Formatters
 
-Configured in `plugins/conform.lua` with format-on-save (500ms timeout):
+Configured in `plugins/dev/conform.lua` with format-on-save (500ms timeout):
 - **Lua**: stylua
+- **Nix**: nixpkgs_fmt
 - **Python**: ruff_format, ruff_organize_imports
 - **TypeScript**: eslint_d
 
 ## Linters
 
-Configured in `plugins/linters.lua`:
+Configured in `plugins/dev/linters.lua`:
 - **Bash**: shellcheck
 - **C++**: cpplint
 - **JSON**: jsonlint
@@ -238,6 +241,6 @@ Installed via Nix home-manager:
 - fzf
 - ripgrep
 - fd
-- xclip (desktop only)
+- wl-clipboard (workstation only)
 
-See `home-manager/.config/home-manager/packages.nix`.
+See `home-manager/.config/home-manager/home/common.nix` and `home/desktop.nix`. LSP, formatter and linter binaries come from Mason.
