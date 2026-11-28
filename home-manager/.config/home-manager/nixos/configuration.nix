@@ -2,46 +2,67 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
     ./gnome.nix
+    ./hardware-configuration.nix
+    ./system-integrated-application.nix
     ./yubikey.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
+  ############################
+  # Boot & hardware
+  ############################
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.systemd-boot.enable = true;
+  services.fprintd.enable = true;
   zramSwap.enable = true;
 
+  ############################
+  # Networking
+  ############################
   networking.hostName = "fw13";
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
 
-  time.timeZone = "Asia/Ho_Chi_Minh";
+  ############################
+  # Locale
+  ############################
+  console.keyMap = "us";
   i18n.defaultLocale = "en_AU.UTF-8";
   i18n.extraLocales = [ "en_US.UTF-8/UTF-8" ];
-  console.keyMap = "us";
   services.xserver.xkb.layout = "au";
+  time.timeZone = "Asia/Ho_Chi_Minh";
 
-  programs.localsend.enable = true;
-  services.fprintd.enable = true;
-
-  programs._1password-gui = {
-    enable = true;
-    polkitPolicyOwners = [ workstationUser ];
-  };
-  programs._1password.enable = true;
-
-  services.tailscale.enable = true;
-  virtualisation.docker.enable = true;
-
-  # Mason's prebuilt LSP binaries expect a standard dynamic loader
-  programs.nix-ld.enable = true;
+  ############################
+  # User & shell
+  ############################
   programs.zsh.enable = true;
-
   users.users.${workstationUser} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" ];
     shell = pkgs.zsh;
   };
 
+  ############################
+  # Development
+  # Mason's prebuilt LSP binaries expect a standard dynamic loader
+  ############################
+  programs.nix-ld.enable = true;
+  virtualisation.docker.enable = true;
+
+  ############################
+  # Nix & system packages
+  ############################
+  nixpkgs.config.allowUnfree = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+  nix.settings.auto-optimise-store = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Root and bootstrap need these; user tools live in home/
   environment.systemPackages = with pkgs; [
     curl
     git
@@ -50,19 +71,19 @@
     unzip
   ];
 
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Only applies to `nixos-rebuild build-vm` (tests/vm.sh nixos)
+  ############################
+  # VM test (`nixos-rebuild build-vm`, tests/vm.sh nixos only)
+  ############################
   virtualisation.vmVariant = {
+    security.sudo.wheelNeedsPassword = false;
+    services.openssh.authorizedKeysFiles = [ "/tmp/shared/authorized_keys" ];
+    services.openssh.enable = true;
+    virtualisation.cores = 4;
     virtualisation.diskSize = 16384;
     virtualisation.memorySize = 4096;
-    virtualisation.cores = 4;
-    services.openssh.enable = true;
-    services.openssh.authorizedKeysFiles = [ "/tmp/shared/authorized_keys" ];
+
     # sshd rejects key files under world-writable /tmp otherwise
     services.openssh.settings.StrictModes = false;
-    security.sudo.wheelNeedsPassword = false;
   };
 
   system.stateVersion = "26.05";
