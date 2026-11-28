@@ -6,6 +6,7 @@ return {
       require("conform").setup {
         formatters_by_ft = {
           lua = { "stylua" },
+          nix = { "nixpkgs_fmt" },
           python = { "ruff_format", "ruff_organize_imports" },
           ts = { "eslint_d" },
           ["_"] = { "trim_whitespace" },
@@ -29,6 +30,7 @@ return {
     opts = {
       ensure_installed = {
         "eslint_d",
+        "nixpkgs-fmt",
         "ruff",
         "stylua",
       },

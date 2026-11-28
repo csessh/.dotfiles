@@ -94,9 +94,9 @@ stow -R nvim    # Restow
 
 LSP, formatter and linter binaries come from Mason, not Nix. `lua/plugins/archived/` is not imported.
 
-**LSP Servers** (dev/lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, lua_ls (Love2D), markdown_oxide, pyright, ruff, taplo, ts_ls
+**LSP Servers** (dev/lsp.lua): bashls, clangd, docker_compose_language_service, dockerls, gopls, lua_ls (Love2D), markdown_oxide, nil_ls (nix), pyright, ruff, taplo, ts_ls
 
-**Formatters** (dev/conform.lua): stylua (Lua), ruff_format + ruff_organize_imports (Python), eslint_d (.ts files only). Format-on-save with 500ms timeout.
+**Formatters** (dev/conform.lua): stylua (Lua), nixpkgs_fmt (Nix), ruff_format + ruff_organize_imports (Python), eslint_d (.ts files only). Format-on-save with 500ms timeout.
 
 **Linters** (dev/linters.lua): bash→shellcheck, cpp→cpplint, json→jsonlint, python→ruff, yaml→yamllint
 

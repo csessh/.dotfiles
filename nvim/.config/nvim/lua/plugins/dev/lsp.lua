@@ -39,9 +39,22 @@ return {
           cmd = { mason_bin .. "docker-langserver", "--stdio" },
           filetypes = { "dockerfile" },
         },
+        gopls = {
+          cmd = { mason_bin .. "gopls" },
+          filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        },
         markdown_oxide = {
           cmd = { mason_bin .. "markdown-oxide" },
           filetypes = { "markdown" },
+        },
+        nil_ls = {
+          cmd = { mason_bin .. "nil" },
+          filetypes = { "nix" },
+          settings = {
+            ["nil"] = {
+              formatting = { command = { mason_bin .. "nixpkgs-fmt" } },
+            },
+          },
         },
         pyright = {
           cmd = { mason_bin .. "pyright-langserver", "--stdio" },

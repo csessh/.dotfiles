@@ -22,6 +22,7 @@ return {
         "dockerfile-language-server",
         "lua-language-server",
         "markdown-oxide",
+        "nil",
         "pyright",
         "ruff",
         "taplo",
