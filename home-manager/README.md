@@ -33,22 +33,26 @@ sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#
 
 ## Profiles
 
-- **Servers** (`linux-server`, `linux-arm-server`, or the `$USER` default): `basePackages` only, and `~/.config/nvim-profile` so nvim skips its dev plugins.
-- **Workstation** (`fw13`): `basePackages` + `desktopPackages`; GUI apps and services come from `nixos/configuration.nix`.
+Each host imports the `home/` modules it needs:
+
+- **Servers** (`linux-server`, `linux-arm-server`, or the `$USER` default): `home/common.nix` + `home/server.nix`, which writes `~/.config/nvim-profile` so nvim skips its dev plugins.
+- **Workstation** (`fw13`): `home/common.nix` + `home/desktop.nix`; system services and root-level tools come from `nixos/` (`configuration.nix`, `gnome.nix`, `yubikey.nix`).
+
+Custom packages live in `pkgs/` and are added to `pkgs` through `overlays.nix`, e.g. `nix build .#nixosConfigurations.fw13.pkgs.lsoff`.
 
 `~/.config/host-type` is no longer read. While it says `desktop`, the server configs refuse to switch so an old desktop is not stripped; delete it to proceed.
 
 ## Packages
 
-### Base (all hosts)
+### Base (all hosts, `home/common.nix`)
 
-**CLI tools**: bat, btop, cmatrix, fastfetch, fd, fzf, glow, lazygit, lsoff, pv, ripgrep, tldr, tree, zoxide
+**CLI tools**: bat, btop, cmatrix, fastfetch, fd, fzf, glow, lazygit, lsoff, openssl, ripgrep, tree, websocat, wget, zoxide
 
 **Dev tools**: codegraph, delta, gcc, gh, git, git-lfs, neovim, tmux, tree-sitter
 
-**Languages**: lua5_4, nodejs, python3 (with pynvim), uv
+**Languages**: go, lua5_4, nodejs, python3 (with pynvim), uv
 
-### Workstation only
+### Workstation only (`home/desktop.nix`)
 
 **AI tools**: claude-code, rtk
 
@@ -56,9 +60,11 @@ sudo nixos-rebuild switch --flake ~/.dotfiles/home-manager/.config/home-manager#
 
 **Fonts**: Obel Mono
 
-**Utilities**: xclip
+**Apps**: dbeaver, discord, ghostty, google-chrome, postman
 
-**Security**: pcsclite, yubikey-manager
+**Utilities**: cargo, cloud-utils, qemu (for tests/vm.sh), wl-clipboard
+
+**Security**: yubikey-manager, yubioath-flutter
 
 ## Version Requirements
 

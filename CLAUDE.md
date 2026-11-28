@@ -13,16 +13,19 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 2. **GNU Stow** - Symlinks configuration files from dotfiles to home directory
 
 **Hosts:**
-- **Workstation (`fw13`)**: NixOS. `nixosConfigurations.fw13` in the flake, system config in `home-manager/.config/home-manager/nixos/`, home-manager runs as a NixOS module with `desktopEnabled = true`. `bootstrap.sh` only does user-level steps there (oh-my-zsh, TPM, stow incl. ghostty/ssh/claude, bat cache).
-- **Servers (Fedora/Ubuntu)**: standalone home-manager (`linux-server`, `linux-arm-server`, or the `$USER` default), `basePackages` only, nvim server profile via `~/.config/nvim-profile`.
+- **Workstation (`fw13`)**: NixOS. `nixosConfigurations.fw13` in the flake, system config in `home-manager/.config/home-manager/nixos/`, home-manager runs as a NixOS module importing `home/common.nix` + `home/desktop.nix`. `bootstrap.sh` only does user-level steps there (oh-my-zsh, TPM, stow incl. ghostty/ssh/claude, bat cache).
+- **Servers (Fedora/Ubuntu)**: standalone home-manager (`linux-server`, `linux-arm-server`, or the `$USER` default) importing `home/common.nix` + `home/server.nix`, nvim server profile via `~/.config/nvim-profile`.
 
 **Why `--impure` flag**: The server configs read `$USER` and `$HOME` at runtime. `nixosConfigurations.fw13` is pure.
 
 **Flake files** (`home-manager/.config/home-manager/`):
-- `flake.nix`: `unstableOverlay` swaps individual packages for their nixos-unstable versions (servers and fw13). Drop an override once stable catches up.
-- `packages.nix`: `basePackages` everywhere, `desktopPackages` only when `desktopEnabled`.
-- `home.nix`: `desktopEnabled` also gates GNOME `dconf.settings` (keyboard input sources etc.) and fonts; when false it writes `~/.config/nvim-profile`.
-- `nixos/configuration.nix`: system level for fw13 (GNOME/GDM, ibus input method, fprintd, PIV).
+- `flake.nix`: inputs and host wiring only. Which `home/` modules a host imports decides its profile; there is no desktop flag.
+- `overlays.nix`: custom packages from `pkgs/` (lsoff, obel-mono) plus individual nixos-unstable swaps (servers and fw13). Drop an unstable override once stable catches up.
+- `home/common.nix`: all hosts. Packages, version assertions, stateVersion.
+- `home/server.nix`: servers only. Writes `~/.config/nvim-profile`, refuses to switch over an old `host-type=desktop`.
+- `home/desktop.nix`: fw13 only. Desktop packages and GUI apps, fonts, GNOME `dconf.settings` (input sources, idle/suspend), opensc symlink.
+- `nixos/configuration.nix`: system level for fw13 (boot, network, locale, users, services). `nixos/gnome.nix`: GNOME/GDM, ibus, logind lid. `nixos/yubikey.nix`: pcscd + ssh-agent PKCS#11.
+- Package placement: `configuration.nix` only for things needing a service, firewall, polkit, setuid or root (prefer `programs.*.enable`); everything else in `home/`.
 
 **Native package manager exception**: Docker is installed via dnf/apt for system integration.
 
@@ -36,7 +39,7 @@ Personal dotfiles managed with GNU Stow and Nix home-manager. `bootstrap.sh` set
 - `home-manager/.config/home-manager/` - Nix flake and package definitions
 - `<package>/.config/<app>/` - Standard XDG config structure (stow deploys to ~/.config/)
 
-**Version requirements** (packages.nix assertions): fzf 0.67+, neovim 0.11+, lua 5.4+
+**Version requirements** (`home/common.nix` assertions): fzf 0.67+, neovim 0.11+, lua 5.4+
 
 **Theme**: Cyberdream across nvim, bat, git-delta, tmux, and terminal emulators.
 
@@ -48,12 +51,13 @@ git clone https://github.com/csessh/.dotfiles.git ~/.dotfiles && ~/.dotfiles/boo
 ```
 
 ### Nix Package Management (servers)
-On the workstation, edit the same `packages.nix` and apply with `nixos-rebuild` (see NixOS Workstation below).
+On the workstation, edit the same `home/` files and apply with `nixos-rebuild` (see NixOS Workstation below).
 ```bash
-# Add package: edit home-manager/.config/home-manager/packages.nix
-# - basePackages: all hosts
-# - desktopPackages: workstation only
+# Add package (under home-manager/.config/home-manager/):
+# - home/common.nix: all hosts
+# - home/desktop.nix: workstation only
 home-manager switch --impure
+nix fmt   # nixpkgs-fmt over the flake
 
 # Update all packages
 nix flake update ~/.config/home-manager && home-manager switch --impure
@@ -130,4 +134,4 @@ Uses zinit for plugins (zsh-syntax-highlighting, zsh-completions, zsh-autosugges
 
 1. Edit configs in package directory
 2. Test with `stow -R <package>`
-3. For Nix packages: edit packages.nix, run `home-manager switch --impure`
+3. For Nix packages: edit `home/common.nix` or `home/desktop.nix`, run `home-manager switch --impure` (servers) or `nixos-rebuild` (fw13)

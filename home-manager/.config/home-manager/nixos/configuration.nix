@@ -1,7 +1,11 @@
 { pkgs, workstationUser, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./gnome.nix
+    ./yubikey.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -16,24 +20,8 @@
   console.keyMap = "us";
   services.xserver.xkb.layout = "au";
 
-  services.desktopManager.gnome.enable = true;
-  services.displayManager.gdm.enable = true;
-  hardware.graphics.enable = true;
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  i18n.inputMethod = {
-    enable = true;
-    type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [ bamboo ];
-  };
-
+  programs.localsend.enable = true;
   services.fprintd.enable = true;
-
-  # Yubikey PIV for SSH; GNOME's gcr agent lacks PKCS#11 support
-  services.pcscd.enable = true;
-  programs.ssh.startAgent = true;
-  programs.ssh.agentPKCS11Whitelist = "/nix/store/*";
-  services.gnome.gcr-ssh-agent.enable = false;
 
   programs._1password-gui = {
     enable = true;
@@ -58,18 +46,8 @@
     curl
     git
     gnumake
-    opensc
     stow
     unzip
-
-    dbeaver-bin
-    discord
-    ghostty
-    google-chrome
-    localsend
-    obsidian
-    postman
-    yubioath-flutter
   ];
 
   nixpkgs.config.allowUnfree = true;

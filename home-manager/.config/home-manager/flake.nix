@@ -18,37 +18,25 @@
       currentSystem = builtins.currentSystem;
       workstationUser = "tdo";
 
-      unstableOverlay = final: prev:
-        let
-          unstablePkgs = import nixpkgs-unstable {
-            inherit (prev.stdenv.hostPlatform) system;
-            config.allowUnfree = true;
-          };
-        in {
-          codegraph = unstablePkgs.codegraph;
-          claude-code = unstablePkgs.claude-code;
-          # 0.8.4-rc6 panics looking for data/ next to the binary, which crashes ibus-daemon
-          ibus-engines = prev.ibus-engines // {
-            bamboo = unstablePkgs.ibus-engines.bamboo;
-          };
-        };
+      overlay = import ./overlays.nix { inherit nixpkgs-unstable; };
 
-      # Helper to create home configuration for a system
-      mkHomeConfig = system: desktopEnabled:
+      # Standalone home-manager for Fedora/Ubuntu servers (needs --impure for $USER/$HOME)
+      mkServerHome = system:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
-            overlays = [ unstableOverlay ];
+            overlays = [ overlay ];
           };
-          extraSpecialArgs = { inherit username homeDir desktopEnabled; };
-          modules = [ ./home.nix ];
+          extraSpecialArgs = { inherit username homeDir; };
+          modules = [ ./home/common.nix ./home/server.nix ];
         };
-    in {
+    in
+    {
       homeConfigurations = {
-        "${username}" = mkHomeConfig currentSystem false;
-        "linux-server" = mkHomeConfig "x86_64-linux" false;
-        "linux-arm-server" = mkHomeConfig "aarch64-linux" false;
+        "${username}" = mkServerHome currentSystem;
+        "linux-server" = mkServerHome "x86_64-linux";
+        "linux-arm-server" = mkServerHome "aarch64-linux";
       };
 
       # Workstation: NixOS with home-manager as a module (pure, no --impure needed)
@@ -56,7 +44,7 @@
         specialArgs = { inherit workstationUser; };
         modules = [
           ./nixos/configuration.nix
-          { nixpkgs.overlays = [ unstableOverlay ]; }
+          { nixpkgs.overlays = [ overlay ]; }
           nixos-hardware.nixosModules.framework-13-7040-amd
           home-manager.nixosModules.home-manager
           ({ config, ... }: {
@@ -65,15 +53,12 @@
             home-manager.extraSpecialArgs = {
               username = workstationUser;
               homeDir = config.users.users.${workstationUser}.home;
-              desktopEnabled = true;
             };
-
-            home-manager.users.${workstationUser} = { pkgs, ... }: {
-              imports = [ ./home.nix ];
-              home.file.".local/lib/opensc-pkcs11.so".source = "${pkgs.opensc}/lib/opensc-pkcs11.so";
-            };
+            home-manager.users.${workstationUser}.imports = [ ./home/common.nix ./home/desktop.nix ];
           })
         ];
       };
+
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
     };
 }
